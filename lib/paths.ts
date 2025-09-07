@@ -5,6 +5,7 @@ export const paths = {
   loanCalculator: "/loan-calculator",
   aboutUs: "/about-us",
   contactUs: "/contact-us",
+  faq: "/faq",
   carSelling: "/car-selling",
   carValuation: "/car-valuation",
 };
