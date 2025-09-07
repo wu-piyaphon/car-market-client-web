@@ -77,7 +77,6 @@ export default function Navbar() {
               alt="Good Car Market Logo"
               width={114}
               height={38}
-              quality={80}
               className="w-27 lg:w-38 h-auto"
             />
           </Link>
