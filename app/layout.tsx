@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
+import Footer from "@/components/layout/footer";
+import Navbar from "@/components/layout/navbar/navbar";
 
 const LINESeedSans = localFont({
   src: [
@@ -45,7 +47,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${LINESeedSans.className} antialiased`}>
+        <Navbar />
         {children}
+        <Footer />
       </body>
     </html>
   );
