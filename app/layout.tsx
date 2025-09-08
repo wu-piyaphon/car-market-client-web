@@ -46,11 +46,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${LINESeedSans.className} pt-[70px] antialiased md:pt-[76px] lg:pt-[106px]`}
-      >
+      <body className={`${LINESeedSans.className} antialiased`}>
         <Navbar />
-        {children}
+        <div className="pt-[70px] md:pt-[76px] lg:pt-[106px]">{children}</div>
         <Footer />
       </body>
     </html>
