@@ -41,7 +41,7 @@ export const NAV_ITEMS = [
 
 export default function Navbar() {
   return (
-    <nav className="fixed top-0 z-50 h-[70px] w-full bg-white shadow md:h-[76px] lg:h-[106px]">
+    <nav className="fixed top-0 z-50 h-[70px] w-full bg-white shadow-[0_4px_17px_0_rgba(0,0,0,0.15)] md:h-[76px] lg:h-[106px]">
       <Container className="flex h-full items-center justify-between gap-4">
         <div className="flex h-full flex-auto items-center gap-6 lg:gap-14">
           <Link href={paths.home} className="shrink-0">
