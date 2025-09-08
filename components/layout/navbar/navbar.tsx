@@ -41,23 +41,23 @@ export const NAV_ITEMS = [
 
 export default function Navbar() {
   return (
-    <nav className="shadow fixed w-full bg-white">
-      <Container className="mx-auto gap-4 h-[70px] md:h-[76px] lg:h-[106px] flex items-center justify-between">
-        <div className="flex items-center gap-6 lg:gap-14 h-full flex-auto">
+    <nav className="fixed top-0 z-50 h-[70px] w-full bg-white shadow md:h-[76px] lg:h-[106px]">
+      <Container className="flex h-full items-center justify-between gap-4">
+        <div className="flex h-full flex-auto items-center gap-6 lg:gap-14">
           <Link href={paths.home} className="shrink-0">
             <Image
               src="good-car-logo.svg"
               alt="Good Car Market Logo"
               width={114}
               height={38}
-              className="w-27 lg:w-38 h-auto"
+              className="h-auto w-27 lg:w-38"
             />
           </Link>
 
           <NavLinks />
         </div>
 
-        <div className="hidden md:flex items-center space-x-2">
+        <div className="hidden items-center space-x-2 md:flex">
           <Button variant="outline" asChild>
             <Link href={paths.carSelling}>ขายรถ</Link>
           </Button>

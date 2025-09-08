@@ -21,7 +21,7 @@ export default function NavMobile() {
   };
 
   return (
-    <div className="flex flex-row gap-3 items-center md:hidden">
+    <div className="flex flex-row items-center gap-3 md:hidden">
       <Button asChild>
         <Link href={paths.carSelling}>ขายรถ</Link>
       </Button>
@@ -32,7 +32,7 @@ export default function NavMobile() {
       >
         <Menu
           className={cn(
-            "text-primary size-5 transition-transform duration-300",
+            "size-5 text-primary transition-transform duration-300",
             { "rotate-180": isMenuOpen },
           )}
         />
@@ -41,18 +41,18 @@ export default function NavMobile() {
       {/* -- Menu -- */}
       <div
         className={cn(
-          "md:hidden transition-transform duration-150 ease-in-out w-screen fixed top-[70px] left-0",
+          "fixed top-[70px] left-0 w-screen transition-transform duration-150 ease-in-out md:hidden",
           { "translate-x-0": isMenuOpen, "-translate-x-full": !isMenuOpen },
         )}
       >
-        <div className="h-[calc(100vh-70px)] fixed left-0 z-50 bg-white w-full shadow-lg">
+        <div className="fixed left-0 z-50 h-[calc(100vh-70px)] w-full bg-white shadow-lg">
           {NAV_ITEMS.map((item) => (
             <Link
               key={item.name}
               href={item.href}
               onClick={() => setIsMenuOpen(false)}
               className={cn(
-                "text-black px-5 py-4 hover:text-white hover:bg-primary items-center flex flex-row justify-between text-xl transition-colors",
+                "flex flex-row items-center justify-between px-5 py-4 text-black text-xl transition-colors hover:bg-primary hover:text-white",
                 { "bg-primary text-white": isActive(item.href) },
               )}
             >

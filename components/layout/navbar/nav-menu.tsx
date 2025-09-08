@@ -18,14 +18,14 @@ export default function NavMenu({ onNavigate }: Props) {
   };
 
   return (
-    <div className="h-[calc(100vh-70px)] fixed left-0 z-50 bg-white w-full shadow-lg">
+    <div className="fixed left-0 z-50 h-[calc(100vh-70px)] w-full bg-white shadow-lg">
       {NAV_ITEMS.map((item) => (
         <Link
           key={item.name}
           href={item.href}
           onClick={onNavigate}
           className={cn(
-            "text-black px-5 py-4 hover:text-white hover:bg-primary items-center flex flex-row justify-between text-xl transition-colors",
+            "flex flex-row items-center justify-between px-5 py-4 text-black text-xl transition-colors hover:bg-primary hover:text-white",
             { "bg-primary text-white": isActive(item.href) },
           )}
         >

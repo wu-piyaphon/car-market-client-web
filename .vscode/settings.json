@@ -3,5 +3,7 @@
     "source.fixAll.biome": "explicit",
     "source.organizeImports.biome": "explicit",
     "source.removeUnusedImports": "explicit"
-  }
+  },
+  "editor.defaultFormatter": "biomejs.biome",
+  "editor.formatOnSave": true
 }

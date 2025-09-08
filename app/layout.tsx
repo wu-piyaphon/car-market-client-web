@@ -46,7 +46,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${LINESeedSans.className} antialiased`}>
+      <body
+        className={`${LINESeedSans.className} pt-[70px] antialiased md:pt-[76px] lg:pt-[106px]`}
+      >
         <Navbar />
         {children}
         <Footer />

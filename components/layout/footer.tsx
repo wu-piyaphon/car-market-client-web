@@ -30,8 +30,8 @@ const FOOTER_ITEMS = [
 export default function Footer() {
   return (
     <footer>
-      <Container className="py-6 w-full hidden md:flex">
-        <div className="hidden md:grid grid-cols-3 items-center justify-between">
+      <Container className="hidden w-full py-6 md:flex">
+        <div className="hidden grid-cols-3 items-center justify-between md:grid">
           {/* Logo */}
           <div className="flex items-center">
             <Link href={paths.home}>
@@ -46,12 +46,12 @@ export default function Footer() {
           </div>
 
           {/* Navigation Links */}
-          <nav className="hidden md:flex justify-center text-nowrap gap-12 lg:gap-15">
+          <nav className="hidden justify-center gap-12 text-nowrap md:flex lg:gap-15">
             {FOOTER_ITEMS.map((item) => (
               <Link
                 key={item.name}
                 href={item.href}
-                className="text-gray-600 hover:text-gray-900 transition-colors"
+                className="text-gray-600 transition-colors hover:text-gray-900"
               >
                 {item.name}
               </Link>
@@ -59,7 +59,7 @@ export default function Footer() {
           </nav>
 
           {/* Social Media Icons */}
-          <div className="flex justify-end items-center space-x-4">
+          <div className="flex items-center justify-end space-x-4">
             <Link href="#" aria-label="Facebook">
               <Image
                 src="/icons/facebook.svg"
@@ -91,18 +91,18 @@ export default function Footer() {
       {/* -- Mobile Footer -- */}
 
       <div className="flex flex-col md:hidden">
-        <h3 className="text-3xl px-5 pt-6 pb-3 font-bold">GoodCarMarket</h3>
+        <h3 className="px-5 pt-6 pb-3 font-bold text-3xl">GoodCarMarket</h3>
         {FOOTER_ITEMS.map((item) => (
           <Link
             key={item.name}
             href={item.href}
-            className="py-4 px-5 flex flex-row border-b justify-between text-xl"
+            className="flex flex-row justify-between border-b px-5 py-4 text-xl"
           >
             {item.name}
             <ChevronRight />
           </Link>
         ))}
-        <div className="flex justify-center text-base py-2 bg-primary text-white">
+        <div className="flex justify-center bg-primary py-2 text-base text-white">
           © GoodCarMarket
         </div>
       </div>

@@ -33,7 +33,7 @@ export default function NavLinks() {
   return (
     <div
       ref={navRef}
-      className="hidden md:flex gap-8 lg:gap-10 justify-between relative h-full"
+      className="relative hidden h-full justify-between gap-8 md:flex lg:gap-10"
     >
       {NAV_ITEMS.map((item) => {
         return (
@@ -41,7 +41,7 @@ export default function NavLinks() {
             key={item.name}
             href={item.href}
             className={cn(
-              "gap-1 py-4 lg:py-6 text-center flex-wrap text-black hover:text-primary items-center justify-center flex flex-row text-base lg:text-xl transition-colors",
+              "flex flex-row flex-wrap items-center justify-center gap-1 py-4 text-center text-base text-black transition-colors hover:text-primary lg:py-6 lg:text-xl",
               { "text-primary": pathname === item.href },
             )}
           >
@@ -51,7 +51,7 @@ export default function NavLinks() {
         );
       })}
       <div
-        className="absolute bottom-0 h-2 shadow-[0_0_8px_0_rgba(96,203,189,0.8)] rounded-t-md bg-primary transition-all duration-300 ease-in-out"
+        className="absolute bottom-0 h-2 rounded-t-md bg-primary shadow-[0_0_8px_0_rgba(96,203,189,0.8)] transition-all duration-300 ease-in-out"
         style={{
           left: `${indicatorStyle.left - 4}px`,
           width: `${indicatorStyle.width + 12}px`,
