@@ -1,17 +1,20 @@
 import { useFormContext } from "react-hook-form";
+import type { Option } from "@/types/common.types";
+import { Autocomplete } from "../ui/autocomplete";
 import { FormControl, FormField, FormItem, FormMessage } from "../ui/form";
-import { Input } from "../ui/input";
 
 type Props = React.ComponentProps<"div"> & {
   name: string;
   label: string;
+  options: Option[];
   placeholder?: string;
 };
 
-export default function RHFTextField({
+export default function RHFAutocomplete({
   name,
   label,
   placeholder,
+  options,
   ...other
 }: Props) {
   const { control } = useFormContext();
@@ -23,7 +26,13 @@ export default function RHFTextField({
       render={({ field }) => (
         <FormItem {...other}>
           <FormControl>
-            <Input label={label} {...field} />
+            <Autocomplete
+              label={label}
+              options={options}
+              value={field.value}
+              onChange={field.onChange}
+              placeholder={label}
+            />
           </FormControl>
           <FormMessage />
         </FormItem>
