@@ -25,6 +25,12 @@ const FOOTER_ITEMS = [
   },
 ];
 
+const SOCIAL_MEDIA = [
+  { name: "Facebook", href: "#", icon: "/icons/facebook.svg" },
+  { name: "Instagram", href: "#", icon: "/icons/instagram.svg" },
+  { name: "Twitter", href: "#", icon: "/icons/twitter.svg" },
+];
+
 // ----------------------------------------------------------------------
 
 export default function Footer() {
@@ -60,36 +66,16 @@ export default function Footer() {
 
           {/* Social Media Icons */}
           <div className="flex items-center justify-end space-x-4">
-            <Link href="#" aria-label="Facebook">
-              <Image
-                src="/icons/facebook.svg"
-                alt="Facebook"
-                width={24}
-                height={24}
-              />
-            </Link>
-            <Link href="#" aria-label="Instagram">
-              <Image
-                src="/icons/instagram.svg"
-                alt="Instagram"
-                width={24}
-                height={24}
-              />
-            </Link>
-            <Link href="#" aria-label="Twitter">
-              <Image
-                src="/icons/twitter.svg"
-                alt="Twitter"
-                width={22}
-                height={22}
-              />
-            </Link>
+            {SOCIAL_MEDIA.map((item) => (
+              <Link key={item.name} href={item.href} aria-label={item.name}>
+                <Image src={item.icon} alt={item.name} width={30} height={30} />
+              </Link>
+            ))}
           </div>
         </div>
       </Container>
 
       {/* -- Mobile Footer -- */}
-
       <div className="flex flex-col md:hidden">
         <h3 className="px-5 pt-6 pb-3 font-bold text-3xl">GoodCarMarket</h3>
         {FOOTER_ITEMS.map((item) => (

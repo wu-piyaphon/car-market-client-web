@@ -23,7 +23,7 @@ export default function HomeSearchCard() {
       <Container className="relative hidden md:flex">
         <Card className="-translate-y-[calc(105%)] lg:-translate-y-[calc(107%)] absolute min-w-[380px] lg:min-w-[520px]">
           <CardHeader className="pt-2">
-            <CardTitle>ค้นหารถของคุณ</CardTitle>
+            <CardTitle className="text-neutral-800">ค้นหารถของคุณ</CardTitle>
           </CardHeader>
           <CardContent>
             <HomeSearchForm />
