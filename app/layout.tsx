@@ -7,28 +7,13 @@ import Navbar from "@/components/layout/navbar/navbar";
 const LINESeedSans = localFont({
   src: [
     {
-      path: "../public/fonts/LINESeedSansTH_W_Th.woff2",
-      weight: "300",
-      style: "normal",
-    },
-    {
       path: "../public/fonts/LINESeedSansTH_W_Rg.woff2",
       weight: "400",
       style: "normal",
     },
     {
       path: "../public/fonts/LINESeedSansTH_W_Bd.woff2",
-      weight: "500",
-      style: "normal",
-    },
-    {
-      path: "../public/fonts/LINESeedSansTH_W_XBd.woff2",
       weight: "700",
-      style: "normal",
-    },
-    {
-      path: "../public/fonts/LINESeedSansTH_W_He.woff2",
-      weight: "800",
       style: "normal",
     },
   ],
