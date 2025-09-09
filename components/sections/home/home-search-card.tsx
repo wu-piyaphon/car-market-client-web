@@ -1,5 +1,6 @@
 import { Search } from "lucide-react";
 import Link from "next/link";
+import Container from "@/components/layout/container";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { paths } from "@/lib/paths";
@@ -7,7 +8,7 @@ import HomeSearchForm from "./home-search-form";
 
 export default function HomeSearchCard() {
   return (
-    <div>
+    <div className="relative">
       {/* -- Mobile -- */}
       <Button
         asChild
@@ -19,14 +20,16 @@ export default function HomeSearchCard() {
       </Button>
 
       {/* -- Tablet -- */}
-      <Card className="-translate-y-1/2 absolute top-1/2 left-12 hidden min-w-[380px] md:flex lg:min-w-[520px]">
-        <CardHeader className="pt-2">
-          <CardTitle>ค้นหารถของคุณ</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <HomeSearchForm />
-        </CardContent>
-      </Card>
+      <Container className="relative hidden md:flex">
+        <Card className="-translate-y-[calc(105%)] lg:-translate-y-[calc(107%)] absolute min-w-[380px] lg:min-w-[520px]">
+          <CardHeader className="pt-2">
+            <CardTitle>ค้นหารถของคุณ</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <HomeSearchForm />
+          </CardContent>
+        </Card>
+      </Container>
     </div>
   );
 }

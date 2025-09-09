@@ -1,5 +1,5 @@
 import { useFormContext } from "react-hook-form";
-import { FormControl, FormField, FormItem, FormMessage } from "../ui/form";
+import { FormControl, FormField, FormItem } from "../ui/form";
 import { Input } from "../ui/input";
 
 type Props = React.ComponentProps<"div"> & {
@@ -25,7 +25,6 @@ export default function RHFTextField({
           <FormControl>
             <Input label={label} {...field} />
           </FormControl>
-          <FormMessage />
         </FormItem>
       )}
     />

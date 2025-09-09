@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Container from "@/components/layout/container";
-import HomeSearchCard from "@/sections/home/home-search-card";
+import HomeSearchCard from "@/components/sections/home/home-search-card";
 
 export default function Home() {
   return (
