@@ -11,17 +11,15 @@ export default function Home() {
         </h1>
       </Container>
 
-      <div className="relative">
-        <Image
-          src="/images/hero.png"
-          alt="Hero Image"
-          width={360}
-          height={230}
-          quality={100}
-          className="h-[230px] w-screen object-cover object-bottom md:h-[400px] md:object-[50%_75%] lg:h-[560]"
-        />
-        <HomeSearchCard />
-      </div>
+      <Image
+        src="/images/hero.png"
+        alt="Hero Image"
+        width={2560}
+        height={1440}
+        quality={100}
+        className="h-[230px] w-screen object-cover object-bottom md:h-[400px] md:object-[50%_75%] lg:h-[560]"
+      />
+      <HomeSearchCard />
     </>
   );
 }
