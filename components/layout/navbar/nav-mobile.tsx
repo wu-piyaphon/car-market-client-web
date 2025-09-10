@@ -23,7 +23,7 @@ export default function NavMobile() {
   return (
     <div className="flex flex-row items-center gap-3 md:hidden">
       <Button asChild>
-        <Link href={paths.carSelling}>ขายรถ</Link>
+        <Link href={paths.form.selling}>ขายรถ</Link>
       </Button>
       <Button
         size="icon"

@@ -6,6 +6,8 @@ export const paths = {
   aboutUs: "/about-us",
   contactUs: "/contact-us",
   faq: "/faq",
-  carSelling: "/car-selling",
-  carValuation: "/car-valuation",
+  form: {
+    selling: "/car-selling",
+    estimate: "/car-valuation",
+  },
 };

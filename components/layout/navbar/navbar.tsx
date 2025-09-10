@@ -59,10 +59,10 @@ export default function Navbar() {
 
         <div className="hidden items-center space-x-2 md:flex">
           <Button variant="outline" asChild>
-            <Link href={paths.carSelling}>ขายรถ</Link>
+            <Link href={paths.form.selling}>ขายรถ</Link>
           </Button>
           <Button asChild>
-            <Link href={paths.carValuation}>ประเมินราคา</Link>
+            <Link href={paths.form.estimate}>ประเมินราคา</Link>
           </Button>
         </div>
 

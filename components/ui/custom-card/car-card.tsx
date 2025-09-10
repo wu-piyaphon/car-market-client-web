@@ -4,11 +4,11 @@ import { fCurrency } from "@/lib/format-string";
 import type { CarListItem } from "@/types/car.types";
 import { Button } from "../button";
 
-type CardItemProps = ComponentProps<"div"> & {
+type CarCardProps = ComponentProps<"div"> & {
   item: CarListItem;
 };
 
-export default function CardItem({ item }: CardItemProps) {
+export default function CarCard({ item }: CarCardProps) {
   const { thumbnail, model, subModel, type, modelYear, price } = item;
 
   return (
