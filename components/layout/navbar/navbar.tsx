@@ -47,7 +47,7 @@ export default function Navbar() {
           <Link href={paths.home} className="shrink-0">
             <Image
               src="good-car-logo.svg"
-              alt="Good Car Market Logo"
+              alt="GoodCarMarket Logo"
               width={114}
               height={38}
               className="h-auto w-27 lg:w-38"

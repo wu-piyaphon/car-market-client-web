@@ -12,7 +12,7 @@ export default function CarCard({ item }: CarCardProps) {
   const { thumbnail, model, subModel, type, modelYear, price } = item;
 
   return (
-    <div className="rounded-md shadow-sm">
+    <article className="rounded-md shadow-sm">
       <Image
         src={thumbnail}
         alt={model}
@@ -42,6 +42,6 @@ export default function CarCard({ item }: CarCardProps) {
           </Button>
         </div>
       </div>
-    </div>
+    </article>
   );
 }

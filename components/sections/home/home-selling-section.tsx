@@ -14,7 +14,7 @@ type HomeSellingCardProps = {
 
 function HomeSellingCard({ icon, title, href }: HomeSellingCardProps) {
   return (
-    <div className="flex flex-1 flex-col gap-7 rounded-md border border-neutral-300 p-8 shadow-sm lg:p-10">
+    <article className="flex flex-1 flex-col gap-7 rounded-md border border-neutral-300 p-8 shadow-sm lg:p-10">
       <h2 className="whitespace-pre-line font-bold text-4xl leading-snug lg:text-8xl">
         {title}
       </h2>
@@ -26,7 +26,7 @@ function HomeSellingCard({ icon, title, href }: HomeSellingCardProps) {
         </Button>
         {icon}
       </div>
-    </div>
+    </article>
   );
 }
 
@@ -38,7 +38,7 @@ function HomeSellingCardMobile({
 }: HomeSellingCardProps) {
   return (
     <Link href={href}>
-      <div className="flex flex-row items-center gap-4 rounded-sm px-2 py-3 shadow-[0_0_10px_0_rgba(122,161,180,0.25)]">
+      <article className="flex flex-row items-center gap-4 rounded-sm px-2 py-3 shadow-[0_0_10px_0_rgba(122,161,180,0.25)]">
         <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full bg-primary text-white">
           {icon}
         </div>
@@ -48,7 +48,7 @@ function HomeSellingCardMobile({
           </h3>
           <p className="text-base text-slate-900">{description}</p>
         </div>
-      </div>
+      </article>
     </Link>
   );
 }
@@ -57,7 +57,7 @@ function HomeSellingCardMobile({
 
 export default function HomeSellingSection() {
   return (
-    <section className="space-y-3 md:space-y-9 lg:space-y-12">
+    <div className="space-y-3 md:space-y-9 lg:space-y-12">
       <h2 className="text-left font-bold text-4xl text-primary md:text-center md:text-12xl lg:text-15xl">
         ขายรถ ?
       </h2>
@@ -90,14 +90,14 @@ export default function HomeSellingSection() {
         <HomeSellingCard
           icon={<Receipt className="size-16 rotate-12 lg:size-22" />}
           href={paths.form.selling}
-          title={`ขายรถและลงประกาศผ่าน\nGood Car Market`}
+          title={`ขายรถและลงประกาศผ่าน\nGoodCarMarket`}
         />
         <HomeSellingCard
           icon={<SquarePen className="size-16 lg:size-22" />}
           href={paths.form.estimate}
-          title={`สนใจประเมิณราคารถกับ\nGood Car Market`}
+          title={`สนใจประเมิณราคารถกับ\nGoodCarMarket`}
         />
       </div>
-    </section>
+    </div>
   );
 }
