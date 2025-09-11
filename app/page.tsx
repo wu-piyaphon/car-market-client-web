@@ -16,7 +16,7 @@ export default function Home() {
       </Container>
 
       <Image
-        src="/images/hero.png"
+        src="/images/home/hero.png"
         alt="Hero Image"
         width={2560}
         height={1440}

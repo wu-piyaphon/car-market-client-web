@@ -5,11 +5,11 @@ export default function CarCardThumbnail() {
   return (
     <div className="relative max-h-[220px] overflow-hidden rounded-md p-1.5 shadow-sm">
       <Image
-        src="/images/car-type-thumbnail.png"
+        src="/images/home/card-thumbnail.png"
         alt="Car Type Thumbnail"
         width={400}
         height={200}
-        className="absolute top-0 h-[112px] w-full object-cover object-left"
+        className="absolute top-0 right-0 h-[112px] w-[85%] object-cover object-left-bottom"
       />
 
       <div className="mt-[112px] flex flex-col gap-2.5">
