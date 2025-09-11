@@ -13,13 +13,15 @@ export default function CarCard({ item }: CarCardProps) {
 
   return (
     <article className="rounded-md shadow-sm">
-      <Image
-        src={thumbnail}
-        alt={model}
-        width={230}
-        height={168}
-        className="h-[110px] w-full rounded-t-md object-cover md:h-[168px]"
-      />
+      <div className="relative h-[110px] w-full rounded-t-md object-cover md:h-[168px]">
+        <Image
+          fill
+          src={thumbnail}
+          alt={model}
+          className="object-cover"
+          sizes="100%"
+        />
+      </div>
 
       <div className="space-y-2 p-4">
         <div>

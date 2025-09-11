@@ -6,11 +6,11 @@ type Props = {
 
 export default function Container({ children, className, ...other }: Props) {
   return (
-    <section
+    <div
       className={cn("mx-auto max-w-[1440px] px-5 md:px-10 lg:px-15", className)}
       {...other}
     >
       {children}
-    </section>
+    </div>
   );
 }

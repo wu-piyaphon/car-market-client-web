@@ -1,3 +1,4 @@
+import Container from "@/components/layout/container";
 import CarCard from "@/components/ui/custom-card/car-card";
 import CarCardThumbnail from "@/components/ui/custom-card/car-card-thumbnail";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -12,7 +13,7 @@ const TAB_VALUES = [
 
 export default function HomeCarTabs() {
   return (
-    <>
+    <Container className="mt-8 flex flex-col md:hidden">
       <h5 className="font-bold text-4xl text-primary">ประเภทรถ</h5>
 
       <Tabs defaultValue="NEW" className="mt-3 mb-4">
@@ -37,6 +38,6 @@ export default function HomeCarTabs() {
           </TabsContent>
         ))}
       </Tabs>
-    </>
+    </Container>
   );
 }

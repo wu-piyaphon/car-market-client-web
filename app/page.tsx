@@ -23,6 +23,7 @@ export default function Home() {
         height={1440}
         quality={100}
         className="h-[230px] w-screen object-cover object-bottom md:h-[400px] md:object-[50%_75%] lg:h-[560]"
+        priority
       />
 
       <HomeSearchCard />
@@ -32,17 +33,11 @@ export default function Home() {
         <HomeFacebookCover />
       </Container>
 
-      <Container className="mt-8 flex flex-col md:hidden">
-        <HomeCarTabs />
-      </Container>
+      <HomeCarTabs />
 
-      <Container className="mt-10">
-        <HomeSellingSection />
-      </Container>
+      <HomeSellingSection />
 
-      <Container className="mt-10">
-        <HomeAboutUs />
-      </Container>
+      <HomeAboutUs />
     </>
   );
 }
