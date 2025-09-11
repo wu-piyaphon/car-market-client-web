@@ -15,19 +15,43 @@ export default function NavLinks() {
   const [indicatorStyle, setIndicatorStyle] = useState({ left: 0, width: 0 });
 
   useEffect(() => {
-    if (navRef.current) {
-      const activeIndex = NAV_ITEMS.findIndex((item) => item.href === pathname);
-      if (activeIndex !== -1) {
-        const navItems = navRef.current.children;
-        const activeItem = navItems[activeIndex] as HTMLElement;
-        if (activeItem) {
-          setIndicatorStyle({
-            left: activeItem.offsetLeft,
-            width: activeItem.offsetWidth,
-          });
+    const updateIndicatorPosition = () => {
+      if (navRef.current) {
+        const activeIndex = NAV_ITEMS.findIndex(
+          (item) => item.href === pathname,
+        );
+        if (activeIndex !== -1) {
+          const navItems = navRef.current.children;
+          const activeItem = navItems[activeIndex] as HTMLElement;
+          if (activeItem) {
+            setIndicatorStyle({
+              left: activeItem.offsetLeft,
+              width: activeItem.offsetWidth,
+            });
+          }
         }
       }
+    };
+
+    // Initial calculation
+    updateIndicatorPosition();
+
+    // Set up ResizeObserver to watch for size changes
+    let resizeObserver: ResizeObserver | null = null;
+
+    if (navRef.current) {
+      resizeObserver = new ResizeObserver(() => {
+        updateIndicatorPosition();
+      });
+      resizeObserver.observe(navRef.current);
     }
+
+    // Cleanup
+    return () => {
+      if (resizeObserver) {
+        resizeObserver.disconnect();
+      }
+    };
   }, [pathname]);
 
   return (
