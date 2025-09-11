@@ -35,21 +35,19 @@ const SOCIAL_MEDIA = [
 
 export default function Footer() {
   return (
-    <footer>
+    <footer className="mt-8 md:mt-0">
       <Container className="hidden w-full py-6 md:flex">
         <div className="hidden grid-cols-3 items-center justify-between md:grid">
           {/* Logo */}
-          <div className="flex items-center">
-            <Link href={paths.home}>
-              <Image
-                src="/good-car-logo.svg"
-                alt="Good Car Market"
-                width={120}
-                height={40}
-                className="h-auto md:w-[110px] lg:w-[150px]"
-              />
-            </Link>
-          </div>
+          <Link href={paths.home}>
+            <Image
+              src="/good-car-logo.svg"
+              alt="GoodCarMarket Logo"
+              width={120}
+              height={40}
+              className="h-auto md:w-[110px] lg:w-[150px]"
+            />
+          </Link>
 
           {/* Navigation Links */}
           <nav className="hidden justify-center gap-12 text-nowrap md:flex lg:gap-15">

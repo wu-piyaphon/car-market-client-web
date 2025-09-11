@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Container from "@/components/layout/container";
+import HomeAboutUs from "@/components/sections/home/home-about-us";
 import HomeCarList from "@/components/sections/home/home-car-list";
 import HomeCarTabs from "@/components/sections/home/home-car-tabs";
 import HomeFacebookCover from "@/components/sections/home/home-facebook-cover";
@@ -37,6 +38,10 @@ export default function Home() {
 
       <Container className="mt-10">
         <HomeSellingSection />
+      </Container>
+
+      <Container className="mt-10">
+        <HomeAboutUs />
       </Container>
     </>
   );
