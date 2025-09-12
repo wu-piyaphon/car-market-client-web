@@ -1,36 +1,106 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Car Marketplace - Client Web
 
-## Getting Started
+[![My Skills](https://skillicons.dev/icons?i=nextjs,react,tailwind,ts,html,css)](https://skillicons.dev)
 
-First, run the development server:
+## Overview
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+A car marketplace connecting car buyers and sellers through a web platform. Built with modern technologies and designed specifically for the Thai market, featuring intelligent search, financial form request, and comprehensive car listing.
+
+## 🌟 Features
+
+- **Smart Search**: Multi-parameter filtering by brand, model, type, and price with instant results
+- **Digital Content**: Car listing and detail displayed responsively with pagination for seamless UX/UI
+- **Financial Services**: Loan calculator and professional vehicle valuation form requests
+- **Mobile-First**: Responsive design with touch-optimized interface and PWA capabilities
+
+## ⚙️ Tech Stack
+
+### Frontend Framework
+- **Next.js 15** - React framework with App Router and Turbopack integration
+- **React 19** - Latest React version with concurrent features
+- **TypeScript** - Type-safe development with strict mode
+
+### Styling & UI
+- **Tailwind CSS 4** - Utility-first CSS framework for rapid development
+- **Shadcn/ui** - Copy-paste component library built on Radix UI primitives
+- **Radix UI** - Headless, accessible component primitives
+- **Lucide React** - Scalable vector icon library
+- **Class Variance Authority** - Type-safe component variant management
+
+### Form Management & Validation
+- **React Hook Form** - High-performance forms with minimal re-renders
+- **Zod** - TypeScript-first schema validation
+- **@hookform/resolvers** - Seamless form validation integration
+
+### Development Tools
+- **Biome** - Unified toolchain for linting, formatting, and code analysis
+- **Lefthook** - Git hooks automation and workflow management
+- **Turbopack** - High-performance bundler for optimized build processes  
+
+## 📂 Project Structure
+
+```
+car-market-client-web/
+├── app/                     # Next.js App Router pages
+├── components/              # Reusable UI components
+│   ├── hook-forms/          # Form components with validation
+│   ├── ui/                  # Design system components
+│   ├── layout/              # Navigation and structure
+│   └── sections/            # Page-specific sections
+├── hooks/                   # Custom React hooks and API
+├── lib/                     # Utilities and configurations
+├── types/                   # TypeScript definitions
+└── public/                  # Static assets
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🚀 Getting Started
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Prerequisites
+- Node.js 18+ 
+- npm or yarn package manager
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Installation
 
-## Learn More
+1. **Clone the repository**
+```bash
+git clone https://github.com/wu-piyaphon/car-market-client-web.git
+cd car-market-client-web
+```
 
-To learn more about Next.js, take a look at the following resources:
+2. **Install dependencies**
+```bash
+yarn install
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+3. **Environment setup**
+```bash
+   cp .env.example .env.local
+   # Configure your environment variables
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+4. **Start the development server**
+```bash
+yarn dev
+```
 
-## Deploy on Vercel
+5. **Open your browser and navigate to `http://localhost:3000`**
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Scripts
+```bash
+yarn dev        # Development server with Turbopack
+yarn build      # Production build
+yarn start      # Production server
+yarn lint       # Code analysis with Biome
+yarn format     # Code formatting
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 📌 Routes
+
+| Route | Description |
+|-------|-------------|
+| `/` | Homepage with search and featured listings |
+| `/cars` | Vehicle browsing with filtering |
+| `/cars/[slug]` | Detailed vehicle information |
+| `/loan-calculator` | Financial planning tools |
+| `/car-valuation` | Vehicle appraisal services |
+| `/car-selling` | Vehicle listing platform |
