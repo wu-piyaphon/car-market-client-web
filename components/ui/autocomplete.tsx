@@ -1,5 +1,6 @@
+import type { PopoverContentProps } from "@radix-ui/react-popover";
 import { Command as CommandPrimitive } from "cmdk";
-import { Check, ChevronDown } from "lucide-react";
+import { Check, ChevronDown, ChevronRight } from "lucide-react";
 import { useMemo, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
 import type { Option } from "@/types/common.types";
@@ -14,27 +15,36 @@ import { Input } from "./input";
 import { Popover, PopoverAnchor, PopoverContent } from "./popover";
 import { Skeleton } from "./skeleton";
 
-type Props<T extends string> = {
+// ----------------------------------------------------------------------
+
+export type AutocompleteCommonProps = {
+  label?: string;
+  loading?: boolean;
+  disabled?: boolean;
+  PopoverContentProps?: PopoverContentProps;
+  InputProps?: React.ComponentProps<"input">;
+};
+
+type AutocompleteProps<T extends string> = AutocompleteCommonProps & {
   value: T;
   onChange: (value: T) => void;
   options: Option[];
-  label?: string;
-  isLoading?: boolean;
   emptyMessage?: string;
-  InputProps?: React.ComponentProps<"input">;
-  disabled?: boolean;
 };
+
+// ----------------------------------------------------------------------
 
 export function Autocomplete<T extends string>({
   value,
   onChange,
   options,
   label,
-  isLoading,
+  loading,
   InputProps,
   disabled,
+  PopoverContentProps,
   emptyMessage = "ไม่พบตัวเลือก",
-}: Props<T>) {
+}: AutocompleteProps<T>) {
   const inputRef = useRef<HTMLInputElement>(null);
   const [searchInput, setSearchInput] = useState("");
   const [open, setOpen] = useState(false);
@@ -110,15 +120,17 @@ export function Autocomplete<T extends string>({
                     type="button"
                     disabled={disabled}
                     onClick={handleClickDropdown}
-                    className="flex items-center justify-center"
+                    className={cn(
+                      "flex cursor-pointer items-center justify-center",
+                      disabled && "opacity-50",
+                    )}
                     aria-label="Toggle dropdown"
                   >
-                    <ChevronDown
-                      className={cn(
-                        "size-4 lg:size-6",
-                        disabled && "opacity-50",
-                      )}
-                    />
+                    {PopoverContentProps?.side === "right" ? (
+                      <ChevronRight className="size-4 lg:size-6" />
+                    ) : (
+                      <ChevronDown className="size-4 lg:size-6" />
+                    )}
                   </button>
                 }
                 {...InputProps}
@@ -138,16 +150,17 @@ export function Autocomplete<T extends string>({
               }
             }}
             className="p-0"
+            {...PopoverContentProps}
           >
             <CommandList>
-              {isLoading && (
+              {loading && (
                 <CommandPrimitive.Loading>
                   <div className="p-1">
                     <Skeleton className="h-6 w-full" />
                   </div>
                 </CommandPrimitive.Loading>
               )}
-              {filterOptions.length > 0 && !isLoading ? (
+              {filterOptions.length > 0 && !loading ? (
                 <CommandGroup>
                   {filterOptions.map((option) => (
                     <CommandItem
@@ -167,7 +180,7 @@ export function Autocomplete<T extends string>({
                   ))}
                 </CommandGroup>
               ) : null}
-              {!isLoading ? <CommandEmpty>{emptyMessage}</CommandEmpty> : null}
+              {!loading ? <CommandEmpty>{emptyMessage}</CommandEmpty> : null}
             </CommandList>
           </PopoverContent>
         </Command>

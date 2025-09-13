@@ -1,26 +1,18 @@
 import { useFormContext } from "react-hook-form";
 import type { Option } from "@/types/common.types";
-import { Autocomplete } from "../ui/autocomplete";
+import { Autocomplete, type AutocompleteCommonProps } from "../ui/autocomplete";
 import { FormControl, FormField, FormItem, FormMessage } from "../ui/form";
 
-type Props = React.ComponentProps<"div"> & {
+type RHFAutocompleteProps = AutocompleteCommonProps & {
   name: string;
   label: string;
   options: Option[];
-  InputProps?: React.ComponentProps<"input">;
-  placeholder?: string;
-  disabled?: boolean;
 };
 
 export default function RHFAutocomplete({
   name,
-  label,
-  placeholder,
-  options,
-  InputProps,
-  disabled,
-  ...other
-}: Props) {
+  ...props
+}: RHFAutocompleteProps) {
   const { control } = useFormContext();
 
   return (
@@ -28,16 +20,9 @@ export default function RHFAutocomplete({
       control={control}
       name={name}
       render={({ field }) => (
-        <FormItem {...other}>
+        <FormItem>
           <FormControl>
-            <Autocomplete
-              label={label}
-              options={options}
-              value={field.value}
-              onChange={field.onChange}
-              InputProps={InputProps}
-              disabled={disabled}
-            />
+            <Autocomplete {...field} {...props} />
           </FormControl>
           <FormMessage />
         </FormItem>

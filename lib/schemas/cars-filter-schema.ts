@@ -13,7 +13,8 @@ export const carFilterSchema = z.object({
   modelYear: SCHEMA.string.optional,
   engineType: SCHEMA.string.optional,
   engineCapacity: SCHEMA.string.optional,
-  mileage: SCHEMA.string.optional,
+  minMileage: SCHEMA.string.optional,
+  maxMileage: SCHEMA.string.optional,
 });
 
 export type CarFilterSchema = z.infer<typeof carFilterSchema>;
