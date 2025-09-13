@@ -33,7 +33,9 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${LINESeedSans.className} antialiased`}>
         <Navbar />
-        <div className="pt-[70px] md:pt-[76px] lg:pt-[106px]">{children}</div>
+        <div className="overflow-hidden pt-[70px] md:pt-[76px] lg:pt-[106px]">
+          {children}
+        </div>
         <Footer />
       </body>
     </html>
