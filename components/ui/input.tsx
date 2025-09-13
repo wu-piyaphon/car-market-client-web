@@ -5,9 +5,10 @@ import { FormLabel } from "./form";
 
 type Props = React.ComponentProps<"input"> & {
   label?: string;
+  endIcon?: React.ReactNode;
 };
 
-function Input({ className, value, label, type, ...props }: Props) {
+function Input({ className, value, label, type, endIcon, ...props }: Props) {
   return (
     <div className="relative">
       {!!value && (
@@ -26,16 +27,18 @@ function Input({ className, value, label, type, ...props }: Props) {
         data-slot="input"
         placeholder={label}
         className={cn(
-          "flex h-9 w-full min-w-0 rounded-md border border-input bg-transparent px-3 shadow-xs outline-none transition-[color,box-shadow] selection:bg-primary selection:text-primary-foreground file:inline-flex file:h-7 file:border-0 file:bg-transparent file:font-medium file:text-foreground file:text-sm placeholder:text-muted-foreground disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 dark:bg-input/30",
-          "focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50",
+          "flex h-12 w-full min-w-0 rounded-md border border-input bg-transparent px-3 shadow-xs outline-none transition-[color,box-shadow] selection:bg-primary selection:text-primary-foreground file:inline-flex file:h-7 file:border-0 file:bg-transparent file:font-medium file:text-foreground file:text-sm placeholder:text-muted-foreground disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 lg:h-15 dark:bg-input/30",
           "aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40",
-          value
-            ? "pt-6 pb-4 text-sm lg:pt-9.5 lg:pb-5 lg:text-lg"
-            : "py-5 text-base lg:py-7.25 lg:text-lg",
+          value ? "pt-3 text-sm lg:pt-5 lg:text-lg" : "text-base lg:text-lg",
           className,
         )}
         {...props}
       />
+      {endIcon && (
+        <div className="-translate-y-1/2 absolute top-1/2 right-3">
+          {endIcon}
+        </div>
+      )}
     </div>
   );
 }

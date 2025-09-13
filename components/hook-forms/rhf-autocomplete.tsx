@@ -7,7 +7,9 @@ type Props = React.ComponentProps<"div"> & {
   name: string;
   label: string;
   options: Option[];
+  InputProps?: React.ComponentProps<"input">;
   placeholder?: string;
+  disabled?: boolean;
 };
 
 export default function RHFAutocomplete({
@@ -15,6 +17,8 @@ export default function RHFAutocomplete({
   label,
   placeholder,
   options,
+  InputProps,
+  disabled,
   ...other
 }: Props) {
   const { control } = useFormContext();
@@ -31,7 +35,8 @@ export default function RHFAutocomplete({
               options={options}
               value={field.value}
               onChange={field.onChange}
-              placeholder={label}
+              InputProps={InputProps}
+              disabled={disabled}
             />
           </FormControl>
           <FormMessage />

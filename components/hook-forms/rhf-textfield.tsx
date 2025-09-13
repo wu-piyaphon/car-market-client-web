@@ -6,12 +6,14 @@ type Props = React.ComponentProps<"div"> & {
   name: string;
   label: string;
   placeholder?: string;
+  InputProps?: React.ComponentProps<"input">;
 };
 
 export default function RHFTextField({
   name,
   label,
   placeholder,
+  InputProps,
   ...other
 }: Props) {
   const { control } = useFormContext();
@@ -23,7 +25,7 @@ export default function RHFTextField({
       render={({ field }) => (
         <FormItem {...other}>
           <FormControl>
-            <Input label={label} {...field} />
+            <Input {...field} {...InputProps} label={label} />
           </FormControl>
         </FormItem>
       )}

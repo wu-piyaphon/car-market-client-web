@@ -1,6 +1,6 @@
 import { Command as CommandPrimitive } from "cmdk";
-import { Check } from "lucide-react";
-import { useMemo, useState } from "react";
+import { Check, ChevronDown } from "lucide-react";
+import { useMemo, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
 import type { Option } from "@/types/common.types";
 import {
@@ -21,7 +21,8 @@ type Props<T extends string> = {
   label?: string;
   isLoading?: boolean;
   emptyMessage?: string;
-  placeholder?: string;
+  InputProps?: React.ComponentProps<"input">;
+  disabled?: boolean;
 };
 
 export function Autocomplete<T extends string>({
@@ -30,8 +31,11 @@ export function Autocomplete<T extends string>({
   options,
   label,
   isLoading,
+  InputProps,
+  disabled,
   emptyMessage = "ไม่พบตัวเลือก",
 }: Props<T>) {
+  const inputRef = useRef<HTMLInputElement>(null);
   const [searchInput, setSearchInput] = useState("");
   const [open, setOpen] = useState(false);
 
@@ -77,10 +81,15 @@ export function Autocomplete<T extends string>({
     setOpen(false);
   };
 
+  const handleClickDropdown = () => {
+    setOpen((open) => !open);
+    inputRef.current?.focus();
+  };
+
   return (
     <div className="flex items-center">
       <Popover open={open} onOpenChange={setOpen}>
-        <Command shouldFilter={false}>
+        <Command shouldFilter={false} className={InputProps?.className}>
           <PopoverAnchor asChild>
             <CommandPrimitive.Input
               asChild
@@ -91,7 +100,29 @@ export function Autocomplete<T extends string>({
               onFocus={() => setOpen(true)}
               onBlur={onInputBlur}
             >
-              <Input label={label} value={searchInput} />
+              <Input
+                ref={inputRef}
+                label={label}
+                value={searchInput}
+                disabled={disabled}
+                endIcon={
+                  <button
+                    type="button"
+                    disabled={disabled}
+                    onClick={handleClickDropdown}
+                    className="flex items-center justify-center"
+                    aria-label="Toggle dropdown"
+                  >
+                    <ChevronDown
+                      className={cn(
+                        "size-4 lg:size-6",
+                        disabled && "opacity-50",
+                      )}
+                    />
+                  </button>
+                }
+                {...InputProps}
+              />
             </CommandPrimitive.Input>
           </PopoverAnchor>
           {!open && <CommandList aria-hidden="true" className="hidden" />}
