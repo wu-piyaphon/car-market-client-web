@@ -7,7 +7,10 @@ import Form from "@/components/hook-forms/form";
 import RHFAutocomplete from "@/components/hook-forms/rhf-autocomplete";
 import RHFTextField from "@/components/hook-forms/rhf-textfield";
 import { Button } from "@/components/ui/button";
-import { type HomeSearchSchema, homeSearchSchema } from "@/lib/schemas";
+import {
+  type CarSearchSchema,
+  carSearchSchema,
+} from "@/lib/schemas/cars-search-schema";
 import {
   CAR_BRANDS,
   CAR_MODELS,
@@ -15,8 +18,8 @@ import {
 } from "../../../mocks/mock-car-options";
 
 export default function HomeSearchForm() {
-  const methods = useForm<HomeSearchSchema>({
-    resolver: zodResolver(homeSearchSchema),
+  const methods = useForm<CarSearchSchema>({
+    resolver: zodResolver(carSearchSchema),
     defaultValues: {
       brand: "",
       model: "",
