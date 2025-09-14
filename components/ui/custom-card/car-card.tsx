@@ -18,7 +18,7 @@ export default function CarCard({ item }: CarCardProps) {
           fill
           src={thumbnail}
           alt={model}
-          className="object-cover"
+          className="rounded-t-md object-cover"
           sizes="100%"
         />
       </div>

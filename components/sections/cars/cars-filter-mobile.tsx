@@ -1,21 +1,14 @@
 "use client";
 
-import { zodResolver } from "@hookform/resolvers/zod";
 import { Search } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import { useState } from "react";
-import { useForm } from "react-hook-form";
-import Form from "@/components/hook-forms/form";
 import RHFAutocomplete from "@/components/hook-forms/rhf-autocomplete";
 import RHFTextField from "@/components/hook-forms/rhf-textfield";
 import Container from "@/components/layout/container";
 import { Button } from "@/components/ui/button";
 import CarImageBanner from "@/components/ui/custom-banner/car-image-banner";
 import { cn } from "@/lib/utils";
-import {
-  type CarFilterSchema,
-  carFilterSchema,
-} from "../../../lib/schemas/cars-filter-schema";
 
 // ----------------------------------------------------------------------
 
@@ -29,20 +22,10 @@ const INPUT_PROPS = {
 // ----------------------------------------------------------------------
 
 export default function CarsFilterMobile() {
-  const methods = useForm<CarFilterSchema>({
-    resolver: zodResolver(carFilterSchema),
-    defaultValues: {
-      brand: "",
-      type: "",
-      maxPrice: "",
-      minPrice: "",
-    },
-  });
-
   const [showMore, setShowMore] = useState(false);
 
   return (
-    <div className="md:hidden">
+    <div>
       <Container>
         <h1 className="py-4 text-center font-bold text-4xl">
           ค้นหารถยนต์ของคุณที่ <span className="text-primary">“GoodCarMarket”</span>
@@ -59,136 +42,134 @@ export default function CarsFilterMobile() {
         </div>
 
         <article className="-translate-x-1/2 absolute top-5 left-1/2 z-20 w-full max-w-[320px]">
-          <Form methods={methods}>
-            <div className="rounded-md bg-white">
-              <RHFAutocomplete
-                name="type"
-                label="ประเภท"
-                options={[
-                  { id: "1", name: "SUV" },
-                  { id: "2", name: "Sedan" },
-                  { id: "3", name: "Hatchback" },
-                ]}
-                InputProps={INPUT_PROPS.TOP}
+          <div className="rounded-md bg-white">
+            <RHFAutocomplete
+              name="type"
+              label="ประเภท"
+              options={[
+                { id: "1", name: "SUV" },
+                { id: "2", name: "Sedan" },
+                { id: "3", name: "Hatchback" },
+              ]}
+              InputProps={INPUT_PROPS.TOP}
+            />
+
+            <RHFAutocomplete
+              name="brand"
+              label="ยี่ห้อ"
+              options={[
+                { id: "1", name: "Toyota" },
+                { id: "2", name: "Honda" },
+                { id: "3", name: "Nissan" },
+              ]}
+              InputProps={INPUT_PROPS.MIDDLE}
+            />
+
+            <AnimatePresence>
+              {showMore && (
+                <motion.div
+                  initial={{ height: 0 }}
+                  animate={{ height: "auto" }}
+                  exit={{ height: 0 }}
+                  transition={{ duration: 0.3, ease: "easeInOut" }}
+                  style={{ overflow: "hidden" }}
+                >
+                  <RHFAutocomplete
+                    name="model"
+                    label="รุ่น"
+                    options={[]}
+                    InputProps={INPUT_PROPS.MIDDLE}
+                  />
+                  <RHFAutocomplete
+                    name="subModel"
+                    label="รุ่นย่อย"
+                    options={[]}
+                    InputProps={INPUT_PROPS.MIDDLE}
+                  />
+                  <RHFAutocomplete
+                    name="color"
+                    label="สีรถ"
+                    options={[]}
+                    InputProps={INPUT_PROPS.MIDDLE}
+                  />
+                  <RHFAutocomplete
+                    name="transmission"
+                    label="ระบบเกียร์"
+                    options={[]}
+                    InputProps={INPUT_PROPS.MIDDLE}
+                  />
+                  <RHFAutocomplete
+                    name="engineType"
+                    label="ประเภทเครื่องยนต์"
+                    options={[]}
+                    InputProps={INPUT_PROPS.MIDDLE}
+                  />
+                  <RHFAutocomplete
+                    name="engineSize"
+                    label="ขนาดเครื่องยนต์"
+                    options={[]}
+                    InputProps={INPUT_PROPS.MIDDLE}
+                  />
+                  <RHFAutocomplete
+                    name="mileage"
+                    label="เลขไมล์"
+                    options={[]}
+                    InputProps={INPUT_PROPS.MIDDLE}
+                  />
+                  <div className="flex flex-row">
+                    <RHFTextField
+                      name="minMileage"
+                      label="เลขไมล์ต่ำสุด"
+                      className="flex-1"
+                      InputProps={{
+                        className: cn(
+                          INPUT_PROPS.MIDDLE.className,
+                          "border-r-0",
+                        ),
+                      }}
+                    />
+                    <RHFTextField
+                      name="maxMileage"
+                      label="เลขไมล์สูงสุด"
+                      className="flex-1"
+                      InputProps={INPUT_PROPS.MIDDLE}
+                    />
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+
+            <div className="flex flex-row">
+              <RHFTextField
+                name="minPrice"
+                label="ราคาต่ำสุด"
+                className="flex-1"
+                InputProps={INPUT_PROPS.BOTTOM_LEFT}
               />
-
-              <RHFAutocomplete
-                name="brand"
-                label="ยี่ห้อ"
-                options={[
-                  { id: "1", name: "Toyota" },
-                  { id: "2", name: "Honda" },
-                  { id: "3", name: "Nissan" },
-                ]}
-                InputProps={INPUT_PROPS.MIDDLE}
+              <RHFTextField
+                name="maxPrice"
+                label="ราคาสูงสุด"
+                className="flex-1"
+                InputProps={INPUT_PROPS.BOTTOM_RIGHT}
               />
-
-              <AnimatePresence>
-                {showMore && (
-                  <motion.div
-                    initial={{ height: 0 }}
-                    animate={{ height: "auto" }}
-                    exit={{ height: 0 }}
-                    transition={{ duration: 0.3, ease: "easeInOut" }}
-                    style={{ overflow: "hidden" }}
-                  >
-                    <RHFAutocomplete
-                      name="model"
-                      label="รุ่น"
-                      options={[]}
-                      InputProps={INPUT_PROPS.MIDDLE}
-                    />
-                    <RHFAutocomplete
-                      name="subModel"
-                      label="รุ่นย่อย"
-                      options={[]}
-                      InputProps={INPUT_PROPS.MIDDLE}
-                    />
-                    <RHFAutocomplete
-                      name="color"
-                      label="สีรถ"
-                      options={[]}
-                      InputProps={INPUT_PROPS.MIDDLE}
-                    />
-                    <RHFAutocomplete
-                      name="transmission"
-                      label="ระบบเกียร์"
-                      options={[]}
-                      InputProps={INPUT_PROPS.MIDDLE}
-                    />
-                    <RHFAutocomplete
-                      name="engineType"
-                      label="ประเภทเครื่องยนต์"
-                      options={[]}
-                      InputProps={INPUT_PROPS.MIDDLE}
-                    />
-                    <RHFAutocomplete
-                      name="engineSize"
-                      label="ขนาดเครื่องยนต์"
-                      options={[]}
-                      InputProps={INPUT_PROPS.MIDDLE}
-                    />
-                    <RHFAutocomplete
-                      name="mileage"
-                      label="เลขไมล์"
-                      options={[]}
-                      InputProps={INPUT_PROPS.MIDDLE}
-                    />
-                    <div className="flex flex-row">
-                      <RHFTextField
-                        name="minMileage"
-                        label="เลขไมล์ต่ำสุด"
-                        className="flex-1"
-                        InputProps={{
-                          className: cn(
-                            INPUT_PROPS.MIDDLE.className,
-                            "border-r-0",
-                          ),
-                        }}
-                      />
-                      <RHFTextField
-                        name="maxMileage"
-                        label="เลขไมล์สูงสุด"
-                        className="flex-1"
-                        InputProps={INPUT_PROPS.MIDDLE}
-                      />
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-
-              <div className="flex flex-row">
-                <RHFTextField
-                  name="minPrice"
-                  label="ราคาต่ำสุด"
-                  className="flex-1"
-                  InputProps={INPUT_PROPS.BOTTOM_LEFT}
-                />
-                <RHFTextField
-                  name="maxPrice"
-                  label="ราคาสูงสุด"
-                  className="flex-1"
-                  InputProps={INPUT_PROPS.BOTTOM_RIGHT}
-                />
-              </div>
             </div>
+          </div>
 
-            <div className="mt-5 flex flex-col gap-2.5">
-              <Button size="lg">
-                <Search />
-                ค้นหารถ
-              </Button>
-              <Button
-                type="button"
-                size="lg"
-                variant="outline"
-                className="border-white text-white"
-                onClick={() => setShowMore((prev) => !prev)}
-              >
-                ค้นหาแบบ{showMore ? "ย่อ" : "ละเอียด"}
-              </Button>
-            </div>
-          </Form>
+          <div className="mt-5 flex flex-col gap-2.5">
+            <Button size="lg">
+              <Search />
+              ค้นหารถ
+            </Button>
+            <Button
+              type="button"
+              size="lg"
+              variant="outline"
+              className="border-white text-white"
+              onClick={() => setShowMore((prev) => !prev)}
+            >
+              ค้นหาแบบ{showMore ? "ย่อ" : "ละเอียด"}
+            </Button>
+          </div>
         </article>
       </motion.div>
     </div>
