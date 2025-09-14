@@ -2,6 +2,7 @@ import { ChevronRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { paths } from "@/lib/paths";
+import { SvgIcon } from "../icons";
 import Container from "./container";
 
 // ----------------------------------------------------------------------
@@ -26,9 +27,9 @@ const FOOTER_ITEMS = [
 ];
 
 const SOCIAL_MEDIA = [
-  { name: "Facebook", href: "#", icon: "/icons/facebook.svg" },
-  { name: "Instagram", href: "#", icon: "/icons/instagram.svg" },
-  { name: "Twitter", href: "#", icon: "/icons/twitter.svg" },
+  { name: "Facebook", href: "#", icon: <SvgIcon name="facebook" /> },
+  { name: "Instagram", href: "#", icon: <SvgIcon name="instagram" /> },
+  { name: "Twitter", href: "#", icon: <SvgIcon name="twitter" /> },
 ];
 
 // ----------------------------------------------------------------------
@@ -41,7 +42,7 @@ export default function Footer() {
           {/* Logo */}
           <Link href={paths.home}>
             <Image
-              src="/good-car-logo.svg"
+              src="/logo.svg"
               alt="GoodCarMarket Logo"
               width={120}
               height={40}
@@ -65,8 +66,13 @@ export default function Footer() {
           {/* Social Media Icons */}
           <div className="flex items-center justify-end space-x-4">
             {SOCIAL_MEDIA.map((item) => (
-              <Link key={item.name} href={item.href} aria-label={item.name}>
-                <Image src={item.icon} alt={item.name} width={30} height={30} />
+              <Link
+                key={item.name}
+                href={item.href}
+                aria-label={item.name}
+                className="h-7 w-7 text-primary"
+              >
+                {item.icon}
               </Link>
             ))}
           </div>
