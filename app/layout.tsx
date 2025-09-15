@@ -31,9 +31,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${LINESeedSans.className} antialiased`}>
+      <body
+        className={`${LINESeedSans.className} flex min-h-screen flex-col antialiased`}
+      >
         <Navbar />
-        <div className="overflow-hidden pt-[70px] md:pt-[76px] lg:pt-[106px]">
+        <div className="grow overflow-hidden pt-[70px] md:pt-[76px] lg:pt-[106px]">
           {children}
         </div>
         <Footer />
