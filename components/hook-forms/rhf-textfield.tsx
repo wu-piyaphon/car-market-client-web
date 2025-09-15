@@ -7,6 +7,7 @@ type Props = React.ComponentProps<"div"> & {
   label: string;
   placeholder?: string;
   InputProps?: React.ComponentProps<"input">;
+  isNumeric?: boolean;
 };
 
 export default function RHFTextField({
@@ -14,6 +15,7 @@ export default function RHFTextField({
   label,
   placeholder,
   InputProps,
+  isNumeric = false,
   ...other
 }: Props) {
   const { control } = useFormContext();
@@ -25,7 +27,17 @@ export default function RHFTextField({
       render={({ field }) => (
         <FormItem {...other}>
           <FormControl>
-            <Input {...field} {...InputProps} label={label} />
+            <Input
+              {...field}
+              {...InputProps}
+              label={label}
+              onChange={(e) => {
+                if (isNumeric && !/^\d*$/.test(e.target.value)) {
+                  return;
+                }
+                field.onChange(e);
+              }}
+            />
           </FormControl>
         </FormItem>
       )}

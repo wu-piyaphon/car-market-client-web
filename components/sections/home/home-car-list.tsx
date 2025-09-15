@@ -1,12 +1,12 @@
 import CarCard from "@/components/ui/custom-card/car-card";
 import { CAR_LIST } from "@/mocks/mock-car";
 
-const CATEGORIES = ["รถเข้าใหม่", "รถเก๋ง", "รถกระบะ", "รถ SUV"];
+type HomeCarListProps = { categories: string[] };
 
-export default function HomeCarList() {
+export default function HomeCarList({ categories }: HomeCarListProps) {
   return (
     <div className="flex flex-1 flex-col gap-7 lg:gap-10">
-      {CATEGORIES.map((category) => (
+      {categories.map((category) => (
         <div key={category} className="flex flex-1 flex-col gap-3">
           <div className="flex flex-row items-center justify-between font-bold text-primary">
             <h3 className="text-3xl lg:text-5xl">{category}</h3>

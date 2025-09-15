@@ -70,16 +70,16 @@
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
 
-  --color-green-50: var(--color-green-50);
-  --color-green-100: var(--color-green-100);
-  --color-green-200: var(--color-green-200);
-  --color-green-300: var(--color-green-300);
-  --color-green-400: var(--color-green-400);
-  --color-green-500: var(--color-green-500);
-  --color-green-600: var(--color-green-600);
-  --color-green-700: var(--color-green-700);
-  --color-green-800: var(--color-green-800);
-  --color-green-900: var(--color-green-900);
+  --color-primary-50: var(--color-green-50);
+  --color-primary-100: var(--color-green-100);
+  --color-primary-200: var(--color-green-200);
+  --color-primary-300: var(--color-green-300);
+  --color-primary-400: var(--color-green-400);
+  --color-primary-500: var(--color-green-500);
+  --color-primary-600: var(--color-green-600);
+  --color-primary-700: var(--color-green-700);
+  --color-primary-800: var(--color-green-800);
+  --color-primary-900: var(--color-green-900);
 }
 
 :root {

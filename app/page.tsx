@@ -7,6 +7,8 @@ import HomeSearchCard from "@/components/sections/home/home-search-card";
 import HomeSellingSection from "@/components/sections/home/home-selling-section";
 import CarImageBanner from "@/components/ui/custom-banner/car-image-banner";
 
+const CATEGORIES = ["รถเข้าใหม่", "รถเก๋ง", "รถกระบะ", "รถ SUV"];
+
 export default function Home() {
   return (
     <>
@@ -21,7 +23,7 @@ export default function Home() {
       <HomeSearchCard />
 
       <Container className="mt-18 hidden flex-row gap-4 md:flex lg:gap-9">
-        <HomeCarList />
+        <HomeCarList categories={CATEGORIES} />
         <HomeFacebookCover />
       </Container>
 
