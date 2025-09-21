@@ -1,4 +1,4 @@
-export default function LoanResult() {
+export default function LoanCalculatorResult() {
   const result = [
     { label: "จ่ายต่อเดือน (Baht)", value: 0 },
     { label: "ดอกเบี้ยทั้งหมด (Baht)", value: 0 },

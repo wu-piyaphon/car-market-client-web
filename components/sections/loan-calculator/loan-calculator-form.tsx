@@ -6,9 +6,9 @@ import Form from "@/components/hook-forms/form";
 import RHFTextField from "@/components/hook-forms/rhf-textfield";
 import { Button } from "@/components/ui/button";
 import { loanCalculatorSchema } from "@/lib/schemas/loan-calculator-schema";
-import LoanResult from "./loan-result";
+import LoanCalculatorResult from "./loan-calculator-result";
 
-export default function LoanForm() {
+export default function LoanCalculatorForm() {
   const methods = useForm({
     resolver: zodResolver(loanCalculatorSchema),
     defaultValues: {
@@ -48,7 +48,6 @@ export default function LoanForm() {
           <Button
             type="button"
             size="lg"
-            className="flex-1"
             onClick={handleSubmit((data) => console.log(data))}
           >
             Calculate
@@ -56,7 +55,7 @@ export default function LoanForm() {
         </div>
       </article>
 
-      <LoanResult />
+      <LoanCalculatorResult />
     </Form>
   );
 }

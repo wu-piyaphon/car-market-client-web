@@ -16,7 +16,7 @@ export default function CarCardThumbnail() {
         <p className="font-bold text-xl">รถเข้าใหม่ทุกคัน</p>
         <p className="whitespace-pre-line text-sm">{`ค้นหารถเข้าใหม่ที่คุณสนใจที่\nGoodCarMarket`}</p>
 
-        <Button className="h-6 w-full gap-1 px-1.5 font-bold text-sm">
+        <Button className="h-6 w-full px-1.5 py-0 font-bold text-sm">
           ดูต่อ
         </Button>
       </div>
