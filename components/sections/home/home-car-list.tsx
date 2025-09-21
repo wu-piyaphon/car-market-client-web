@@ -1,11 +1,16 @@
+import type { ComponentProps } from "react";
 import CarCard from "@/components/ui/custom-card/car-card";
+import { cn } from "@/lib/utils";
 import { CAR_LIST } from "@/mocks/mock-car";
 
-type HomeCarListProps = { categories: string[] };
+type HomeCarListProps = ComponentProps<"div"> & { categories: string[] };
 
-export default function HomeCarList({ categories }: HomeCarListProps) {
+export default function HomeCarList({
+  categories,
+  className,
+}: HomeCarListProps) {
   return (
-    <div className="flex flex-1 flex-col gap-7 lg:gap-10">
+    <div className="w-full space-y-7 lg:gap-10">
       {categories.map((category) => (
         <div key={category} className="flex flex-1 flex-col gap-3">
           <div className="flex flex-row items-center justify-between font-bold text-primary">
@@ -13,7 +18,9 @@ export default function HomeCarList({ categories }: HomeCarListProps) {
             <p className="cursor-pointer text-xl">ดูทั้งหมด</p>
           </div>
 
-          <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
+          <div
+            className={cn("grid grid-cols-2 gap-4 lg:grid-cols-4", className)}
+          >
             {CAR_LIST.map((item, index) => (
               <CarCard
                 key={`${category}-${item.id}-${index}`}

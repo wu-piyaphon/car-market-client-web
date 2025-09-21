@@ -36,7 +36,7 @@ const SOCIAL_MEDIA = [
 
 export default function Footer() {
   return (
-    <footer className="mt-8 md:mt-0">
+    <footer className="mt-auto">
       <Container className="hidden w-full py-6 md:flex">
         <div className="hidden grid-cols-3 items-center justify-between md:grid">
           {/* Logo */}

@@ -29,6 +29,8 @@ export default function NavLinks() {
               width: activeItem.offsetWidth,
             });
           }
+        } else {
+          setIndicatorStyle({ left: 0, width: 0 });
         }
       }
     };
@@ -74,13 +76,15 @@ export default function NavLinks() {
           </Link>
         );
       })}
-      <div
-        className="absolute bottom-0 h-2 rounded-t-md bg-primary shadow-[0_0_8px_0_rgba(96,203,189,0.8)] transition-all duration-300 ease-in-out"
-        style={{
-          left: `${indicatorStyle.left - 4}px`,
-          width: `${indicatorStyle.width + 12}px`,
-        }}
-      />
+      {indicatorStyle.width > 0 && (
+        <div
+          className="absolute bottom-0 h-2 rounded-t-md bg-primary shadow-[0_0_8px_0_rgba(96,203,189,0.8)] transition-all duration-300 ease-in-out"
+          style={{
+            left: `${indicatorStyle.left - 4}px`,
+            width: `${indicatorStyle.width + 12}px`,
+          }}
+        />
+      )}
     </div>
   );
 }
