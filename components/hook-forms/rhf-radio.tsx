@@ -42,7 +42,7 @@ export default function RHFRadioGroup({
               value={field.value}
               className={
                 row
-                  ? "mt-3 flex flex-row flex-wrap gap-5 md:mt-4"
+                  ? "mt-4 mb-5 flex flex-row flex-wrap gap-6 md:mt-4"
                   : "grid gap-3"
               }
             >

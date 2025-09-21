@@ -65,7 +65,7 @@ export default function CarSellingForm() {
           <RHFRadioGroup name="type" options={SELLING_TYPES_OPTIONS} row />
         </div>
 
-        <div className="mt-2 flex flex-row justify-start gap-4 lg:gap-5">
+        <div className="flex flex-row justify-start gap-4 lg:gap-5">
           <Button
             size="lg"
             variant="outline"
