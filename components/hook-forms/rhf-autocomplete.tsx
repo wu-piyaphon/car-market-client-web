@@ -7,10 +7,12 @@ type RHFAutocompleteProps = AutocompleteCommonProps & {
   name: string;
   label: string;
   options: Option[];
+  className?: string;
 };
 
 export default function RHFAutocomplete({
   name,
+  className,
   ...props
 }: RHFAutocompleteProps) {
   const { control } = useFormContext();
@@ -20,7 +22,7 @@ export default function RHFAutocomplete({
       control={control}
       name={name}
       render={({ field }) => (
-        <FormItem>
+        <FormItem className={className}>
           <FormControl>
             <Autocomplete {...field} {...props} />
           </FormControl>
