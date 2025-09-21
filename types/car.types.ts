@@ -14,3 +14,5 @@ export type CarListItem = {
   isActive: boolean;
   slug: string;
 };
+
+export type CarSellingType = "CONSIGNMENT" | "OWNER";
