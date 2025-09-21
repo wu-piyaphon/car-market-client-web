@@ -20,7 +20,16 @@ export default function Form<T>({
 }: Props<T>) {
   return (
     <FormProvider {...methods}>
-      <form onSubmit={onSubmit} {...props}>
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+
+          if (onSubmit) {
+            onSubmit();
+          }
+        }}
+        {...props}
+      >
         {children}
       </form>
     </FormProvider>

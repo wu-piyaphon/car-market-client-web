@@ -8,6 +8,7 @@ type Props = React.ComponentProps<"div"> & {
   placeholder?: string;
   InputProps?: React.ComponentProps<"input">;
   isNumeric?: boolean;
+  required?: boolean;
 };
 
 export default function RHFTextField({
@@ -16,6 +17,7 @@ export default function RHFTextField({
   placeholder,
   InputProps,
   isNumeric = false,
+  required = false,
   ...other
 }: Props) {
   const { control } = useFormContext();
@@ -37,6 +39,7 @@ export default function RHFTextField({
                 }
                 field.onChange(e);
               }}
+              required={required}
             />
           </FormControl>
         </FormItem>
