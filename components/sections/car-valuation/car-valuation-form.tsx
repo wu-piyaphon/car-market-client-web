@@ -1,20 +1,46 @@
 "use client";
 
+import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
 import Form from "@/components/hook-forms/form";
 import RHFAutocomplete from "@/components/hook-forms/rhf-autocomplete";
 import RHFRadioGroup from "@/components/hook-forms/rhf-radio";
 import RHFTextField from "@/components/hook-forms/rhf-textfield";
+import RHFUpload from "@/components/hook-forms/rhf-upload";
 import { Button } from "@/components/ui/button";
+import {
+  type CarValuationSchema,
+  carValuationSchema,
+} from "@/lib/schemas/car-valuation-schema";
+
+// ----------------------------------------------------------------------
 
 const FINANCE_OPTIONS = [
   { name: "ติดไฟแนนซ์", id: "true" },
   { name: "ผ่อนชำระครบแล้ว", id: "false" },
 ];
 
+const CAR_IMAGE_SLOTS = [
+  { id: "front-left", label: "รูปรถหน้าซ้าย" },
+  { id: "front-right", label: "รูปรถหน้าขวา" },
+  { id: "back-left", label: "รูปรถหลังซ้าย" },
+  { id: "back-right", label: "รูปรถหลังขวา" },
+  { id: "console", label: "รูปคอนโชล์" },
+  { id: "engine", label: "รูปห้องเครื่อง" },
+  { id: "front-seats", label: "รูปภายใน(หน้า)" },
+  { id: "back-seats", label: "รูปภายใน(หลัง)" },
+  { id: "document", label: "สำเนาทะเบียนรถ" },
+  { id: "document-1", label: "สำเนาทะเบียนรถ" },
+  { id: "document-2", label: "สำเนาทะเบียนรถ(หน้า 16)" },
+  { id: "document-3", label: "สำเนาทะเบียนรถ(หน้า 18)" },
+];
+
+// ----------------------------------------------------------------------
+
 export default function CarValuationForm() {
-  const methods = useForm({
+  const methods = useForm<CarValuationSchema>({
+    resolver: zodResolver(carValuationSchema),
     defaultValues: {
       brand: "",
       model: "",
@@ -24,6 +50,7 @@ export default function CarValuationForm() {
       firstName: "",
       phoneNumber: "",
       lineId: "",
+      images: [],
     },
   });
 
@@ -85,17 +112,27 @@ export default function CarValuationForm() {
     </div>
   );
 
+  const renderUploadImageForm = (
+    <div className="grid grid-cols-2 gap-3 md:grid-cols-3 md:gap-4 lg:grid-cols-4 lg:gap-6">
+      {CAR_IMAGE_SLOTS.map((slot) => (
+        <RHFUpload
+          key={slot.id}
+          name={`images.${slot.id}`}
+          label={slot.label}
+        />
+      ))}
+    </div>
+  );
+
   return (
     <Form methods={methods}>
       <div className="mt-7 flex flex-col gap-7 md:mt-8 md:gap-8 lg:mt-10 lg:gap-10">
+        {renderUploadImageForm}
+
         {renderCarForm}
-
         <hr className="hidden border-dashed md:block" />
-
         {renderFinanceForm}
-
         <hr className="hidden border-dashed md:block" />
-
         {renderContactForm}
       </div>
 
