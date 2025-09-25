@@ -42,11 +42,11 @@ export default function RHFUpload({
   required = false,
   placeholderImage = (
     <Image
-      width={60}
-      height={60}
+      width={80}
+      height={80}
       alt="Image placeholder"
       src="/images/placeholder/car-placeholder.svg"
-      className="lg:20 w-10 object-contain md:w-15"
+      className="w-10 object-contain md:w-15 lg:w-25"
     />
   ),
   className,
@@ -114,6 +114,8 @@ export default function RHFUpload({
       render={({ field }) => {
         console.log("🚀 ~ RHFUpload ~ field:", field);
 
+        const hasFile = !!field.value;
+
         return (
           <FormItem
             className={cn(
@@ -143,33 +145,35 @@ export default function RHFUpload({
                   className="hidden"
                   id={`upload-${name}`}
                 />
-                <div className="relative flex h-full w-full cursor-pointer flex-col items-center justify-center p-4">
-                  {field.value ? (
-                    <div className="flex flex-wrap gap-2">
+                <div className="relative flex h-full w-full cursor-pointer flex-col items-center justify-center px-2 pt-2 md:px-3 md:pt-3 lg:px-4 lg:pt-4">
+                  {hasFile ? (
+                    <div className="relative mb-8 h-full w-full rounded-md md:mb-13 lg:mb-17">
                       <Image
                         fill
-                        src={field.value.preview}
                         alt="Uploaded file"
-                        className="object-cover"
+                        src={field.value.preview}
+                        className="rounded-md object-cover"
                       />
                     </div>
                   ) : (
-                    <div className="flex flex-col items-center text-center">
+                    <div className="mb-2 md:mb-4 lg:mb-8">
                       {placeholderImage}
                     </div>
                   )}
 
-                  <button
-                    type="button"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      handleRemoveFile(field);
-                    }}
-                    className="-right-2 -top-2 md:-right-3 md:-top-3 absolute flex h-6 w-6 cursor-pointer items-center justify-center rounded-full bg-red-500 text-white hover:bg-red-600 md:h-8 md:w-8"
-                  >
-                    <X className="h-4 w-4 md:h-6 md:w-6" />
-                  </button>
-                  <span className="absolute bottom-2 font-bold text-base text-slate-900 md:bottom-8 md:mt-4 md:text-xl lg:bottom-8 lg:mt-6 lg:text-3xl">
+                  {hasFile && (
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        handleRemoveFile(field);
+                      }}
+                      className="-right-2 -top-2 md:-right-3 md:-top-3 absolute flex h-6 w-6 cursor-pointer items-center justify-center rounded-full bg-red-500 text-white hover:bg-red-600 md:h-8 md:w-8"
+                    >
+                      <X className="h-4 w-4 md:h-6 md:w-6" />
+                    </button>
+                  )}
+                  <span className="absolute bottom-2 font-bold text-base text-slate-900 md:bottom-4 md:text-xl lg:bottom-6 lg:text-3xl">
                     {label}
                   </span>
                 </div>
