@@ -15,6 +15,7 @@ export default function RHFAutocomplete({
   name,
   required = false,
   className,
+  InputProps,
   ...props
 }: RHFAutocompleteProps) {
   const { control } = useFormContext();
@@ -26,7 +27,11 @@ export default function RHFAutocomplete({
       render={({ field }) => (
         <FormItem className={className}>
           <FormControl>
-            <Autocomplete {...field} {...props} InputProps={{ required }} />
+            <Autocomplete
+              {...field}
+              {...props}
+              InputProps={{ required, ...InputProps }}
+            />
           </FormControl>
         </FormItem>
       )}

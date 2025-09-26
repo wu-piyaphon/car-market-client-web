@@ -41,6 +41,7 @@ export default function RHFUpload({
   const [dragActive, setDragActive] = useState(false);
 
   const handleFileUpload = (files: FileList | null, field: FieldProps) => {
+    console.log("upload");
     if (!files || files.length === 0) return;
 
     Array.from(files).forEach((file, index) => {
@@ -52,6 +53,20 @@ export default function RHFUpload({
   };
 
   const handleRemoveFile = (field: FieldProps) => {
+    // Clean up object URL to prevent memory leaks
+    if (field.value instanceof File) {
+      const currentUrl = URL.createObjectURL(field.value);
+      URL.revokeObjectURL(currentUrl);
+    }
+
+    // Reset the file input value to allow re-uploading the same file
+    const fileInput = document.getElementById(
+      `upload-${name}`,
+    ) as HTMLInputElement;
+    if (fileInput) {
+      fileInput.value = "";
+    }
+
     field.onChange(undefined);
   };
 

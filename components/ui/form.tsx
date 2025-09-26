@@ -86,9 +86,7 @@ function FormLabel({
   className,
   ...props
 }: React.ComponentProps<typeof LabelPrimitive.Root>) {
-  const { error, formItemId, name } = useFormField();
-  const { watch } = useFormContext();
-  const value = watch(name);
+  const { error, formItemId } = useFormField();
 
   return (
     <Label
@@ -96,7 +94,6 @@ function FormLabel({
       data-error={!!error}
       className={cn(
         "font-normal text-base text-neutral-500 data-[error=true]:text-destructive",
-        value ? "text-sm lg:text-lg" : "text-base lg:text-lg",
         className,
       )}
       htmlFor={formItemId}
