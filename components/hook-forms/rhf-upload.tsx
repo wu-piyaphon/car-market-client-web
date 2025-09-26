@@ -9,16 +9,9 @@ import {
   useFormContext,
 } from "react-hook-form";
 import { cn } from "@/lib/utils";
-import { FormControl, FormField, FormItem, FormMessage } from "../ui/form";
+import { FormControl, FormField, FormItem } from "../ui/form";
 
 // ----------------------------------------------------------------------
-
-interface UploadedFile {
-  id: string;
-  file: File;
-  preview: string;
-  label?: string;
-}
 
 type FieldProps = ControllerRenderProps<FieldValues, string>;
 
@@ -28,7 +21,7 @@ type Props = React.ComponentProps<"div"> & {
   accept?: string;
   helperText?: string;
   placeholder?: string;
-  placeholderImage?: React.ReactNode;
+  placeholderImage?: string;
   required?: boolean;
 };
 
@@ -40,45 +33,21 @@ export default function RHFUpload({
   accept = "image/*",
   helperText,
   required = false,
-  placeholderImage = (
-    <Image
-      width={80}
-      height={80}
-      alt="Image placeholder"
-      src="/images/placeholder/car-placeholder.svg"
-      className="w-10 object-contain md:w-15 lg:w-25"
-    />
-  ),
+  placeholderImage,
   className,
   ...other
 }: Props) {
   const { control } = useFormContext();
   const [dragActive, setDragActive] = useState(false);
 
-  const handleFileUpload = (
-    files: FileList | null,
-    field: FieldProps,
-    targetSlotId?: string,
-  ) => {
+  const handleFileUpload = (files: FileList | null, field: FieldProps) => {
     if (!files || files.length === 0) return;
 
-    const newFiles: UploadedFile[] = [];
-
     Array.from(files).forEach((file, index) => {
-      if (newFiles.length >= 1) return;
+      if (index > 0) return; // Only handle first file
 
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        const uploadedFile: UploadedFile = {
-          id: targetSlotId || `${Date.now()}-${index}`,
-          file,
-          preview: e.target?.result as string,
-          label: undefined,
-        };
-
-        field.onChange(uploadedFile);
-      };
-      reader.readAsDataURL(file);
+      // For array fields, just set the File object directly
+      field.onChange(file);
     });
   };
 
@@ -96,25 +65,20 @@ export default function RHFUpload({
     }
   };
 
-  const handleDrop = (
-    e: React.DragEvent,
-    field: FieldProps,
-    targetSlotId?: string,
-  ) => {
+  const handleDrop = (e: React.DragEvent, field: FieldProps) => {
     e.preventDefault();
     e.stopPropagation();
     setDragActive(false);
-    handleFileUpload(e.dataTransfer.files, field, targetSlotId);
+    handleFileUpload(e.dataTransfer.files, field);
   };
 
   return (
     <FormField
       control={control}
       name={name}
-      render={({ field }) => {
-        console.log("🚀 ~ RHFUpload ~ field:", field);
-
+      render={({ field, fieldState: { error } }) => {
         const hasFile = !!field.value;
+        const previewUrl = hasFile ? URL.createObjectURL(field.value) : null;
 
         return (
           <FormItem
@@ -124,7 +88,7 @@ export default function RHFUpload({
             )}
             {...other}
           >
-            <FormControl>
+            <FormControl className={cn(error && "border-red-500")}>
               <label
                 htmlFor={`upload-${name}`}
                 className={cn(
@@ -139,27 +103,34 @@ export default function RHFUpload({
                 onDrop={(e) => handleDrop(e, field)}
               >
                 <input
+                  id={`upload-${name}`}
                   type="file"
                   accept={accept}
                   onChange={(e) => handleFileUpload(e.target.files, field)}
                   className="hidden"
-                  id={`upload-${name}`}
                 />
                 <div className="relative flex h-full w-full cursor-pointer flex-col items-center justify-center px-2 pt-2 md:px-3 md:pt-3 lg:px-4 lg:pt-4">
-                  {hasFile ? (
-                    <div className="relative mb-8 h-full w-full rounded-md md:mb-13 lg:mb-17">
+                  <div className="relative mb-8 flex h-full w-full justify-center rounded-md md:mb-13 lg:mb-17">
+                    {previewUrl ? (
                       <Image
                         fill
                         alt="Uploaded file"
-                        src={field.value.preview}
+                        src={previewUrl}
                         className="rounded-md object-cover"
                       />
-                    </div>
-                  ) : (
-                    <div className="mb-2 md:mb-4 lg:mb-8">
-                      {placeholderImage}
-                    </div>
-                  )}
+                    ) : (
+                      <Image
+                        fill={!!placeholderImage}
+                        width={placeholderImage ? undefined : 80}
+                        height={placeholderImage ? undefined : 80}
+                        alt="Image placeholder"
+                        src={
+                          placeholderImage || "/images/placeholder/image.png"
+                        }
+                        className="w-10 object-contain opacity-60 md:w-15 lg:w-25"
+                      />
+                    )}
+                  </div>
 
                   {hasFile && (
                     <button
@@ -179,7 +150,6 @@ export default function RHFUpload({
                 </div>
               </label>
             </FormControl>
-            <FormMessage />
           </FormItem>
         );
       }}

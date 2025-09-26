@@ -10,31 +10,17 @@ import RHFTextField from "@/components/hook-forms/rhf-textfield";
 import RHFUpload from "@/components/hook-forms/rhf-upload";
 import { Button } from "@/components/ui/button";
 import {
+  CAR_IMAGE_SLOTS,
+  FINANCE_OPTIONS,
+} from "@/lib/constants/car-valuation.constant";
+import {
   type CarValuationSchema,
   carValuationSchema,
 } from "@/lib/schemas/car-valuation-schema";
 
 // ----------------------------------------------------------------------
 
-const FINANCE_OPTIONS = [
-  { name: "ติดไฟแนนซ์", id: "true" },
-  { name: "ผ่อนชำระครบแล้ว", id: "false" },
-];
-
-const CAR_IMAGE_SLOTS = [
-  { id: "front-left", label: "รูปรถหน้าซ้าย" },
-  { id: "front-right", label: "รูปรถหน้าขวา" },
-  { id: "back-left", label: "รูปรถหลังซ้าย" },
-  { id: "back-right", label: "รูปรถหลังขวา" },
-  { id: "console", label: "รูปคอนโชล์" },
-  { id: "engine", label: "รูปห้องเครื่อง" },
-  { id: "front-seats", label: "รูปภายใน(หน้า)" },
-  { id: "back-seats", label: "รูปภายใน(หลัง)" },
-  { id: "document", label: "สำเนาทะเบียนรถ" },
-  { id: "document-1", label: "สำเนาทะเบียนรถ" },
-  { id: "document-2", label: "สำเนาทะเบียนรถ(หน้า 16)" },
-  { id: "document-3", label: "สำเนาทะเบียนรถ(หน้า 18)" },
-];
+const PLACEHOLDER_IMAGE_PATH = "/images/placeholder/car-valuation";
 
 // ----------------------------------------------------------------------
 
@@ -50,9 +36,19 @@ export default function CarValuationForm() {
       firstName: "",
       phoneNumber: "",
       lineId: "",
-      images: [],
+      images: new Array(12).fill(undefined),
     },
   });
+
+  const { handleSubmit } = methods;
+
+  // ----------------------------------------------------------------------
+
+  const onSubmit = handleSubmit((data) => {
+    console.log(data);
+  });
+
+  // ----------------------------------------------------------------------
 
   const renderCarForm = (
     <div className="space-y-2 md:space-y-4 lg:space-y-6">
@@ -65,9 +61,16 @@ export default function CarValuationForm() {
           name="brand"
           label="ยี่ห้อรถ"
           className="flex-2/5"
+          required
         />
-        <RHFTextField name="model" label="รุ่นรถ" className="flex-2/5" />
-        <RHFTextField name="year" label="ปีรถ" className="flex-1/5" />
+        <RHFTextField name="model" label="รุ่นรถ" className="flex-2/5" required />
+        <RHFTextField
+          name="year"
+          label="ปีรถ"
+          className="flex-1/5"
+          isNumeric
+          required
+        />
       </div>
     </div>
   );
@@ -84,6 +87,7 @@ export default function CarValuationForm() {
         row
       />
       <RHFTextField
+        isNumeric
         name="installmentsInMonth"
         label="รอบงวดที่ค้าง (เดือน)"
         className="md:max-w-[260px] lg:max-w-[300px]"
@@ -101,6 +105,7 @@ export default function CarValuationForm() {
         <RHFTextField
           name="phoneNumber"
           label="เบอร์โทรศัพท์"
+          isNumeric
           className="flex-1"
         />
         <RHFTextField
@@ -114,11 +119,17 @@ export default function CarValuationForm() {
 
   const renderUploadImageForm = (
     <div className="grid grid-cols-2 gap-3 md:grid-cols-3 md:gap-4 lg:grid-cols-4 lg:gap-6">
-      {CAR_IMAGE_SLOTS.map((slot) => (
+      {CAR_IMAGE_SLOTS.map((slot, index) => (
         <RHFUpload
           key={slot.id}
-          name={`images.${slot.id}`}
+          name={`images.${index}`}
           label={slot.label}
+          placeholderImage={
+            slot.placeholderImage
+              ? `${PLACEHOLDER_IMAGE_PATH}${slot.placeholderImage}`
+              : undefined
+          }
+          required
         />
       ))}
     </div>
@@ -140,7 +151,9 @@ export default function CarValuationForm() {
         <Button size="lg" variant="outline" className="hidden md:flex" asChild>
           <Link href="/">กลับสู่หน้าหลัก</Link>
         </Button>
-        <Button size="lg">ส่งประเมินราคา</Button>
+        <Button type="submit" size="lg" onClick={onSubmit}>
+          ส่งประเมินราคา
+        </Button>
       </div>
     </Form>
   );

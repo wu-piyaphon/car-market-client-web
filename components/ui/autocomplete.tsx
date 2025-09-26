@@ -11,6 +11,7 @@ import {
   CommandItem,
   CommandList,
 } from "./command";
+import { FormControl } from "./form";
 import { Input } from "./input";
 import { Popover, PopoverAnchor, PopoverContent } from "./popover";
 import { Skeleton } from "./skeleton";
@@ -27,9 +28,9 @@ export type AutocompleteCommonProps = {
 
 type AutocompleteProps<T extends string> = AutocompleteCommonProps & {
   value: T;
-  onChange: (value: T) => void;
   options: Option[];
   emptyMessage?: string;
+  onChange: (value: T) => void;
 };
 
 // ----------------------------------------------------------------------
@@ -110,31 +111,33 @@ export function Autocomplete<T extends string>({
               onFocus={() => setOpen(true)}
               onBlur={onInputBlur}
             >
-              <Input
-                ref={inputRef}
-                label={label}
-                value={searchInput}
-                disabled={disabled}
-                endIcon={
-                  <button
-                    type="button"
-                    disabled={disabled}
-                    onClick={handleClickDropdown}
-                    className={cn(
-                      "flex cursor-pointer items-center justify-center",
-                      disabled && "opacity-50",
-                    )}
-                    aria-label="Toggle dropdown"
-                  >
-                    {PopoverContentProps?.side === "right" ? (
-                      <ChevronRight className="size-4 lg:size-6" />
-                    ) : (
-                      <ChevronDown className="size-4 lg:size-6" />
-                    )}
-                  </button>
-                }
-                {...InputProps}
-              />
+              <FormControl>
+                <Input
+                  ref={inputRef}
+                  label={label}
+                  value={searchInput}
+                  disabled={disabled}
+                  endIcon={
+                    <button
+                      type="button"
+                      disabled={disabled}
+                      onClick={handleClickDropdown}
+                      className={cn(
+                        "flex cursor-pointer items-center justify-center",
+                        disabled && "opacity-50",
+                      )}
+                      aria-label="Toggle dropdown"
+                    >
+                      {PopoverContentProps?.side === "right" ? (
+                        <ChevronRight className="size-4 lg:size-6" />
+                      ) : (
+                        <ChevronDown className="size-4 lg:size-6" />
+                      )}
+                    </button>
+                  }
+                  {...InputProps}
+                />
+              </FormControl>
             </CommandPrimitive.Input>
           </PopoverAnchor>
           {!open && <CommandList aria-hidden="true" className="hidden" />}

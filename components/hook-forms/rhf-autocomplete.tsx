@@ -1,17 +1,19 @@
 import { useFormContext } from "react-hook-form";
 import type { Option } from "@/types/common.types";
 import { Autocomplete, type AutocompleteCommonProps } from "../ui/autocomplete";
-import { FormControl, FormField, FormItem, FormMessage } from "../ui/form";
+import { FormControl, FormField, FormItem } from "../ui/form";
 
 type RHFAutocompleteProps = AutocompleteCommonProps & {
   name: string;
   label: string;
   options: Option[];
+  required?: boolean;
   className?: string;
 };
 
 export default function RHFAutocomplete({
   name,
+  required = false,
   className,
   ...props
 }: RHFAutocompleteProps) {
@@ -24,9 +26,8 @@ export default function RHFAutocomplete({
       render={({ field }) => (
         <FormItem className={className}>
           <FormControl>
-            <Autocomplete {...field} {...props} />
+            <Autocomplete {...field} {...props} InputProps={{ required }} />
           </FormControl>
-          <FormMessage />
         </FormItem>
       )}
     />

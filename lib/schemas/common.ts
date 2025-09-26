@@ -24,4 +24,8 @@ export const SCHEMA = {
       .optional()
       .or(z.literal("")),
   },
+  boolean: {
+    required: z.boolean().refine((val) => val === true),
+    optional: z.boolean().optional(),
+  },
 };
