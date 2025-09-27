@@ -24,7 +24,7 @@ export function CarouselThumbnails({
     <div className="relative h-1/4">
       <div
         ref={thumbnailsRef}
-        className="scrollbar-hide flex h-full gap-3 overflow-x-auto p-1 md:gap-5"
+        className="scrollbar-hide flex h-full gap-3 overflow-x-auto p-1 px-6 md:gap-5 md:px-1"
         style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
       >
         {images.map((image, index) => (
@@ -47,7 +47,7 @@ export function CarouselThumbnails({
               className={cn(
                 "object-cover duration-200",
                 selectedIndex === index
-                  ? "rounded-2xl opacity-100 md:p-2"
+                  ? "rounded-2xl p-1 opacity-100 md:p-2"
                   : "opacity-70 hover:opacity-90",
               )}
               sizes="300px"

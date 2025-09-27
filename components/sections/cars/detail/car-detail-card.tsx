@@ -58,9 +58,11 @@ export default function CarDetailCard({ data }: CarDetailInfoProps) {
       {carSpecifications.map((spec) => (
         <div
           key={spec.label}
-          className="flex justify-between border-gray-100 border-b pb-2 font-bold text-lg lg:text-xl"
+          className="flex justify-start border-gray-100 border-b pb-2 font-bold text-lg md:justify-between lg:text-xl"
         >
-          <span className="text-neutral-500">{spec.label}</span>
+          <span className="w-[60%] text-neutral-500 md:w-fit">
+            {spec.label}
+          </span>
           <span className="text-slate-900">{spec.value}</span>
         </div>
       ))}
@@ -89,7 +91,7 @@ export default function CarDetailCard({ data }: CarDetailInfoProps) {
 
   return (
     <aside aria-label="Car information">
-      <Card className="gap-5">
+      <Card className="gap-5 border-none pb-0 shadow-none md:border md:shadow-sm">
         <CardHeader className="gap-3">
           <CardTitle className="font-bold text-3xl text-slate-900 lg:text-6xl">
             {brand.name} {model} ({subModel})

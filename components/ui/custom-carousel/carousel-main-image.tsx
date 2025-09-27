@@ -23,7 +23,7 @@ export function CarouselMainImage({
 }: CarouselMainImageProps) {
   return (
     <div
-      className="group relative aspect-video h-3/4 w-full overflow-hidden rounded-lg"
+      className="group relative aspect-video h-3/4 w-full overflow-hidden md:rounded-lg"
       role="img"
       aria-label={CAROUSEL_LABELS.MAIN_IMAGE(selectedIndex, totalImages)}
     >
@@ -31,9 +31,9 @@ export function CarouselMainImage({
         src={currentImage}
         alt={`Car image ${selectedIndex + 1}`}
         fill
-        className="object-cover"
-        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 70vw"
-        priority={selectedIndex === 0}
+        priority
+        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 100vw"
+        className="cursor-pointer object-cover"
       />
 
       {/* Navigation Arrows */}
@@ -66,7 +66,7 @@ export function CarouselMainImage({
       )}
 
       {/* Image Counter */}
-      <div className="absolute right-4 bottom-4 rounded-full bg-black/50 px-3 py-1 text-sm text-white">
+      <div className="absolute right-4 bottom-4 rounded-full bg-black/50 px-4 py-1 font-bold text-base text-white md:text-lg">
         {CAROUSEL_LABELS.COUNTER(selectedIndex, totalImages)}
       </div>
     </div>
