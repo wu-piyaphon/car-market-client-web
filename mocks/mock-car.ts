@@ -1,4 +1,4 @@
-import type { CarListItem } from "@/types/car.types";
+import type { CarDetail, CarListItem } from "@/types/car.types";
 
 export const CAR_LIST_ITEM: CarListItem = {
   id: "fe14f076-69eb-4bc6-9777-7fa861f512ff",
@@ -88,3 +88,48 @@ export const CAR_LIST: CarListItem[] = [
     slug: "honda-w-model-mw25-2025-1757356132086",
   },
 ];
+
+export const CAR_DETAIL: CarDetail = {
+  id: "fe14f076-69eb-4bc6-9777-7fa861f512ff",
+  slug: "honda-w-model-mw25-2025-1757356132086",
+  model: "W-Model",
+  subModel: "MW25",
+  modelYear: 2025,
+  transmission: "AUTOMATIC",
+  color: "gray",
+  engineType: "GASOLINE",
+  engineCapacity: 500,
+  mileage: 100000,
+  price: 4000000,
+  images: [
+    "https://good-car-market-ap-southeast-7.s3.ap-southeast-7.amazonaws.com/cars/1757356131873/1.webp",
+    "https://good-car-market-ap-southeast-7.s3.ap-southeast-7.amazonaws.com/cars/1757356131874/2.webp",
+    "https://good-car-market-ap-southeast-7.s3.ap-southeast-7.amazonaws.com/cars/1757356131874/3.webp",
+    "https://good-car-market-ap-southeast-7.s3.ap-southeast-7.amazonaws.com/cars/1757356131874/4.webp",
+    "https://good-car-market-ap-southeast-7.s3.ap-southeast-7.amazonaws.com/cars/1757356131874/5.webp",
+    "https://good-car-market-ap-southeast-7.s3.ap-southeast-7.amazonaws.com/cars/1757356131874/6.webp",
+    "https://good-car-market-ap-southeast-7.s3.ap-southeast-7.amazonaws.com/cars/1757356131874/7.webp",
+    "https://good-car-market-ap-southeast-7.s3.ap-southeast-7.amazonaws.com/cars/1757356131874/8.webp",
+    "https://good-car-market-ap-southeast-7.s3.ap-southeast-7.amazonaws.com/cars/1757356131874/9.webp",
+    "https://good-car-market-ap-southeast-7.s3.ap-southeast-7.amazonaws.com/cars/1757356131874/10.webp",
+  ],
+  previousLicensePlate: "กข 0001",
+  newLicensePlate: "ขค 0001",
+  isActive: true,
+  salesType: "OWNER",
+  createdAt: "2025-09-08T18:28:52.091Z",
+  updatedAt: "2025-09-08T18:28:52.091Z",
+  brand: {
+    id: "18247c21-15fb-499f-80ff-95414cf0093f",
+    image:
+      "https://good-car-market-ap-southeast-7.s3.ap-southeast-7.amazonaws.com/car-brands/1757100417242/honda.png",
+    name: "Honda",
+  },
+  type: {
+    id: "59cea8bf-e79b-4944-8e97-d95a5a596d6b",
+    image:
+      "https://good-car-market-ap-southeast-7.s3.ap-southeast-7.amazonaws.com/car-types/1757099750952/pickup.svg",
+    name: "PICKUP",
+  },
+  category: null,
+};
