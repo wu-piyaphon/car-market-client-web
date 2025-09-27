@@ -4,8 +4,8 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { paths } from "@/lib/paths";
 import Container from "../container";
-import NavLinks from "./nav-links";
-import NavMobile from "./nav-mobile";
+import NavMenus from "./nav-menus";
+import NavbarLinks from "./navbar-links";
 
 // ----------------------------------------------------------------------
 
@@ -19,6 +19,18 @@ export const NAV_ITEMS = [
     name: "ค้นหารถ",
     href: paths.cars.list,
     icon: <Search className="size-4 lg:size-6" />,
+  },
+  {
+    name: "ขายรถ/ลงประกาศ",
+    href: paths.form.selling,
+    icon: <Phone className="size-4 lg:size-6" />,
+    isOnlyMobile: true,
+  },
+  {
+    name: "ประเมินราคา",
+    href: paths.form.estimate,
+    icon: <Info className="size-4 lg:size-6" />,
+    isOnlyMobile: true,
   },
   {
     name: "คำนวณสินเชื่อ",
@@ -55,7 +67,7 @@ export default function Navbar() {
             />
           </Link>
 
-          <NavLinks />
+          <NavbarLinks />
         </div>
 
         <div className="hidden items-center space-x-2 md:flex">
@@ -67,7 +79,7 @@ export default function Navbar() {
           </Button>
         </div>
 
-        <NavMobile />
+        <NavMenus />
       </Container>
     </nav>
   );

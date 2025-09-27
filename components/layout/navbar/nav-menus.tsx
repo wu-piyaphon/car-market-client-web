@@ -11,7 +11,7 @@ import { NAV_ITEMS } from "./navbar";
 
 // ----------------------------------------------------------------------
 
-export default function NavMobile() {
+export default function NavMenus() {
   const pathname = usePathname();
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);

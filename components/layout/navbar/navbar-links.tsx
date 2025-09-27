@@ -8,7 +8,7 @@ import { NAV_ITEMS } from "./navbar";
 
 // ----------------------------------------------------------------------
 
-export default function NavLinks() {
+export default function NavbarLinks() {
   const pathname = usePathname();
 
   const navRef = useRef<HTMLDivElement>(null);
@@ -61,7 +61,7 @@ export default function NavLinks() {
       ref={navRef}
       className="relative hidden h-full justify-between gap-8 md:flex lg:gap-10"
     >
-      {NAV_ITEMS.map((item) => {
+      {NAV_ITEMS.filter((item) => !item.isOnlyMobile).map((item) => {
         return (
           <Link
             key={item.name}
