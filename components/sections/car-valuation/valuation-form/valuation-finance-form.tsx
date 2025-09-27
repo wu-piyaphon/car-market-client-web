@@ -1,7 +1,7 @@
 import { useFormContext, useWatch } from "react-hook-form";
 import RHFRadioGroup from "@/components/hook-forms/rhf-radio";
 import RHFTextField from "@/components/hook-forms/rhf-textfield";
-import { FINANCE_OPTIONS } from "@/lib/constants/car-valuation.constant";
+import { FINANCE_OPTIONS } from "@/lib/constants/car-valuation.constants";
 import type { CarValuationSchema } from "@/lib/schemas/car-valuation-schema";
 
 export default function ValuationFinanceForm() {

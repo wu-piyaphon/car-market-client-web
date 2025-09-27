@@ -4,7 +4,7 @@ import {
   CAR_COLORS,
   CAR_ENGINE_TYPES,
   CAR_TRANSMISSIONS,
-} from "@/lib/constants/car.constant";
+} from "@/lib/constants/car.constants";
 import { fCurrency } from "@/lib/format-string";
 import type { CarDetail } from "@/types/car.types";
 

@@ -1,5 +1,5 @@
 import RHFUpload from "@/components/hook-forms/rhf-upload";
-import { CAR_IMAGE_SLOTS } from "@/lib/constants/car-valuation.constant";
+import { CAR_IMAGE_SLOTS } from "@/lib/constants/car-valuation.constants";
 
 // ----------------------------------------------------------------------
 
