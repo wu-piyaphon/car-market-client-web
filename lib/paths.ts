@@ -1,7 +1,9 @@
 export const paths = {
   home: "/",
-  cars: "/cars",
-  carDetails: (id: string) => `/cars/${id}`,
+  cars: {
+    list: "/cars",
+    detail: (slug: string) => `/cars/${slug}`,
+  },
   loanCalculator: "/loan-calculator",
   aboutUs: "/about-us",
   contactUs: "/contact-us",

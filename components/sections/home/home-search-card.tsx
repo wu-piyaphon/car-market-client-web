@@ -14,7 +14,7 @@ export default function HomeSearchCard() {
         asChild
         className="absolute bottom-3.5 mx-5 h-10 w-[calc(100%-40px)] rounded-md bg-white bg-opacity-30 bg-clip-padding backdrop-blur backdrop-contrast-50 backdrop-saturate-100 backdrop-filter md:hidden"
       >
-        <Link href={paths.cars}>
+        <Link href={paths.cars.list}>
           <Search /> ค้นหารถ
         </Link>
       </Button>

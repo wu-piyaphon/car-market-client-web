@@ -17,7 +17,7 @@ export const NAV_ITEMS = [
   },
   {
     name: "ค้นหารถ",
-    href: paths.cars,
+    href: paths.cars.list,
     icon: <Search className="size-4 lg:size-6" />,
   },
   {

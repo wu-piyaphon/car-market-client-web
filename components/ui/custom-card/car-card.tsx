@@ -1,6 +1,8 @@
 import Image from "next/image";
+import Link from "next/link";
 import type { ComponentProps } from "react";
 import { fCurrency } from "@/lib/format-string";
+import { paths } from "@/lib/paths";
 import type { CarListItem } from "@/types/car.types";
 import { Button } from "../button";
 
@@ -9,7 +11,7 @@ type CarCardProps = ComponentProps<"div"> & {
 };
 
 export default function CarCard({ item }: CarCardProps) {
-  const { thumbnail, model, subModel, type, modelYear, price } = item;
+  const { thumbnail, model, subModel, type, modelYear, price, slug } = item;
 
   return (
     <article className="rounded-md shadow-sm">
@@ -39,8 +41,14 @@ export default function CarCard({ item }: CarCardProps) {
 
         <div className="flex flex-wrap items-center justify-between">
           <p className="text-base md:text-xl">ปี {modelYear}</p>
-          <Button className="h-6 gap-1 px-1.5 font-bold text-sm md:h-8 md:text-lg lg:h-9">
-            {fCurrency(price)} <span className="text-sm md:text-base">บาท</span>
+          <Button
+            className="h-6 gap-1 px-1.5 font-bold text-sm md:h-8 md:text-lg lg:h-9"
+            asChild
+          >
+            <Link href={paths.cars.detail(slug)}>
+              {fCurrency(price)}{" "}
+              <span className="text-sm md:text-base">บาท</span>
+            </Link>
           </Button>
         </div>
       </div>
