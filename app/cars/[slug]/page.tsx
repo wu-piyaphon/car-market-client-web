@@ -13,16 +13,16 @@ export default async function Page({ params }: PageProps) {
   console.log("🚀 ~ Page ~ slug:", slug);
 
   return (
-    <Container className="space-y-16 md:mt-12">
-      <div className="flex flex-row justify-between gap-4">
-        <CarDetailCarousel images={CAR_DETAIL.images} />
+    <Container className="py-6 md:py-12">
+      <section className="mb-12 md:mb-16" aria-labelledby="car-details">
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-[minmax(0,_1fr)_350px] lg:grid-cols-[minmax(0,_1fr)_400px] lg:gap-8">
+          <CarDetailCarousel images={CAR_DETAIL.images} />
 
-        <CarDetailCard data={CAR_DETAIL} />
-      </div>
+          <CarDetailCard data={CAR_DETAIL} />
+        </div>
+      </section>
 
-      <div className="hidden md:flex">
-        <LoanCalculatorForm />
-      </div>
+      <LoanCalculatorForm />
     </Container>
   );
 }

@@ -88,8 +88,8 @@ export default function CarDetailCard({ data }: CarDetailInfoProps) {
   // ----------------------------------------------------------------------
 
   return (
-    <div className="w-full max-w-md">
-      <Card className="gap-5 p-6">
+    <aside aria-label="Car information">
+      <Card className="gap-5">
         <CardHeader className="gap-3">
           <CardTitle className="font-bold text-3xl text-slate-900 lg:text-6xl">
             {brand.name} {model} ({subModel})
@@ -105,6 +105,6 @@ export default function CarDetailCard({ data }: CarDetailInfoProps) {
           {renderAction}
         </CardContent>
       </Card>
-    </div>
+    </aside>
   );
 }
