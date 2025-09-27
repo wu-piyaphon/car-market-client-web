@@ -46,7 +46,7 @@ export default function Navbar() {
         <div className="flex h-full flex-auto items-center gap-6 lg:gap-14">
           <Link href={paths.home} className="shrink-0">
             <Image
-              src="logo.svg"
+              src="/logo.svg"
               alt="GoodCarMarket Logo"
               width={114}
               height={38}
