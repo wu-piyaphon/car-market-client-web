@@ -2,6 +2,7 @@ import { API_ENDPOINTS, fetcher } from "@/lib/api";
 import type { APIRequestOptions } from "@/lib/api/server-fetcher";
 import { buildSearchParams } from "@/lib/params";
 import type { GetCarsQueryParams, GetCarsResponse } from "@/types/car.types";
+import type { GetCarFiltersResponse } from "@/types/car-filter.types";
 
 export async function getCars(
   params?: GetCarsQueryParams,
@@ -41,6 +42,27 @@ export async function getCarBySlug(slug: string) {
     return {
       success: false,
       error: error instanceof Error ? error.message : "Failed to fetch car",
+    };
+  }
+}
+
+// ----------------------------------------------------------------------
+
+export async function getCarFilters() {
+  try {
+    const response = await fetcher.get<GetCarFiltersResponse>(
+      API_ENDPOINTS.CARS.FILTERS,
+    );
+
+    return {
+      success: true,
+      data: response.data,
+    };
+  } catch (error) {
+    console.error("getCarFilters error:", error);
+    return {
+      success: false,
+      error: error instanceof Error ? error.message : "Failed to fetch filters",
     };
   }
 }

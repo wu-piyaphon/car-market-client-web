@@ -1,7 +1,9 @@
 import { MoveUpRight } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 import Container from "@/components/layout/container";
 import { Button } from "@/components/ui/button";
+import { paths } from "@/lib/paths";
 
 export default function HomeAboutUs() {
   return (
@@ -26,7 +28,9 @@ export default function HomeAboutUs() {
             />
           </div>
 
-          <Button size="lg">เกี่ยวกับเรา</Button>
+          <Button size="lg" asChild>
+            <Link href={paths.aboutUs}>เกี่ยวกับเรา</Link>
+          </Button>
         </div>
       </Container>
 
@@ -54,7 +58,12 @@ export default function HomeAboutUs() {
               variant="outline"
               className="max-w-fit border-white bg-primary px-4 text-white hover:bg-white/20"
             >
-              เกี่ยวกับเรา <MoveUpRight className="size-5" />
+              <Link
+                href={paths.aboutUs}
+                className="flex flex-row items-center gap-1"
+              >
+                เกี่ยวกับเรา <MoveUpRight className="size-5" />
+              </Link>
             </Button>
           </div>
         </Container>

@@ -49,7 +49,7 @@ async function fetchHomePageCarData(): Promise<CarCardGroup[]> {
   return [...categoryResults, ...typeResults];
 }
 
-export default function Home() {
+export default async function Home() {
   const carsPromise = fetchHomePageCarData();
 
   return (

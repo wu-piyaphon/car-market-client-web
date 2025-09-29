@@ -1,5 +1,7 @@
+import Link from "next/link";
 import type { ComponentProps } from "react";
 import CarCard from "@/components/ui/custom-card/car-card";
+import { paths } from "@/lib/paths";
 import { cn } from "@/lib/utils";
 import type { CarListItem } from "@/types/car.types";
 
@@ -23,7 +25,9 @@ export default function CarCardList({ groups, className }: CarCardListProps) {
         <div key={group.title} className="flex flex-1 flex-col gap-3">
           <div className="flex flex-row items-center justify-between font-bold text-primary">
             <h3 className="text-3xl lg:text-5xl">{group.title}</h3>
-            <p className="cursor-pointer text-xl">ดูทั้งหมด</p>
+            <Link href={paths.cars.list} className="cursor-pointer text-xl">
+              ดูทั้งหมด
+            </Link>
           </div>
 
           <div

@@ -4,9 +4,18 @@ import Container from "@/components/layout/container";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { paths } from "@/lib/paths";
+import { getCarFilters } from "@/services/cars.service";
 import HomeSearchForm from "./home-search-form";
 
-export default function HomeSearchCard() {
+export default async function HomeSearchCard() {
+  const carFilters = await getCarFilters();
+
+  const { types, models, brands } = carFilters.data || {
+    types: [],
+    models: [],
+    brands: [],
+  };
+
   return (
     <div className="relative">
       {/* -- Mobile -- */}
@@ -26,7 +35,11 @@ export default function HomeSearchCard() {
             <CardTitle className="text-neutral-800">ค้นหารถของคุณ</CardTitle>
           </CardHeader>
           <CardContent>
-            <HomeSearchForm />
+            <HomeSearchForm
+              typeOptions={types}
+              modelOptions={models}
+              brandOptions={brands}
+            />
           </CardContent>
         </Card>
       </Container>

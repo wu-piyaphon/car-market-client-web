@@ -2,22 +2,36 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Search } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import Form from "@/components/hook-forms/form";
 import RHFAutocomplete from "@/components/hook-forms/rhf-autocomplete";
 import RHFTextField from "@/components/hook-forms/rhf-textfield";
 import { Button } from "@/components/ui/button";
+import { buildQueryString } from "@/lib/params";
+import { paths } from "@/lib/paths";
 import {
   type CarSearchSchema,
   carSearchSchema,
 } from "@/lib/schemas/cars-search-schema";
-import {
-  CAR_BRANDS,
-  CAR_MODELS,
-  CAR_TYPES,
-} from "../../../mocks/mock-car-options";
+import type {
+  CarFilterImageOption,
+  CarFilterOption,
+} from "@/types/common.types";
 
-export default function HomeSearchForm() {
+type HomeSearchFormProps = {
+  brandOptions: CarFilterImageOption[];
+  modelOptions: CarFilterOption[];
+  typeOptions: CarFilterImageOption[];
+};
+
+export default function HomeSearchForm({
+  brandOptions,
+  modelOptions,
+  typeOptions,
+}: HomeSearchFormProps) {
+  const router = useRouter();
+
   const methods = useForm<CarSearchSchema>({
     resolver: zodResolver(carSearchSchema),
     defaultValues: {
@@ -31,22 +45,10 @@ export default function HomeSearchForm() {
 
   const { handleSubmit } = methods;
 
-  const brandOptions = CAR_BRANDS.map((brand) => ({
-    id: brand.name,
-    name: brand.name,
-  }));
-
-  const modelOptions = CAR_MODELS.map((model) => ({
-    id: model.name,
-    name: model.name,
-  }));
-
-  const typeOptions = CAR_TYPES.map((type) => ({
-    id: type.name,
-    name: type.name,
-  }));
-
-  const onSubmit = handleSubmit((data) => console.log(data));
+  const onSubmit = handleSubmit((data) => {
+    const url = buildQueryString(paths.cars.list, data);
+    router.push(url);
+  });
 
   return (
     <Form methods={methods} onSubmit={onSubmit}>
@@ -56,11 +58,11 @@ export default function HomeSearchForm() {
         <RHFAutocomplete name="type" label="ประเภท" options={typeOptions} />
 
         <div className="grid grid-cols-2 gap-3 lg:gap-5">
-          <RHFTextField name="minPrice" label="ราคาต่ำสุด" />
-          <RHFTextField name="maxPrice" label="ราคาสูงสุด" />
+          <RHFTextField name="minPrice" label="ราคาต่ำสุด" isNumeric />
+          <RHFTextField name="maxPrice" label="ราคาสูงสุด" isNumeric />
         </div>
 
-        <Button size="lg">
+        <Button type="submit" size="lg">
           <Search />
           ค้นหา
         </Button>
