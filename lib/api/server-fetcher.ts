@@ -7,6 +7,11 @@ export type APIRequestOptions = RequestInit & {
   retryDelay?: number;
   // Custom headers that will be merged with defaults
   customHeaders?: Record<string, string>;
+  // Next.js specific fetch options
+  next?: {
+    revalidate?: number | false;
+    tags?: string[];
+  };
 };
 
 export type APIResponse<T = unknown> = {
@@ -67,6 +72,7 @@ class ServerAPIFetcher {
       retries = API_CONFIG.RETRY.ATTEMPTS,
       retryDelay = API_CONFIG.RETRY.DELAY,
       customHeaders,
+      next,
       ...fetchOptions
     } = options;
 
@@ -77,6 +83,8 @@ class ServerAPIFetcher {
       ...fetchOptions,
       headers,
       signal: controller.signal,
+      // Pass Next.js specific options
+      ...(next && { next }),
     };
 
     let lastError: Error | undefined;

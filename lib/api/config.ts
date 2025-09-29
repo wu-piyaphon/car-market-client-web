@@ -40,6 +40,10 @@ export const API_ENDPOINTS = {
     SIMILAR: (id: string) => `/cars/${id}/similar`,
   },
 
+  CAR_TYPES: {
+    LIST: "/car-types",
+  },
+
   // Car valuation endpoints
   VALUATION: {
     CALCULATE: "/valuation/calculate",
