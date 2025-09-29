@@ -19,13 +19,15 @@ export function buildSearchParams(
 
 /**
  * Builds a query string from an object
+ * @param url - Base URL or endpoint
  * @param params - Object containing query parameters
  * @returns Query string (without the leading '?')
  */
 export function buildQueryString(
+  url: string,
   params: Record<string, string | number | boolean | undefined>,
 ): string {
-  return buildSearchParams(params).toString();
+  return `${url}?${buildSearchParams(params).toString()}`;
 }
 
 /**

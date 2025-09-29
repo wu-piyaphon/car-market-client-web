@@ -79,14 +79,12 @@ export async function submitCarValuationExample(
 export async function ServerComponentExample() {
   try {
     // Fetch data in server component
-    const [carsResponse, featuredResponse] = await Promise.all([
+    const [carsResponse] = await Promise.all([
       fetcher.get(API_ENDPOINTS.CARS.LIST + "?featured=true&limit=6"),
-      fetcher.get(API_ENDPOINTS.CARS.FEATURED),
     ]);
 
     return {
       cars: carsResponse.data,
-      featured: featuredResponse.data,
     };
   } catch (error) {
     console.error("Server component data fetch failed:", error);
@@ -94,7 +92,6 @@ export async function ServerComponentExample() {
     // Return empty data or throw based on your needs
     return {
       cars: [],
-      featured: [],
     };
   }
 }

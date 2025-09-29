@@ -35,9 +35,7 @@ export const API_ENDPOINTS = {
   CARS: {
     LIST: "/cars",
     DETAIL: (id: string) => `/cars/${id}`,
-    SEARCH: "/cars/search",
-    FEATURED: "/cars/featured",
-    SIMILAR: (id: string) => `/cars/${id}/similar`,
+    FILTERS: "/cars-filter",
   },
 
   CAR_TYPES: {

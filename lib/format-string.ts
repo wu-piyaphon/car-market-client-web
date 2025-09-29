@@ -6,6 +6,16 @@ export function fCurrency(value: string | number) {
   );
 }
 
+export const fThousandSeparator = (value: string): string => {
+  const numericValue = value.replace(/,/g, "");
+
+  if (!numericValue || numericValue === "") return "";
+
+  return Number(numericValue).toLocaleString();
+};
+
+// ----------------------------------------------------------------------
+
 export function fCarCategoryString(category: CarCategory) {
   switch (category) {
     case "NEW":
@@ -27,3 +37,9 @@ export function fCarTypeString(type: CarType) {
       return type;
   }
 }
+
+// ----------------------------------------------------------------------
+
+export const removeThousandSeparator = (value: string): string => {
+  return value.replace(/,/g, "");
+};
