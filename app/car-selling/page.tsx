@@ -1,10 +1,35 @@
+import { Suspense } from "react";
 import Container from "@/components/layout/container";
+import CarSellingCarsContent from "@/components/sections/car-selling/car-selling-cars-section/car-selling-cars-content";
+import CarSellingCarsLoading from "@/components/sections/car-selling/car-selling-cars-section/car-selling-cars-loading";
 import CarSellingForm from "@/components/sections/car-selling/car-selling-form";
-import HomeCarList from "@/components/sections/home/home-car-list";
+import type { CarCardGroup } from "@/components/sections/shared/car-card-list";
+import { fCarCategoryString } from "@/lib/format-string";
+import { getCars } from "@/services";
+import type { CarCategory } from "@/types/car.types";
 
-const CATEGORIES = ["รถเข้าใหม่"];
+async function fetchCarSellingPageData(): Promise<CarCardGroup[]> {
+  const CATEGORIES: CarCategory[] = ["NEW"];
+
+  const results = await Promise.all(
+    CATEGORIES.map(async (category) => {
+      const result = await getCars(
+        { category, page: 1, pageSize: 4 },
+        { next: { revalidate: 300 } }, // 5 minutes cache
+      );
+      return {
+        title: fCarCategoryString(category),
+        list: result.data?.items || [],
+      };
+    }),
+  );
+
+  return results;
+}
 
 export default function Page() {
+  const carsPromise = fetchCarSellingPageData();
+
   return (
     <Container className="h-full py-7 lg:py-8">
       <div className="h-full md:h-fit">
@@ -19,7 +44,12 @@ export default function Page() {
       </div>
 
       <div className="mt-12 hidden md:block lg:mt-16">
-        <HomeCarList className="grid grid-cols-4" categories={CATEGORIES} />
+        <Suspense fallback={<CarSellingCarsLoading />}>
+          <CarSellingCarsContent
+            carsPromise={carsPromise}
+            className="grid grid-cols-4"
+          />
+        </Suspense>
       </div>
     </Container>
   );
