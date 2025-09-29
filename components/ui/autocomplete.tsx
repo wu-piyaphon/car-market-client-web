@@ -1,6 +1,7 @@
 import type { PopoverContentProps } from "@radix-ui/react-popover";
 import { Command as CommandPrimitive } from "cmdk";
 import { Check, ChevronDown, ChevronRight } from "lucide-react";
+import Image from "next/image";
 import { useMemo, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
 import type { Option } from "@/types/common.types";
@@ -50,15 +51,26 @@ export function Autocomplete<T extends string>({
   const [searchInput, setSearchInput] = useState("");
   const [open, setOpen] = useState(false);
 
-  const filterOptions = options.filter((option) =>
-    option.name.toLowerCase().includes(searchInput.toLowerCase()),
+  const selectedOption = useMemo(
+    () => options.find((option) => option.name === value),
+    [options, value],
   );
+
+  const filterOptions = useMemo(() => {
+    if (selectedOption && searchInput.trim() === value) {
+      return options;
+    }
+
+    return options.filter((option) =>
+      option.name.toLowerCase().includes(searchInput.toLowerCase()),
+    );
+  }, [options, searchInput, selectedOption, value]);
 
   const labels = useMemo(
     () =>
       options.reduce(
         (acc, item) => {
-          acc[item.id] = item.name;
+          acc[item.name] = item.name;
           return acc;
         },
         {} as Record<string, string>,
@@ -71,14 +83,10 @@ export function Autocomplete<T extends string>({
     setSearchInput("");
   };
 
-  const onInputBlur = (e: React.FocusEvent<HTMLInputElement>) => {
-    if (
-      !e.relatedTarget?.hasAttribute("cmdk-list") &&
-      labels[value] !== searchInput
-    ) {
+  const onInputBlur = () => {
+    if (!selectedOption || selectedOption.name !== searchInput) {
       reset();
     }
-
     setOpen(false);
   };
 
@@ -167,18 +175,27 @@ export function Autocomplete<T extends string>({
                 <CommandGroup>
                   {filterOptions.map((option) => (
                     <CommandItem
-                      key={option.id}
-                      value={option.id}
+                      key={option.name}
+                      value={option.name}
                       onMouseDown={(e) => e.preventDefault()}
                       onSelect={onSelectItem}
                     >
                       <Check
                         className={cn(
                           "mr-2 h-4 w-4",
-                          value === option.id ? "opacity-100" : "opacity-0",
+                          value === option.name ? "opacity-100" : "opacity-0",
                         )}
                       />
-                      {option.name}
+                      {"image" in option && (
+                        <Image
+                          src={option.image}
+                          alt={option.name}
+                          width={80}
+                          height={80}
+                          className="h-auto w-6 object-cover"
+                        />
+                      )}
+                      <p className="mt-0.75">{option.name}</p>
                     </CommandItem>
                   ))}
                 </CommandGroup>

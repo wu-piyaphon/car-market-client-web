@@ -1,5 +1,5 @@
 import { useFormContext } from "react-hook-form";
-import type { Option } from "@/types/common.types";
+import type { CommonOption } from "@/types/common.types";
 import {
   FormControl,
   FormField,
@@ -13,7 +13,7 @@ import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
 
 type Props = React.ComponentProps<"div"> & {
   name: string;
-  options: Option[];
+  options: CommonOption[];
   label?: string;
   row?: boolean;
 };

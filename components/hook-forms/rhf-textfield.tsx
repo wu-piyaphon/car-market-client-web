@@ -1,4 +1,8 @@
 import { useFormContext } from "react-hook-form";
+import {
+  fThousandSeparator,
+  removeThousandSeparator,
+} from "@/lib/format-string";
 import { FormControl, FormField, FormItem } from "../ui/form";
 import { Input } from "../ui/input";
 
@@ -26,24 +30,44 @@ export default function RHFTextField({
     <FormField
       control={control}
       name={name}
-      render={({ field }) => (
-        <FormItem {...other}>
-          <FormControl>
-            <Input
-              {...field}
-              {...InputProps}
-              label={label}
-              onChange={(e) => {
-                if (isNumeric && !/^\d*$/.test(e.target.value)) {
-                  return;
-                }
-                field.onChange(e);
-              }}
-              required={required}
-            />
-          </FormControl>
-        </FormItem>
-      )}
+      render={({ field }) => {
+        const formatValue =
+          isNumeric && field.value
+            ? fThousandSeparator(String(field.value))
+            : field.value;
+
+        return (
+          <FormItem {...other}>
+            <FormControl>
+              <Input
+                {...field}
+                {...InputProps}
+                label={label}
+                value={formatValue}
+                onChange={(e) => {
+                  const inputValue = e.target.value;
+
+                  if (isNumeric) {
+                    // Remove thousand separators for validation
+                    const numericValue = removeThousandSeparator(inputValue);
+
+                    // Only allow digits
+                    if (!/^\d*$/.test(numericValue)) {
+                      return;
+                    }
+
+                    // Store the numeric value without separators
+                    field.onChange(numericValue);
+                  } else {
+                    field.onChange(e);
+                  }
+                }}
+                required={required}
+              />
+            </FormControl>
+          </FormItem>
+        );
+      }}
     />
   );
 }

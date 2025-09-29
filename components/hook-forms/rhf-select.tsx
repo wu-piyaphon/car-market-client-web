@@ -1,4 +1,5 @@
 import { useFormContext } from "react-hook-form";
+import type { CommonOption } from "@/types/common.types";
 import { FormControl, FormField, FormItem, FormMessage } from "../ui/form";
 import {
   Select,
@@ -12,7 +13,7 @@ import {
 
 type Props = React.ComponentProps<"div"> & {
   name: string;
-  options: { id: string; name: string }[];
+  options: CommonOption[];
   label: string;
   placeholder?: string;
 };
