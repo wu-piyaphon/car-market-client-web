@@ -61,7 +61,7 @@ export default function NavbarLinks() {
       ref={navRef}
       className="relative hidden h-full justify-between gap-8 md:flex lg:gap-10"
     >
-      {NAV_ITEMS.filter((item) => !item.isOnlyMobile).map((item) => {
+      {NAV_ITEMS.map((item) => {
         return (
           <Link
             key={item.name}

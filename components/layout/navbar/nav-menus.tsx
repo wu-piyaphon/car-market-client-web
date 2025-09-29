@@ -7,7 +7,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { paths } from "@/lib/paths";
 import { cn } from "@/lib/utils";
-import { NAV_ITEMS } from "./navbar";
+import { NAV_ITEMS_MOBILE } from "./navbar";
 
 // ----------------------------------------------------------------------
 
@@ -46,7 +46,7 @@ export default function NavMenus() {
         )}
       >
         <div className="fixed left-0 z-50 h-[calc(100vh-70px)] w-full bg-white shadow-lg">
-          {NAV_ITEMS.map((item) => (
+          {NAV_ITEMS_MOBILE.map((item) => (
             <Link
               key={item.name}
               href={item.href}

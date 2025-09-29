@@ -21,18 +21,6 @@ export const NAV_ITEMS = [
     icon: <Search className="size-4 lg:size-6" />,
   },
   {
-    name: "ขายรถ/ลงประกาศ",
-    href: paths.form.selling,
-    icon: <Phone className="size-4 lg:size-6" />,
-    isOnlyMobile: true,
-  },
-  {
-    name: "ประเมินราคา",
-    href: paths.form.estimate,
-    icon: <Info className="size-4 lg:size-6" />,
-    isOnlyMobile: true,
-  },
-  {
     name: "คำนวณสินเชื่อ",
     href: paths.loanCalculator,
     icon: <Calculator className="size-4 lg:size-6" />,
@@ -46,6 +34,22 @@ export const NAV_ITEMS = [
     name: "ติดต่อเรา",
     href: paths.contactUs,
     icon: <Phone className="size-4 lg:size-6" />,
+  },
+];
+
+export const NAV_ITEMS_MOBILE = [
+  ...NAV_ITEMS,
+  {
+    name: "ขายรถ/ลงประกาศ",
+    href: paths.form.selling,
+    icon: <Phone className="size-4 lg:size-6" />,
+    isOnlyMobile: true,
+  },
+  {
+    name: "ประเมินราคา",
+    href: paths.form.estimate,
+    icon: <Info className="size-4 lg:size-6" />,
+    isOnlyMobile: true,
   },
 ];
 
