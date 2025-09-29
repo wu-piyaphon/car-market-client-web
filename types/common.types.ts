@@ -1,5 +1,15 @@
-export type Option = {
+export type Option = CommonOption | CarFilterOption | CarFilterImageOption;
+
+export type CommonOption = {
   id: string;
   name: string;
-  image?: string;
+};
+
+export type CarFilterOption = {
+  name: string;
+  count: number;
+};
+
+export type CarFilterImageOption = CarFilterOption & {
+  image: string;
 };
