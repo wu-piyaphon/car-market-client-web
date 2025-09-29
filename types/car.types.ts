@@ -1,3 +1,15 @@
+export type CarType = "PICKUP" | "SEDAN" | "SUV";
+export type CarCategory = "NEW";
+export type SalesType = "CONSIGNMENT" | "OWNER";
+export type Transmission = "AUTOMATIC" | "MANUAL";
+export type EngineType =
+  | "GASOLINE"
+  | "DIESEL"
+  | "ELECTRIC"
+  | "HYBRID"
+  | "LPG"
+  | "CNG";
+
 export type CarListItem = {
   id: string;
   brand: string;
@@ -15,8 +27,6 @@ export type CarListItem = {
   slug: string;
 };
 
-export type CarSellingType = "CONSIGNMENT" | "OWNER";
-
 export type CarDetail = {
   id: string;
   slug: string;
@@ -33,7 +43,7 @@ export type CarDetail = {
   previousLicensePlate: string | null;
   newLicensePlate: string;
   isActive: boolean;
-  salesType: CarSellingType;
+  salesType: SalesType;
   createdAt: string;
   updatedAt: string;
   brand: {
@@ -50,4 +60,36 @@ export type CarDetail = {
     id: string;
     name: string;
   } | null;
+};
+
+// ----------------------------------------------------------------------
+// API Request & Response Types
+
+export type GetCarsQueryParams = {
+  page: number;
+  pageSize: number;
+  keyword?: string;
+  type?: CarType;
+  brand?: string;
+  category?: string;
+  transmission?: Transmission;
+  model?: string;
+  subModel?: string;
+  color?: string;
+  modelYear?: number;
+  engineType?: EngineType;
+  engineCapacity?: number;
+  minMileage?: number;
+  maxMileage?: number;
+  minPrice?: number;
+  maxPrice?: number;
+  salesType?: SalesType;
+  isActive?: boolean;
+};
+
+export type GetCarsResponse = {
+  items: CarListItem[];
+  total: number;
+  page: number;
+  pageSize: number;
 };
