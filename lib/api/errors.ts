@@ -63,6 +63,7 @@ export function createAPIError(
   const status = response.status;
   const defaultMessage = message || `HTTP ${status}: ${response.statusText}`;
 
+  console.error({ status, message: defaultMessage, details });
   switch (status) {
     case 400:
       return new ValidationError(defaultMessage, details);
