@@ -3,23 +3,43 @@
 import RHFAutocomplete from "@/components/hook-forms/rhf-autocomplete";
 import RHFTextField from "@/components/hook-forms/rhf-textfield";
 import FieldPopover from "@/components/ui/custom-popover/field-popover";
+import type { GetCarFiltersResponse } from "@/types/car-filter.types";
 
-export default function CarsFilterSidebar() {
+// ----------------------------------------------------------------------
+
+type CarFilterSidebarProps = {
+  filterOptions: GetCarFiltersResponse;
+};
+
+// ----------------------------------------------------------------------
+
+export default function CarFilterSidebar({
+  filterOptions,
+}: CarFilterSidebarProps) {
+  const {
+    types,
+    brands,
+    models,
+    subModels,
+    colors,
+    transmissions,
+    engineTypes,
+    modelYears,
+  } = filterOptions;
+
   const autocompleteFields = [
-    { name: "type", label: "ประเภท", options: [] },
-    { name: "brand", label: "ยี่ห้อ", options: [] },
-    { name: "model", label: "รุ่น", options: [] },
-    { name: "subModel", label: "รุ่นย่อย", options: [] },
-    { name: "color", label: "สีรถ", options: [] },
-    { name: "transmission", label: "ระบบเกียร์", options: [] },
-
-    { name: "year", label: "ปีรถ", options: [] },
-    { name: "engineType", label: "ประเภทเครื่องยนต์", options: [] },
-    { name: "engineCapacity", label: "ขนาดเครื่องยนต์", options: [] },
+    { name: "type", label: "ประเภท", options: types },
+    { name: "brand", label: "ยี่ห้อ", options: brands },
+    { name: "model", label: "รุ่น", options: models },
+    { name: "subModel", label: "รุ่นย่อย", options: subModels },
+    { name: "color", label: "สีรถ", options: colors },
+    { name: "transmission", label: "ระบบเกียร์", options: transmissions },
+    { name: "year", label: "ปีรถ", options: modelYears },
+    { name: "engineType", label: "ประเภทเครื่องยนต์", options: engineTypes },
   ];
 
   return (
-    <div className="flex w-[200px] flex-col overflow-hidden rounded-md shadow-md">
+    <div className="flex h-fit w-[200px] flex-col overflow-hidden rounded-md shadow-md">
       <div className="bg-primary px-3 py-4 text-white">ตัวเลือกการค้นหา</div>
       {autocompleteFields.map((field) => (
         <RHFAutocomplete

@@ -13,7 +13,7 @@ import { paths } from "@/lib/paths";
 import {
   type CarSearchSchema,
   carSearchSchema,
-} from "@/lib/schemas/cars-search-schema";
+} from "@/lib/schemas/car-search-schema";
 import type {
   CarFilterImageOption,
   CarFilterOption,

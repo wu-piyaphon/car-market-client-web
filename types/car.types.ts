@@ -69,22 +69,22 @@ export type GetCarsQueryParams = {
   page: number;
   pageSize: number;
   keyword?: string;
-  type?: CarType;
+  type?: CarType | "";
   brand?: string;
   category?: string;
-  transmission?: Transmission;
+  transmission?: Transmission | "";
   model?: string;
   subModel?: string;
   color?: string;
-  modelYear?: number;
-  engineType?: EngineType;
-  engineCapacity?: number;
-  minMileage?: number;
-  maxMileage?: number;
-  minPrice?: number;
-  maxPrice?: number;
+  modelYear?: string;
+  engineType?: EngineType | "";
+  engineCapacity?: string;
+  minMileage?: string;
+  maxMileage?: string;
+  minPrice?: string;
+  maxPrice?: string;
   salesType?: SalesType;
-  isActive?: boolean;
+  isActive?: string;
 };
 
 export type GetCarsResponse = {

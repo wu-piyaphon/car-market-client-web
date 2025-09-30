@@ -9,6 +9,7 @@ import Container from "@/components/layout/container";
 import { Button } from "@/components/ui/button";
 import CarImageBanner from "@/components/ui/custom-banner/car-image-banner";
 import { cn } from "@/lib/utils";
+import type { GetCarFiltersResponse } from "@/types/car-filter.types";
 
 // ----------------------------------------------------------------------
 
@@ -21,11 +22,30 @@ const INPUT_PROPS = {
 
 // ----------------------------------------------------------------------
 
-export default function CarsFilterMobile() {
+type CarFilterMobileProps = {
+  filterOptions: GetCarFiltersResponse;
+};
+
+// ----------------------------------------------------------------------
+
+export default function CarFilterMobile({
+  filterOptions,
+}: CarFilterMobileProps) {
+  const {
+    types,
+    brands,
+    models,
+    subModels,
+    colors,
+    transmissions,
+    engineTypes,
+    modelYears,
+  } = filterOptions;
+
   const [showMore, setShowMore] = useState(false);
 
   return (
-    <div>
+    <>
       <Container>
         <h1 className="py-4 text-center font-bold text-4xl">
           ค้นหารถยนต์ของคุณที่ <span className="text-primary">“GoodCarMarket”</span>
@@ -33,11 +53,11 @@ export default function CarsFilterMobile() {
       </Container>
 
       <motion.div
-        className="relative pb-8"
-        animate={{ height: showMore ? "720px" : "360px" }}
+        className="relative"
+        animate={{ height: showMore ? "790px" : "320px" }}
         transition={{ duration: 0.3, ease: "easeInOut" }}
       >
-        <div className="-ml-10 h-full w-[120vw] bg-black/90 blur-md">
+        <div className="-ml-10 h-full min-h-[320px] w-[120vw] bg-black/90 blur-md">
           <CarImageBanner />
         </div>
 
@@ -46,22 +66,14 @@ export default function CarsFilterMobile() {
             <RHFAutocomplete
               name="type"
               label="ประเภท"
-              options={[
-                { id: "1", name: "SUV" },
-                { id: "2", name: "Sedan" },
-                { id: "3", name: "Hatchback" },
-              ]}
+              options={types}
               InputProps={INPUT_PROPS.TOP}
             />
 
             <RHFAutocomplete
               name="brand"
               label="ยี่ห้อ"
-              options={[
-                { id: "1", name: "Toyota" },
-                { id: "2", name: "Honda" },
-                { id: "3", name: "Nissan" },
-              ]}
+              options={brands}
               InputProps={INPUT_PROPS.MIDDLE}
             />
 
@@ -77,42 +89,42 @@ export default function CarsFilterMobile() {
                   <RHFAutocomplete
                     name="model"
                     label="รุ่น"
-                    options={[]}
+                    options={models}
                     InputProps={INPUT_PROPS.MIDDLE}
                   />
                   <RHFAutocomplete
                     name="subModel"
                     label="รุ่นย่อย"
-                    options={[]}
+                    options={subModels}
                     InputProps={INPUT_PROPS.MIDDLE}
                   />
                   <RHFAutocomplete
                     name="color"
                     label="สีรถ"
-                    options={[]}
+                    options={colors}
                     InputProps={INPUT_PROPS.MIDDLE}
                   />
                   <RHFAutocomplete
                     name="transmission"
                     label="ระบบเกียร์"
-                    options={[]}
+                    options={transmissions}
+                    InputProps={INPUT_PROPS.MIDDLE}
+                  />
+                  <RHFAutocomplete
+                    name="modelYear"
+                    label="ปีรถ"
+                    options={modelYears}
                     InputProps={INPUT_PROPS.MIDDLE}
                   />
                   <RHFAutocomplete
                     name="engineType"
                     label="ประเภทเครื่องยนต์"
-                    options={[]}
+                    options={engineTypes}
                     InputProps={INPUT_PROPS.MIDDLE}
                   />
                   <RHFAutocomplete
                     name="engineSize"
                     label="ขนาดเครื่องยนต์"
-                    options={[]}
-                    InputProps={INPUT_PROPS.MIDDLE}
-                  />
-                  <RHFAutocomplete
-                    name="mileage"
-                    label="เลขไมล์"
                     options={[]}
                     InputProps={INPUT_PROPS.MIDDLE}
                   />
@@ -127,12 +139,14 @@ export default function CarsFilterMobile() {
                           "border-r-0",
                         ),
                       }}
+                      isNumeric
                     />
                     <RHFTextField
                       name="maxMileage"
                       label="เลขไมล์สูงสุด"
                       className="flex-1"
                       InputProps={INPUT_PROPS.MIDDLE}
+                      isNumeric
                     />
                   </div>
                 </motion.div>
@@ -145,12 +159,14 @@ export default function CarsFilterMobile() {
                 label="ราคาต่ำสุด"
                 className="flex-1"
                 InputProps={INPUT_PROPS.BOTTOM_LEFT}
+                isNumeric
               />
               <RHFTextField
                 name="maxPrice"
                 label="ราคาสูงสุด"
                 className="flex-1"
                 InputProps={INPUT_PROPS.BOTTOM_RIGHT}
+                isNumeric
               />
             </div>
           </div>
@@ -164,7 +180,7 @@ export default function CarsFilterMobile() {
               type="button"
               size="lg"
               variant="outline"
-              className="border-white text-white"
+              className="border-white text-white hover:bg-white/20"
               onClick={() => setShowMore((prev) => !prev)}
             >
               ค้นหาแบบ{showMore ? "ย่อ" : "ละเอียด"}
@@ -172,6 +188,6 @@ export default function CarsFilterMobile() {
           </div>
         </article>
       </motion.div>
-    </div>
+    </>
   );
 }
