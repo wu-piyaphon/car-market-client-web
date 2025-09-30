@@ -6,7 +6,7 @@ import HomeCarsTabs from "@/components/sections/home/home-cars-section/home-cars
 import HomeFacebookCover from "@/components/sections/home/home-facebook-cover";
 import CarCardList, {
   type CarCardGroup,
-} from "@/components/sections/shared/car-card-list";
+} from "@/components/ui/custom-card/car-card-list";
 
 // ----------------------------------------------------------------------
 

@@ -3,7 +3,7 @@ import Container from "@/components/layout/container";
 import CarSellingCarsContent from "@/components/sections/car-selling/car-selling-cars-section/car-selling-cars-content";
 import CarSellingCarsLoading from "@/components/sections/car-selling/car-selling-cars-section/car-selling-cars-loading";
 import CarSellingForm from "@/components/sections/car-selling/car-selling-form";
-import type { CarCardGroup } from "@/components/sections/shared/car-card-list";
+import type { CarCardGroup } from "@/components/ui/custom-card/car-card-list";
 import { fCarCategoryString } from "@/lib/format-string";
 import { getCars } from "@/services";
 import type { CarCategory } from "@/types/car.types";

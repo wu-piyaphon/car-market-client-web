@@ -1,5 +1,7 @@
 import { use } from "react";
-import CarCardList, { type CarCardGroup } from "../../shared/car-card-list";
+import CarCardList, {
+  type CarCardGroup,
+} from "../../../ui/custom-card/car-card-list";
 
 type CarSellingCarsContentProps = {
   carsPromise: Promise<CarCardGroup[]>;

@@ -5,8 +5,8 @@ import HomeCarsContent from "@/components/sections/home/home-cars-section/home-c
 import HomeCarsLoading from "@/components/sections/home/home-cars-section/home-cars-loading";
 import HomeSearchCard from "@/components/sections/home/home-search-card";
 import HomeSellingSection from "@/components/sections/home/home-selling-section";
-import type { CarCardGroup } from "@/components/sections/shared/car-card-list";
 import CarImageBanner from "@/components/ui/custom-banner/car-image-banner";
+import type { CarCardGroup } from "@/components/ui/custom-card/car-card-list";
 import { fCarCategoryString, fCarTypeString } from "@/lib/format-string";
 import { getCars } from "@/services";
 import type { CarCategory, CarType } from "@/types/car.types";

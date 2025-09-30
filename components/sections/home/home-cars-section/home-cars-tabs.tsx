@@ -2,7 +2,7 @@ import Container from "@/components/layout/container";
 import CarCard from "@/components/ui/custom-card/car-card";
 import CarCardThumbnail from "@/components/ui/custom-card/car-card-thumbnail";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import type { CarCardGroup } from "../../shared/car-card-list";
+import type { CarCardGroup } from "../../../ui/custom-card/car-card-list";
 
 // ----------------------------------------------------------------------
 
