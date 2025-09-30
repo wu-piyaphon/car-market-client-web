@@ -26,6 +26,14 @@ async function fetchHomePageCarData(): Promise<CarCardGroup[]> {
           { category, page: 1, pageSize: 4 },
           { next: { revalidate: 300 } }, // 5 minutes cache
         );
+        if (!result.success) {
+          console.error(
+            `Failed to fetch cars for category ${category}:`,
+            result.error,
+          );
+          return { title: fCarCategoryString(category), list: [] };
+        }
+
         return {
           title: fCarCategoryString(category),
           list: result.data?.items || [],
@@ -38,6 +46,11 @@ async function fetchHomePageCarData(): Promise<CarCardGroup[]> {
           { type, page: 1, pageSize: 4 },
           { next: { revalidate: 300 } }, // 5 minutes cache
         );
+        if (!result.success) {
+          console.error(`Failed to fetch cars for type ${type}:`, result.error);
+          return { title: fCarTypeString(type), list: [] };
+        }
+
         return {
           title: fCarTypeString(type),
           list: result.data?.items || [],

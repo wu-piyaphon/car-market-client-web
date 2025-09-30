@@ -17,6 +17,15 @@ async function fetchLoanCalculatorPageData(): Promise<CarCardGroup[]> {
         { category, page: 1, pageSize: 4 },
         { next: { revalidate: 300 } }, // 5 minutes cache
       );
+
+      if (!result.success) {
+        console.error(
+          `Failed to fetch cars for category ${category}:`,
+          result.error,
+        );
+        return { title: fCarCategoryString(category), list: [] };
+      }
+
       return {
         title: fCarCategoryString(category),
         list: result.data?.items || [],

@@ -4,17 +4,17 @@ import Container from "@/components/layout/container";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { paths } from "@/lib/paths";
-import { getCarFilters } from "@/services/cars.service";
+import { getCarFilters } from "@/services/car.services";
 import HomeSearchForm from "./home-search-form";
 
 export default async function HomeSearchCard() {
   const carFilters = await getCarFilters();
 
-  const { types, models, brands } = carFilters.data || {
-    types: [],
-    models: [],
-    brands: [],
-  };
+  const {
+    types = [],
+    models = [],
+    brands = [],
+  } = carFilters.success ? carFilters.data : {};
 
   return (
     <div className="relative">
