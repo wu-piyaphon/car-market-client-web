@@ -1,3 +1,5 @@
+import type { PaginationParams, PaginationResponse } from "./common.types";
+
 export type CarType = "PICKUP" | "SEDAN" | "SUV";
 export type CarCategory = "NEW";
 export type SalesType = "CONSIGNMENT" | "OWNER";
@@ -65,9 +67,7 @@ export type CarDetail = {
 // ----------------------------------------------------------------------
 // API Request & Response Types
 
-export type GetCarsQueryParams = {
-  page: number;
-  pageSize: number;
+export type GetCarsQueryParams = PaginationParams<{
   keyword?: string;
   type?: CarType | "";
   brand?: string;
@@ -85,11 +85,6 @@ export type GetCarsQueryParams = {
   maxPrice?: string;
   salesType?: SalesType;
   isActive?: string;
-};
+}>;
 
-export type GetCarsResponse = {
-  items: CarListItem[];
-  total: number;
-  page: number;
-  pageSize: number;
-};
+export type GetCarsResponse = PaginationResponse<CarListItem>;
