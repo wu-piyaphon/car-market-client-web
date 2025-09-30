@@ -2,7 +2,7 @@ import type { PopoverContentProps } from "@radix-ui/react-popover";
 import { Command as CommandPrimitive } from "cmdk";
 import { Check, ChevronDown, ChevronRight } from "lucide-react";
 import Image from "next/image";
-import { useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
 import type { Option } from "@/types/common.types";
 import {
@@ -57,7 +57,11 @@ export function Autocomplete<T extends string>({
   );
 
   const filterOptions = useMemo(() => {
-    if (selectedOption && searchInput.trim() === value) {
+    if (!searchInput) {
+      return options;
+    }
+
+    if (selectedOption && searchInput?.trim() === value) {
       return options;
     }
 
@@ -65,18 +69,6 @@ export function Autocomplete<T extends string>({
       option.name.toLowerCase().includes(searchInput.toLowerCase()),
     );
   }, [options, searchInput, selectedOption, value]);
-
-  const labels = useMemo(
-    () =>
-      options.reduce(
-        (acc, item) => {
-          acc[item.name] = item.name;
-          return acc;
-        },
-        {} as Record<string, string>,
-      ),
-    [options],
-  );
 
   const reset = () => {
     onChange("" as T);
@@ -95,7 +87,7 @@ export function Autocomplete<T extends string>({
       reset();
     } else {
       onChange(inputValue as T);
-      setSearchInput(labels[inputValue] ?? "");
+      setSearchInput(inputValue);
     }
     setOpen(false);
   };
@@ -104,6 +96,15 @@ export function Autocomplete<T extends string>({
     setOpen((open) => !open);
     inputRef.current?.focus();
   };
+
+  useEffect(() => {
+    if (!value) {
+      setSearchInput("");
+      return;
+    }
+
+    setSearchInput(value);
+  }, [value]);
 
   return (
     <div className="flex items-center">

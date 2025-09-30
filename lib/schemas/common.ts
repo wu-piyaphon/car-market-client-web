@@ -17,13 +17,6 @@ export const SCHEMA = {
     required: z.number().min(0, "ต้องเป็นตัวเลขที่มากกว่า 0"),
     optional: z.number().optional(),
   },
-  price: {
-    optional: z
-      .string()
-      .regex(/^\d+$/, "ต้องเป็นตัวเลข")
-      .optional()
-      .or(z.literal("")),
-  },
   boolean: {
     required: z.boolean().refine((val) => val === true),
     optional: z.boolean().optional(),

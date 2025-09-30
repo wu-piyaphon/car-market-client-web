@@ -6,6 +6,15 @@ export function fCurrency(value: string | number) {
   );
 }
 
+export const fCapitalize = (value: string): string => {
+  if (!value) return "";
+  return value
+    .toLowerCase()
+    .split(" ")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
+};
+
 export const fThousandSeparator = (value: string): string => {
   const numericValue = value.replace(/,/g, "");
 
