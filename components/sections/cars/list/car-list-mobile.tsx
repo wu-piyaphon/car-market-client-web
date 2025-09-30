@@ -1,12 +1,24 @@
+import type { RefObject } from "react";
 import CarCard from "@/components/ui/custom-card/car-card";
 import type { CarListItem } from "@/types/car.types";
+import CarListMobileSkeleton from "../skeleton/car-list-mobile-skeleton";
+import CarListTrigger from "./car-list-trigger";
 
 type CarListMobileProps = {
+  ref: RefObject<HTMLDivElement | null>;
   items: CarListItem[];
   total: number;
+  isLoading?: boolean;
+  hasMore?: boolean;
 };
 
-export default function CarListMobile({ items, total }: CarListMobileProps) {
+export default function CarListMobile({
+  ref,
+  items,
+  total,
+  isLoading = false,
+  hasMore = false,
+}: CarListMobileProps) {
   return (
     <div className="mt-8 flex flex-col gap-6">
       <h2 className="font-bold text-4xl">
@@ -18,6 +30,10 @@ export default function CarListMobile({ items, total }: CarListMobileProps) {
         {items.map((item) => (
           <CarCard key={item.id} item={item} />
         ))}
+
+        {isLoading && <CarListMobileSkeleton />}
+
+        {hasMore && <CarListTrigger ref={ref} isLoading={isLoading} />}
       </div>
     </div>
   );

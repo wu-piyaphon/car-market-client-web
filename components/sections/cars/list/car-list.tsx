@@ -1,9 +1,12 @@
+import type { RefObject } from "react";
 import { useFormContext } from "react-hook-form";
 import { SvgIcon } from "@/components/icons";
 import CarCard from "@/components/ui/custom-card/car-card";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import type { CarFilterSchema } from "@/lib/schemas/car-filter-schema";
 import type { CarCategory, CarListItem, CarType } from "@/types/car.types";
+import CarListSkeleton from "../skeleton/car-list-skeleton";
+import CarListTrigger from "./car-list-trigger";
 
 const TAB_VALUES = [
   { value: "ALL", label: "รถทั้งหมด" },
@@ -34,10 +37,18 @@ const TAB_VALUES = [
 ];
 
 type CarListProps = {
+  ref: RefObject<HTMLDivElement | null>;
   items: CarListItem[];
+  isLoading?: boolean;
+  hasMore?: boolean;
 };
 
-export default function CarList({ items }: CarListProps) {
+export default function CarList({
+  ref,
+  items,
+  isLoading = false,
+  hasMore = false,
+}: CarListProps) {
   const { setValue } = useFormContext<CarFilterSchema>();
 
   const handleTabChange = (value: string) => {
@@ -47,7 +58,6 @@ export default function CarList({ items }: CarListProps) {
     if (!tab) return;
 
     if (value === "ALL") {
-      console.log("hello");
       setValue("category", "");
       setValue("type", "");
       return;
@@ -87,6 +97,10 @@ export default function CarList({ items }: CarListProps) {
         {items.map((item) => (
           <CarCard key={item.id} item={item} />
         ))}
+
+        {isLoading && <CarListSkeleton />}
+
+        {hasMore && <CarListTrigger ref={ref} isLoading={isLoading} />}
       </div>
     </Tabs>
   );

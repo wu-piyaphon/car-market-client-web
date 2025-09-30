@@ -1,4 +1,4 @@
-import CarSearchList from "@/components/sections/cars/car-search-list";
+import CarSearchList from "@/components/sections/cars/list/car-search-list";
 import {
   CAR_FILTER_DEFAULT_VALUES,
   CAR_FILTER_OPTIONS_FALLBACK,
@@ -15,6 +15,21 @@ type PageProps = {
   searchParams: Promise<Record<string, string | string[] | undefined>>;
 };
 
+const DEFAULT_PAGESIZE = 8;
+
+const FallbackCarSearchList = () => (
+  <CarSearchList
+    data={{
+      items: [],
+      total: 0,
+      page: 1,
+      pageSize: DEFAULT_PAGESIZE,
+    }}
+    queryParams={CAR_FILTER_DEFAULT_VALUES}
+    filterOptions={CAR_FILTER_OPTIONS_FALLBACK}
+  />
+);
+
 // ----------------------------------------------------------------------
 
 export default async function Page({ searchParams }: PageProps) {
@@ -27,38 +42,35 @@ export default async function Page({ searchParams }: PageProps) {
       : CAR_FILTER_DEFAULT_VALUES;
 
     const filterOptionsResult = await getCarFilters();
-    const cars = await getCars({ ...searchParamValues, page: 1, pageSize: 10 });
+    const cars = await getCars({
+      ...searchParamValues,
+      page: 1,
+      pageSize: DEFAULT_PAGESIZE,
+    });
 
-    if (
-      !filterOptionsResult.success ||
-      !filterOptionsResult.data ||
-      !cars.success ||
-      !cars.data
-    ) {
+    if (!filterOptionsResult.success) {
       console.error(
-        "Failed to fetch cars/filter options:",
+        "Failed to fetch filter options:",
         filterOptionsResult.error,
       );
 
-      return (
-        <CarSearchList
-          data={{
-            items: [],
-            total: 0,
-            page: 1,
-            pageSize: 10,
-          }}
-          searchParamValues={searchParamValues}
-          filterOptions={CAR_FILTER_OPTIONS_FALLBACK}
-        />
-      );
+      return <FallbackCarSearchList />;
+    }
+
+    if (!cars.success) {
+      console.error("Failed to fetch cars:", cars.error);
+
+      return <FallbackCarSearchList />;
     }
 
     return (
       <CarSearchList
         data={cars.data}
         filterOptions={filterOptionsResult.data}
-        searchParamValues={searchParamValues}
+        queryParams={{
+          ...CAR_FILTER_DEFAULT_VALUES,
+          ...searchParamValues,
+        }}
       />
     );
   } catch (error) {
