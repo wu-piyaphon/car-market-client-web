@@ -17,9 +17,12 @@ export default function NavbarLinks() {
   useEffect(() => {
     const updateIndicatorPosition = () => {
       if (navRef.current) {
-        const activeIndex = NAV_ITEMS.findIndex(
-          (item) => item.href === pathname,
-        );
+        const activeIndex = NAV_ITEMS.findIndex((item) => {
+          if (item.href === "/") {
+            return pathname === item.href;
+          }
+          return pathname.includes(item.href);
+        });
         if (activeIndex !== -1) {
           const navItems = navRef.current.children;
           const activeItem = navItems[activeIndex] as HTMLElement;
