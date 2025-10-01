@@ -58,8 +58,8 @@ export default function HomeSearchForm({
         <RHFAutocomplete name="type" label="ประเภท" options={typeOptions} />
 
         <div className="grid grid-cols-2 gap-3 lg:gap-5">
-          <RHFTextField name="minPrice" label="ราคาต่ำสุด" isNumeric />
-          <RHFTextField name="maxPrice" label="ราคาสูงสุด" isNumeric />
+          <RHFTextField name="minPrice" label="ราคาต่ำสุด" type="currency" />
+          <RHFTextField name="maxPrice" label="ราคาสูงสุด" type="currency" />
         </div>
 
         <Button type="submit" size="lg">

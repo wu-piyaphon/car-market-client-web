@@ -25,7 +25,7 @@ export default function ValuationFinanceForm() {
       />
       {hasInstallment === "true" && (
         <RHFTextField
-          isNumeric
+          type="number"
           name="installmentsInMonth"
           label="รอบงวดที่ค้าง (เดือน)"
           className="md:max-w-[260px] lg:max-w-[300px]"

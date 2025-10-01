@@ -7,20 +7,20 @@ import { FormControl, FormField, FormItem } from "../ui/form";
 import { Input } from "../ui/input";
 
 type Props = React.ComponentProps<"div"> & {
+  type?: "number" | "currency";
   name: string;
   label: string;
   placeholder?: string;
   InputProps?: React.ComponentProps<"input">;
-  isNumeric?: boolean;
   required?: boolean;
 };
 
 export default function RHFTextField({
+  type,
   name,
   label,
   placeholder,
   InputProps,
-  isNumeric = false,
   required = false,
   ...other
 }: Props) {
@@ -31,10 +31,11 @@ export default function RHFTextField({
       control={control}
       name={name}
       render={({ field }) => {
-        const formatValue =
-          isNumeric && field.value
-            ? fThousandSeparator(String(field.value))
-            : field.value;
+        let formatValue = field.value;
+
+        if (type === "currency") {
+          formatValue = fThousandSeparator(String(field.value));
+        }
 
         return (
           <FormItem {...other}>
@@ -47,20 +48,20 @@ export default function RHFTextField({
                 onChange={(e) => {
                   const inputValue = e.target.value;
 
-                  if (isNumeric) {
+                  if (type === "currency" || type === "number") {
+                    // Only allow digits
+                    if (!/^\d*$/.test(inputValue)) return;
+                  }
+
+                  if (type === "currency") {
                     // Remove thousand separators for validation
                     const numericValue = removeThousandSeparator(inputValue);
 
-                    // Only allow digits
-                    if (!/^\d*$/.test(numericValue)) {
-                      return;
-                    }
-
                     // Store the numeric value without separators
                     field.onChange(numericValue);
-                  } else {
-                    field.onChange(e);
                   }
+
+                  field.onChange(e);
                 }}
                 required={required}
               />

@@ -39,10 +39,18 @@ export default function LoanCalculatorForm() {
 
         <div className="mt-5 flex flex-col gap-5 md:mt-8 md:gap-6 lg:gap-7">
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-            <RHFTextField name="price" label="ราคารถ (บาท)" isNumeric />
-            <RHFTextField name="interest" label="ดอกเบี้ย (%)" isNumeric />
-            <RHFTextField name="loanTerm" label="ระยะเวลาสินเชื่อ (ปี)" isNumeric />
-            <RHFTextField name="downPayment" label="เงินดาวน์ (บาท)" isNumeric />
+            <RHFTextField name="price" label="ราคารถ (บาท)" type="currency" />
+            <RHFTextField name="interest" label="ดอกเบี้ย (%)" type="currency" />
+            <RHFTextField
+              name="loanTerm"
+              label="ระยะเวลาสินเชื่อ (ปี)"
+              type="number"
+            />
+            <RHFTextField
+              name="downPayment"
+              label="เงินดาวน์ (บาท)"
+              type="currency"
+            />
           </div>
 
           <Button

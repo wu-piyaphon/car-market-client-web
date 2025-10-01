@@ -9,9 +9,9 @@ export default function ValuationContactForm() {
       <div className="flex flex-col gap-3 md:flex-row md:gap-6 lg:gap-8">
         <RHFTextField name="firstName" label="ชื่อจริง" className="flex-1" />
         <RHFTextField
+          type="number"
           name="phoneNumber"
           label="เบอร์โทรศัพท์"
-          isNumeric
           className="flex-1"
         />
         <RHFTextField

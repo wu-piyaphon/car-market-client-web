@@ -17,10 +17,10 @@ export default function ValuationCarForm() {
         />
         <RHFTextField name="model" label="รุ่นรถ" className="flex-2/5" required />
         <RHFTextField
+          type="number"
           name="year"
           label="ปีรถ"
           className="flex-1/5"
-          isNumeric
           required
         />
       </div>
