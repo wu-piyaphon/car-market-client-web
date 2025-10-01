@@ -1,8 +1,10 @@
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import Image from "next/image";
+import { useCallback, useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { CAROUSEL_LABELS } from "@/lib/constants/carousel.constants";
 import { cn } from "@/lib/utils";
+import CarouselFullImageModal from "./carousel-full-image-modal";
 
 type CarouselMainImageProps = {
   currentImage: string;
@@ -21,6 +23,29 @@ export function CarouselMainImage({
   onPrevious,
   onNext,
 }: CarouselMainImageProps) {
+  const [isFullScreen, setIsFullScreen] = useState(false);
+
+  const openFullScreen = () => setIsFullScreen(true);
+  const closeFullScreen = useCallback(() => setIsFullScreen(false), []);
+
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape" && isFullScreen) {
+        closeFullScreen();
+      }
+    };
+
+    if (isFullScreen) {
+      document.addEventListener("keydown", handleKeyDown);
+      document.body.style.overflow = "hidden";
+    }
+
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+      document.body.style.overflow = "unset";
+    };
+  }, [isFullScreen, closeFullScreen]);
+
   return (
     <div
       className="group relative aspect-video h-3/4 w-full overflow-hidden md:rounded-lg"
@@ -33,7 +58,8 @@ export function CarouselMainImage({
         fill
         priority
         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 100vw"
-        className="cursor-pointer object-cover"
+        className="cursor-pointer object-cover transition-transform hover:scale-105"
+        onClick={openFullScreen}
       />
 
       {/* Navigation Arrows */}
@@ -65,10 +91,20 @@ export function CarouselMainImage({
         </>
       )}
 
-      {/* Image Counter */}
+      {/* -- Image Counter -- */}
       <div className="absolute right-4 bottom-4 rounded-full bg-black/50 px-4 py-1 font-bold text-base text-white md:text-lg">
         {CAROUSEL_LABELS.COUNTER(selectedIndex, totalImages)}
       </div>
+
+      {/* -- Full Screen Modal -- */}
+      {isFullScreen && (
+        <CarouselFullImageModal
+          totalImages={totalImages}
+          selectedIndex={selectedIndex}
+          currentImage={currentImage}
+          closeFullScreen={closeFullScreen}
+        />
+      )}
     </div>
   );
 }

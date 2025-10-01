@@ -24,7 +24,6 @@ export default function CarDetailCarousel({
       autoPlayInterval,
     });
 
-  // Early return for empty images
   if (!images || images.length === 0) {
     return <CarouselEmptyState />;
   }

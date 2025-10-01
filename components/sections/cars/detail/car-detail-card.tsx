@@ -91,7 +91,7 @@ export default function CarDetailCard({ data }: CarDetailInfoProps) {
 
   return (
     <aside aria-label="Car information">
-      <Card className="gap-5 border-none pb-0 shadow-none md:border md:shadow-sm">
+      <Card className="gap-5 border-none pb-0 shadow-none md:border md:pb-6 md:shadow-sm">
         <CardHeader className="gap-3">
           <CardTitle className="font-bold text-3xl text-slate-900 lg:text-6xl">
             {brand.name} {model} ({subModel})
