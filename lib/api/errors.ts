@@ -17,8 +17,43 @@ export class APIError extends Error {
   }
 }
 
+export type ValidationErrorDetails = {
+  message: string[];
+  error: string;
+  statusCode: number;
+};
+
+export type APIErrorDetails = {
+  message: string | string[];
+  error?: string;
+  statusCode?: number;
+};
+
+// Type guard to check if details is ValidationErrorDetails
+function isValidationErrorDetails(
+  details: unknown,
+): details is ValidationErrorDetails {
+  return (
+    typeof details === "object" &&
+    details !== null &&
+    "message" in details &&
+    Array.isArray((details as Record<string, unknown>).message) &&
+    "error" in details &&
+    "statusCode" in details
+  );
+}
+
+// Type guard to check if details has a message property
+function hasMessageInDetails(
+  details: unknown,
+): details is { message: string | string[] } {
+  return (
+    typeof details === "object" && details !== null && "message" in details
+  );
+}
+
 export class ValidationError extends APIError {
-  constructor(message: string, details?: unknown) {
+  constructor(message: string, details?: ValidationErrorDetails) {
     super(message, 400, "VALIDATION_ERROR", details);
     this.name = "ValidationError";
   }
@@ -53,20 +88,45 @@ export class UnauthorizedError extends APIError {
 }
 
 /**
+ * Extract error message from details with proper type checking
+ */
+function extractErrorMessage(details: unknown): string | undefined {
+  if (!hasMessageInDetails(details)) {
+    return undefined;
+  }
+
+  const { message } = details;
+
+  if (Array.isArray(message)) {
+    return message.length > 0 ? message[0] : undefined;
+  }
+
+  if (typeof message === "string") {
+    return message;
+  }
+
+  return undefined;
+}
+
+/**
  * Error factory function to create appropriate error instances
  */
 export function createAPIError(
   response: Response,
   message?: string,
-  details?: unknown,
+  details?: APIErrorDetails | unknown,
 ): APIError {
   const status = response.status;
-  const defaultMessage = message || `HTTP ${status}: ${response.statusText}`;
+  const extractedMessage = extractErrorMessage(details);
+  const defaultMessage =
+    message || extractedMessage || `HTTP ${status}: ${response.statusText}`;
 
-  console.error({ status, message: defaultMessage, details });
   switch (status) {
     case 400:
-      return new ValidationError(defaultMessage, details);
+      return new ValidationError(
+        defaultMessage,
+        isValidationErrorDetails(details) ? details : undefined,
+      );
     case 401:
       return new UnauthorizedError(defaultMessage);
     case 404:
