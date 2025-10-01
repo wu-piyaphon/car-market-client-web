@@ -1,6 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import Form from "@/components/hook-forms/form";
 import RHFRadioGroup from "@/components/hook-forms/rhf-radio";
@@ -12,10 +13,12 @@ import {
   carSellingSchema,
 } from "@/lib/schemas/car-selling-schema";
 import { cn } from "@/lib/utils";
+import { submitCarSellingForm } from "@/services/actions/car-selling.actions";
+import type { SalesType } from "@/types/car.types";
 
 // ----------------------------------------------------------------------
 
-const SELLING_TYPES_OPTIONS = [
+const SELLING_TYPES_OPTIONS: { id: SalesType; name: string }[] = [
   { id: "CONSIGNMENT", name: "ลงประกาศผ่านเว็บไซท์" },
   { id: "OWNER", name: "ขายรถกับเต๊นท์ GoodCarMarket" },
 ];
@@ -23,24 +26,36 @@ const SELLING_TYPES_OPTIONS = [
 // ----------------------------------------------------------------------
 
 export default function CarSellingForm() {
+  const [isSubmitted, setIsSubmitted] = useState(false);
+
   const methods = useForm<CarSellingSchema>({
     resolver: zodResolver(carSellingSchema),
     defaultValues: {
       firstName: "",
       lastName: "",
       nickname: "",
-      phone: "",
+      phoneNumber: "",
       type: "CONSIGNMENT",
     },
   });
 
   const {
     handleSubmit,
-    formState: { isSubmitted },
+    formState: { isSubmitting },
   } = methods;
 
-  const onSubmit = handleSubmit((data) => {
-    console.log(data);
+  const onSubmit = handleSubmit(async (data) => {
+    try {
+      const res = await submitCarSellingForm(data);
+
+      if (!res.success) {
+        throw new Error(res.error || "Failed to submit form");
+      }
+
+      setIsSubmitted(true);
+    } catch (error) {
+      console.error(error);
+    }
   });
 
   return (
@@ -55,7 +70,12 @@ export default function CarSellingForm() {
           <RHFTextField name="firstName" label="ชื่อจริง" required />
           <RHFTextField name="lastName" label="นามสกุล" required />
           <RHFTextField name="nickname" label="ชื่อเล่น" required />
-          <RHFTextField name="phone" label="เบอร์โทรศัพท์" required isNumeric />
+          <RHFTextField
+            type="number"
+            name="phoneNumber"
+            label="เบอร์โทรศัพท์"
+            required
+          />
         </div>
 
         <div>
@@ -69,17 +89,21 @@ export default function CarSellingForm() {
           <Button
             size="lg"
             variant="outline"
-            className="hidden min-w-[140px] md:inline-flex"
+            className="hidden md:inline-flex md:w-[140px] lg:w-[175px]"
           >
             กลับสู่หน้าหลัก
           </Button>
-          <Button size="lg" className="min-w-[140px] flex-1 md:flex-initial">
+          <Button
+            size="lg"
+            className="flex-1 shrink-0 md:w-[140px] md:flex-initial lg:w-[175px]"
+            loading={isSubmitting}
+          >
             ส่งแบบฟอร์ม
           </Button>
         </div>
       </div>
 
-      <FormSuccess />
+      <FormSuccess isSubmitted={isSubmitted} />
     </Form>
   );
 }

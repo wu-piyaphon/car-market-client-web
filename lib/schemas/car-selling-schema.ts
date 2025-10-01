@@ -6,7 +6,7 @@ export const carSellingSchema = z.object({
   firstName: SCHEMA.string.required,
   lastName: SCHEMA.string.required,
   nickname: SCHEMA.string.required,
-  phone: SCHEMA.numberString.required,
+  phoneNumber: SCHEMA.numberString.required,
   type: z.custom<SalesType>(),
 });
 

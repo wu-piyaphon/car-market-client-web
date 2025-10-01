@@ -1,23 +1,22 @@
 import { CircleCheckBig } from "lucide-react";
 import { motion } from "motion/react";
 import Link from "next/link";
-import { useFormContext } from "react-hook-form";
 import { cn } from "@/lib/utils";
 import { Button } from "../button";
 
-export default function FormSuccess() {
-  const {
-    formState: { isSubmitSuccessful },
-  } = useFormContext();
+type FormSuccessProps = {
+  isSubmitted: boolean;
+};
 
+export default function FormSuccess({ isSubmitted }: FormSuccessProps) {
   return (
     <motion.div
       className={cn(
         "flex h-full flex-col items-center justify-center gap-5 lg:gap-6",
-        !isSubmitSuccessful && "hidden",
+        !isSubmitted && "hidden",
       )}
       initial={{ opacity: 0 }}
-      animate={isSubmitSuccessful ? { opacity: 1 } : { opacity: 0 }}
+      animate={isSubmitted ? { opacity: 1 } : { opacity: 0 }}
       transition={{
         duration: 0.4,
         ease: "easeOut",

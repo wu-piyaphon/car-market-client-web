@@ -50,7 +50,7 @@ export const API_ENDPOINTS = {
 
   // Car selling endpoints
   SELLING: {
-    SUBMIT: "/car-selling/submit",
+    SUBMIT: "/selling-requests",
     UPLOAD_IMAGES: "/car-selling/upload",
   },
 
