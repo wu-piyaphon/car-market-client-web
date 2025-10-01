@@ -34,7 +34,7 @@ export const API_ENDPOINTS = {
   // Car related endpoints
   CARS: {
     LIST: "/cars",
-    DETAIL: (id: string) => `/cars/${id}`,
+    DETAIL: (slug: string) => `/cars/slug/${slug}`,
     FILTERS: "/cars-filter",
   },
 

@@ -1,7 +1,11 @@
 import { API_ENDPOINTS, fetcher } from "@/lib/api";
 import type { APIRequestOptions } from "@/lib/api/server-fetcher";
 import { buildSearchParams } from "@/lib/params";
-import type { GetCarsQueryParams, GetCarsResponse } from "@/types/car.types";
+import type {
+  CarDetail,
+  GetCarsQueryParams,
+  GetCarsResponse,
+} from "@/types/car.types";
 import type { GetCarFiltersResponse } from "@/types/car-filter.types";
 import type { ServiceResponse } from "@/types/service.types";
 
@@ -32,9 +36,11 @@ export async function getCars(
 
 // ----------------------------------------------------------------------
 
-export async function getCarBySlug(slug: string) {
+export async function getCarBySlug(slug: string): ServiceResponse<CarDetail> {
   try {
-    const response = await fetcher.get(API_ENDPOINTS.CARS.DETAIL(slug));
+    const response = await fetcher.get<CarDetail>(
+      API_ENDPOINTS.CARS.DETAIL(slug),
+    );
 
     return {
       success: true,
