@@ -41,7 +41,6 @@ export default function RHFUpload({
   const [dragActive, setDragActive] = useState(false);
 
   const handleFileUpload = (files: FileList | null, field: FieldProps) => {
-    console.log("upload");
     if (!files || files.length === 0) return;
 
     Array.from(files).forEach((file, index) => {
