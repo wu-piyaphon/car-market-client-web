@@ -44,7 +44,7 @@ export async function submitCarValuationExample(
 ) {
   try {
     const response = await fetcher.post<{ estimatedValue: number }>(
-      API_ENDPOINTS.VALUATION.CALCULATE,
+      API_ENDPOINTS.VALUATION.SUBMIT,
       valuationData,
     );
 
@@ -151,7 +151,7 @@ export async function fetchWithCustomOptionsExample() {
 export async function uploadCarImagesExample(formData: FormData) {
   try {
     const response = await fetcher.post(
-      API_ENDPOINTS.SELLING.UPLOAD_IMAGES,
+      API_ENDPOINTS.SELLING.SUBMIT,
       undefined, // No JSON body for FormData
       {
         customHeaders: {

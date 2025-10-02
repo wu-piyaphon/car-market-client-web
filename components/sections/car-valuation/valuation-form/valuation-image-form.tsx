@@ -13,7 +13,7 @@ export default function ValuationImageForm() {
       {CAR_IMAGE_SLOTS.map((slot, index) => (
         <RHFUpload
           key={slot.id}
-          name={`images.${index}`}
+          name={`files.${index}`}
           label={slot.label}
           placeholderImage={
             slot.placeholderImage

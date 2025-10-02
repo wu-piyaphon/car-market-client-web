@@ -1,7 +1,18 @@
 import Container from "@/components/layout/container";
 import CarValuationForm from "@/components/sections/car-valuation/car-valuation-form";
+import { getCarFilters } from "@/services";
 
-export default function Page() {
+export default async function Page() {
+  const filterOptionsResult = await getCarFilters();
+
+  if (!filterOptionsResult.success) {
+    console.error("Failed to fetch filter options:", filterOptionsResult.error);
+  }
+
+  const brandOptions = filterOptionsResult.success
+    ? filterOptionsResult.data.brands
+    : [];
+
   return (
     <Container className="h-full py-7 lg:py-8">
       <h1 className="font-bold text-5xl text-primary md:text-6xl md:text-slate-900 lg:text-9xl">
@@ -11,7 +22,7 @@ export default function Page() {
         โปรดกรอกข้อมูลรถที่ท่านต้องการประเมิน
       </h6>
 
-      <CarValuationForm />
+      <CarValuationForm brandOptions={brandOptions} />
     </Container>
   );
 }

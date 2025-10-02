@@ -77,7 +77,12 @@ class ServerAPIFetcher {
     } = options;
 
     const controller = this.createTimeoutController(timeout);
-    const headers = this.mergeHeaders(customHeaders);
+
+    // Check if body is FormData to handle headers appropriately
+    const isFormData = fetchOptions.body instanceof FormData;
+    const headers = isFormData
+      ? customHeaders // For FormData, only use custom headers (let browser set Content-Type)
+      : this.mergeHeaders(customHeaders); // For other requests, merge with defaults
 
     const requestOptions: RequestInit = {
       ...fetchOptions,
@@ -204,9 +209,11 @@ class ServerAPIFetcher {
   ): Promise<APIResponse<T>> {
     const url = `${this.baseURL}${endpoint}`;
 
+    const isFormData = body instanceof FormData;
+
     const response = await this.fetchWithRetry(url, {
       method: "POST",
-      body: body ? JSON.stringify(body) : undefined,
+      body: body ? (isFormData ? body : JSON.stringify(body)) : undefined,
       ...options,
     });
 
