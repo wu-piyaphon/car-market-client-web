@@ -36,11 +36,11 @@ export default function FieldPopover({
           className={cn("cursor-pointer caret-transparent", InputClassName)}
           {...otherInputProps}
         />
-        <div className="-translate-y-1/2 absolute top-1/2 right-3 cursor-pointer">
+        <div className="-translate-y-1/2 absolute top-1/2 right-3 cursor-pointer text-gray-500">
           {PopoverContentProps?.side === "right" ? (
-            <ChevronRight className="size-4 lg:size-6" />
+            <ChevronRight className="size-4 lg:size-5" />
           ) : (
-            <ChevronDown className="size-4 lg:size-6" />
+            <ChevronDown className="size-4 lg:size-5" />
           )}
         </div>
       </PopoverTrigger>

@@ -6,6 +6,7 @@ export type CommonOption = {
 };
 
 export type CarFilterOption = {
+  id: string;
   name: string;
   count: number;
 };

@@ -1,6 +1,6 @@
 import type { PopoverContentProps } from "@radix-ui/react-popover";
 import { Command as CommandPrimitive } from "cmdk";
-import { Check, ChevronDown, ChevronRight } from "lucide-react";
+import { Check, ChevronDown, ChevronRight, X } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
@@ -51,43 +51,61 @@ export function Autocomplete<T extends string>({
   const [searchInput, setSearchInput] = useState("");
   const [open, setOpen] = useState(false);
 
+  // Find the selected option based on the value (option.id)
   const selectedOption = useMemo(
-    () => options.find((option) => option.name === value),
+    () => options.find((option) => option.id === value),
     [options, value],
   );
 
-  const filterOptions = useMemo(() => {
-    if (!searchInput) {
-      return options;
-    }
-
-    if (selectedOption && searchInput?.trim() === value) {
+  // Filter options based on search input (searching by name)
+  const filteredOptions = useMemo(() => {
+    if (!searchInput.trim()) {
       return options;
     }
 
     return options.filter((option) =>
       option.name.toLowerCase().includes(searchInput.toLowerCase()),
     );
-  }, [options, searchInput, selectedOption, value]);
+  }, [options, searchInput]);
 
+  // Reset selection
   const reset = () => {
     onChange("" as T);
     setSearchInput("");
   };
 
-  const onInputBlur = () => {
-    if (!selectedOption || selectedOption.name !== searchInput) {
+  // Handle selection from dropdown
+  const onSelectItem = (selectedId: string) => {
+    const selectedOption = options.find((option) => option.id === selectedId);
+
+    if (selectedId === value) {
+      // If clicking the same item, reset
       reset();
+    } else if (selectedOption) {
+      // Update value with option.id and display with option.name
+      onChange(selectedId as T);
+      setSearchInput(selectedOption.name);
     }
     setOpen(false);
   };
 
-  const onSelectItem = (inputValue: string) => {
-    if (inputValue === value) {
-      reset();
+  // Handle input blur - validate that the input matches a valid option name
+  const onInputBlur = () => {
+    const matchingOption = options.find(
+      (option) =>
+        option.name.toLowerCase() === searchInput.toLowerCase().trim(),
+    );
+
+    if (matchingOption) {
+      // If input matches a valid option name, select it
+      onChange(matchingOption.id as T);
+      setSearchInput(matchingOption.name);
+    } else if (selectedOption) {
+      // If no match but we have a selected option, revert to selected option name
+      setSearchInput(selectedOption.name);
     } else {
-      onChange(inputValue as T);
-      setSearchInput(inputValue);
+      // No match and no selection, clear everything
+      reset();
     }
     setOpen(false);
   };
@@ -97,14 +115,59 @@ export function Autocomplete<T extends string>({
     inputRef.current?.focus();
   };
 
-  useEffect(() => {
-    if (!value) {
-      setSearchInput("");
-      return;
-    }
+  // ----------------------------------------------------------------------
 
-    setSearchInput(value);
-  }, [value]);
+  const renderEndIcon = (
+    <button
+      type="button"
+      disabled={disabled}
+      onClick={handleClickDropdown}
+      className={cn(
+        "flex cursor-pointer items-center justify-center text-gray-500",
+        disabled && "cursor-auto opacity-50",
+      )}
+      aria-label="Toggle dropdown"
+    >
+      {PopoverContentProps?.side === "right" ? (
+        <ChevronRight className="size-4 lg:size-5" />
+      ) : (
+        <ChevronDown className="size-4 lg:size-5" />
+      )}
+    </button>
+  );
+
+  const renderClearIcon = (
+    <button
+      type="button"
+      onClick={(e) => {
+        e.stopPropagation();
+        reset();
+      }}
+      className={cn(
+        "flex h-6 w-6 cursor-pointer items-center justify-center rounded-full transition-all duration-200",
+        "bg-gray-100 text-gray-500 hover:bg-gray-200 hover:text-gray-700",
+        "focus:outline-none focus:ring-2 focus:ring-primary/20 focus:ring-offset-1",
+        "active:scale-95",
+        "dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300",
+      )}
+      aria-label="Clear selection"
+    >
+      <X className="h-3 w-3" />
+    </button>
+  );
+
+  // ----------------------------------------------------------------------
+
+  // Sync search input with selected option display name
+  useEffect(() => {
+    if (selectedOption) {
+      setSearchInput(selectedOption.name);
+    } else if (!value) {
+      setSearchInput("");
+    }
+  }, [selectedOption, value]);
+
+  // ----------------------------------------------------------------------
 
   return (
     <div className="flex items-center">
@@ -114,11 +177,17 @@ export function Autocomplete<T extends string>({
             <CommandPrimitive.Input
               asChild
               value={searchInput}
-              onValueChange={setSearchInput}
-              onKeyDown={(e) => setOpen(e.key !== "Escape")}
-              onMouseDown={() => setOpen((open) => !!searchInput || !open)}
-              onFocus={() => setOpen(true)}
-              onBlur={onInputBlur}
+              onValueChange={selectedOption ? undefined : setSearchInput}
+              onKeyDown={(e) =>
+                selectedOption ? undefined : setOpen(e.key !== "Escape")
+              }
+              onMouseDown={() =>
+                selectedOption
+                  ? undefined
+                  : setOpen((open) => !!searchInput || !open)
+              }
+              onFocus={() => (selectedOption ? undefined : setOpen(true))}
+              onBlur={selectedOption ? undefined : onInputBlur}
             >
               <FormControl>
                 <Input
@@ -126,24 +195,8 @@ export function Autocomplete<T extends string>({
                   label={label}
                   value={searchInput}
                   disabled={disabled}
-                  endIcon={
-                    <button
-                      type="button"
-                      disabled={disabled}
-                      onClick={handleClickDropdown}
-                      className={cn(
-                        "flex cursor-pointer items-center justify-center",
-                        disabled && "opacity-50",
-                      )}
-                      aria-label="Toggle dropdown"
-                    >
-                      {PopoverContentProps?.side === "right" ? (
-                        <ChevronRight className="size-4 lg:size-6" />
-                      ) : (
-                        <ChevronDown className="size-4 lg:size-6" />
-                      )}
-                    </button>
-                  }
+                  readOnly={!!selectedOption}
+                  endIcon={selectedOption ? renderClearIcon : renderEndIcon}
                   {...InputProps}
                 />
               </FormControl>
@@ -172,19 +225,20 @@ export function Autocomplete<T extends string>({
                   </div>
                 </CommandPrimitive.Loading>
               )}
-              {filterOptions.length > 0 && !loading ? (
+              {filteredOptions.length > 0 && !loading ? (
                 <CommandGroup>
-                  {filterOptions.map((option) => (
+                  {filteredOptions.map((option) => (
                     <CommandItem
-                      key={option.name}
-                      value={option.name}
+                      key={option.id}
+                      value={option.id}
                       onMouseDown={(e) => e.preventDefault()}
                       onSelect={onSelectItem}
+                      className="items-center"
                     >
                       <Check
                         className={cn(
                           "mr-2 h-4 w-4",
-                          value === option.name ? "opacity-100" : "opacity-0",
+                          value === option.id ? "opacity-100" : "opacity-0",
                         )}
                       />
                       {"image" in option && (
@@ -193,10 +247,15 @@ export function Autocomplete<T extends string>({
                           alt={option.name}
                           width={80}
                           height={80}
-                          className="h-auto w-6 object-cover"
+                          className="h-auto w-6 object-cover pb-0.5"
                         />
                       )}
-                      <p className="mt-0.75">{option.name}</p>
+                      <p>{option.name}</p>
+                      {"count" in option && option.count !== undefined && (
+                        <span className="ml-auto font-bold text-base text-gray-600">
+                          {option.count}
+                        </span>
+                      )}
                     </CommandItem>
                   ))}
                 </CommandGroup>

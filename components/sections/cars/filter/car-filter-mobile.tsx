@@ -3,11 +3,13 @@
 import { Search } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import { useState } from "react";
+import { useFormContext, useWatch } from "react-hook-form";
 import RHFAutocomplete from "@/components/hook-forms/rhf-autocomplete";
 import RHFTextField from "@/components/hook-forms/rhf-textfield";
 import Container from "@/components/layout/container";
 import { Button } from "@/components/ui/button";
 import CarImageBanner from "@/components/ui/custom-banner/car-image-banner";
+import type { CarFilterSchema } from "@/lib/schemas/car-filter-schema";
 import { cn } from "@/lib/utils";
 import type { GetCarFiltersResponse } from "@/types/car-filter.types";
 
@@ -31,6 +33,13 @@ type CarFilterMobileProps = {
 export default function CarFilterMobile({
   filterOptions,
 }: CarFilterMobileProps) {
+  const { control } = useFormContext<CarFilterSchema>();
+
+  const [selectedModel] = useWatch({
+    control,
+    name: ["model"],
+  });
+
   const {
     types,
     brands,
@@ -95,6 +104,7 @@ export default function CarFilterMobile({
                   <RHFAutocomplete
                     name="subModel"
                     label="รุ่นย่อย"
+                    disabled={!selectedModel}
                     options={subModels}
                     InputProps={INPUT_PROPS.MIDDLE}
                   />

@@ -1,8 +1,10 @@
 "use client";
 
+import { useFormContext, useWatch } from "react-hook-form";
 import RHFAutocomplete from "@/components/hook-forms/rhf-autocomplete";
 import RHFTextField from "@/components/hook-forms/rhf-textfield";
 import FieldPopover from "@/components/ui/custom-popover/field-popover";
+import type { CarFilterSchema } from "@/lib/schemas/car-filter-schema";
 import type { GetCarFiltersResponse } from "@/types/car-filter.types";
 
 // ----------------------------------------------------------------------
@@ -16,6 +18,13 @@ type CarFilterSidebarProps = {
 export default function CarFilterSidebar({
   filterOptions,
 }: CarFilterSidebarProps) {
+  const { control } = useFormContext<CarFilterSchema>();
+
+  const [selectedModel] = useWatch({
+    control,
+    name: ["model"],
+  });
+
   const {
     types,
     brands,
@@ -47,6 +56,7 @@ export default function CarFilterSidebar({
           name={field.name}
           label={field.label}
           options={field.options}
+          disabled={field.name === "subModel" && !selectedModel}
           PopoverContentProps={{ side: "right" }}
           InputProps={{ className: "rounded-none border-b-0" }}
         />
