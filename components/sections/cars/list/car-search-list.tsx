@@ -1,7 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { useForm, useWatch } from "react-hook-form";
 import Form from "@/components/hook-forms/form";
 import Container from "@/components/layout/container";
@@ -44,8 +44,10 @@ export default function CarSearchList({
     defaultValues: queryParams,
   });
 
+  const { control, setValue } = methods;
+
   const watchedValues = useWatch({
-    control: methods.control,
+    control,
   });
 
   const { items, isLoading, hasMore } = useInfiniteScroll<CarListItem>({
@@ -61,6 +63,16 @@ export default function CarSearchList({
     basePath: paths.cars.list,
     delay: 100,
   });
+
+  // ----------------------------------------------------------------------
+
+  useEffect(() => {
+    if (watchedValues.model === "") {
+      setValue("subModel", "");
+    }
+  }, [watchedValues.model, setValue]);
+
+  // ----------------------------------------------------------------------
 
   return (
     <Form methods={methods}>

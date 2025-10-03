@@ -11,6 +11,8 @@ import { getCarFilters, getCars } from "@/services";
 
 export const dynamic = "force-dynamic";
 
+// ----------------------------------------------------------------------
+
 type PageProps = {
   searchParams: Promise<Record<string, string | string[] | undefined>>;
 };
@@ -41,7 +43,7 @@ export default async function Page({ searchParams }: PageProps) {
       ? { ...CAR_FILTER_DEFAULT_VALUES, ...validatedParams.data }
       : CAR_FILTER_DEFAULT_VALUES;
 
-    const filterOptionsResult = await getCarFilters();
+    const filterOptionsResult = await getCarFilters(searchParamValues);
     const cars = await getCars({
       ...searchParamValues,
       page: 1,
@@ -67,10 +69,7 @@ export default async function Page({ searchParams }: PageProps) {
       <CarSearchList
         data={cars.data}
         filterOptions={filterOptionsResult.data}
-        queryParams={{
-          ...CAR_FILTER_DEFAULT_VALUES,
-          ...searchParamValues,
-        }}
+        queryParams={searchParamValues}
       />
     );
   } catch (error) {

@@ -1,6 +1,7 @@
 import { API_ENDPOINTS, fetcher } from "@/lib/api";
 import type { APIRequestOptions } from "@/lib/api/server-fetcher";
-import { buildSearchParams } from "@/lib/params";
+import { buildQueryString } from "@/lib/params";
+import type { CarFilterSchema } from "@/lib/schemas/car-filter-schema";
 import type {
   CarDetail,
   GetCarsQueryParams,
@@ -14,12 +15,9 @@ export async function getCars(
   options?: APIRequestOptions,
 ): ServiceResponse<GetCarsResponse> {
   try {
-    const searchParams = params
-      ? buildSearchParams(params)
-      : new URLSearchParams();
+    const url = buildQueryString(API_ENDPOINTS.CARS.LIST, { ...params });
 
-    const endpoint = `${API_ENDPOINTS.CARS.LIST}?${searchParams.toString()}`;
-    const response = await fetcher.get<GetCarsResponse>(endpoint, options);
+    const response = await fetcher.get<GetCarsResponse>(url, options);
 
     return {
       success: true,
@@ -57,11 +55,13 @@ export async function getCarBySlug(slug: string): ServiceResponse<CarDetail> {
 
 // ----------------------------------------------------------------------
 
-export async function getCarFilters(): ServiceResponse<GetCarFiltersResponse> {
+export async function getCarFilters(
+  query?: CarFilterSchema,
+): ServiceResponse<GetCarFiltersResponse> {
   try {
-    const response = await fetcher.get<GetCarFiltersResponse>(
-      API_ENDPOINTS.CARS.FILTERS,
-    );
+    const url = buildQueryString(API_ENDPOINTS.CARS.FILTERS, { ...query });
+
+    const response = await fetcher.get<GetCarFiltersResponse>(url);
 
     return {
       success: true,

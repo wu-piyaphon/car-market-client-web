@@ -188,6 +188,7 @@ export function Autocomplete<T extends string>({
               }
               onFocus={() => (selectedOption ? undefined : setOpen(true))}
               onBlur={selectedOption ? undefined : onInputBlur}
+              className={cn(selectedOption && "cursor-auto")}
             >
               <FormControl>
                 <Input
@@ -197,6 +198,8 @@ export function Autocomplete<T extends string>({
                   disabled={disabled}
                   readOnly={!!selectedOption}
                   endIcon={selectedOption ? renderClearIcon : renderEndIcon}
+                  autoComplete="off"
+                  placeholder={label}
                   {...InputProps}
                 />
               </FormControl>

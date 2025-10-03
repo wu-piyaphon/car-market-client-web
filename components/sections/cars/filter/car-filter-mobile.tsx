@@ -49,6 +49,7 @@ export default function CarFilterMobile({
     transmissions,
     engineTypes,
     modelYears,
+    engineCapacities,
   } = filterOptions;
 
   const [showMore, setShowMore] = useState(false);
@@ -133,9 +134,9 @@ export default function CarFilterMobile({
                     InputProps={INPUT_PROPS.MIDDLE}
                   />
                   <RHFAutocomplete
-                    name="engineSize"
+                    name="engineCapacity"
                     label="ขนาดเครื่องยนต์"
-                    options={[]}
+                    options={engineCapacities}
                     InputProps={INPUT_PROPS.MIDDLE}
                   />
                   <div className="flex flex-row">

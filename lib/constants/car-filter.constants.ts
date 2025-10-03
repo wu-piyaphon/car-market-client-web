@@ -27,4 +27,5 @@ export const CAR_FILTER_OPTIONS_FALLBACK: GetCarFiltersResponse = {
   modelYears: [],
   engineTypes: [],
   colors: [],
+  engineCapacities: [],
 };

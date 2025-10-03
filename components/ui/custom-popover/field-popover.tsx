@@ -1,15 +1,19 @@
 import type { PopoverContentProps } from "@radix-ui/react-popover";
 import { ChevronDown, ChevronRight } from "lucide-react";
-import { useState } from "react";
+import { useMemo, useState } from "react";
+import { useFormContext, useWatch } from "react-hook-form";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { fCurrency } from "@/lib/format-string";
+import type { CarFilterSchema } from "@/lib/schemas/car-filter-schema";
 import { cn } from "@/lib/utils";
 import { Input } from "../input";
 
 type FieldPopoverProps = {
+  type: "PRICE" | "MILEAGE";
   label: string;
   children: React.ReactNode;
   InputProps?: React.ComponentProps<"input">;
@@ -17,12 +21,31 @@ type FieldPopoverProps = {
 };
 
 export default function FieldPopover({
+  type,
   label,
   children,
   InputProps,
   PopoverContentProps,
 }: FieldPopoverProps) {
   const [open, setOpen] = useState(false);
+
+  const { control } = useFormContext<CarFilterSchema>();
+
+  const [minPrice, maxPrice, minMileage, maxMileage] = useWatch({
+    control,
+    name: ["minPrice", "maxPrice", "minMileage", "maxMileage"],
+  });
+
+  const displayValue = useMemo(() => {
+    if (type === "PRICE") {
+      if (!minPrice && !maxPrice) return "";
+
+      return `${fCurrency(minPrice || 0)} ${maxPrice ? `- ${fCurrency(maxPrice)}` : ""}`;
+    }
+
+    if (!minMileage && !maxMileage) return "";
+    return `${fCurrency(minMileage || 0)} ${maxMileage ? `- ${fCurrency(maxMileage)}` : ""}`;
+  }, [minPrice, maxPrice, minMileage, maxMileage, type]);
 
   const { className: InputClassName, ...otherInputProps } = InputProps || {};
   const { className: PopoverContentClassName, ...otherPopoverContentProps } =
@@ -33,6 +56,8 @@ export default function FieldPopover({
       <PopoverTrigger className="relative">
         <Input
           label={label}
+          value={displayValue}
+          readOnly
           className={cn("cursor-pointer caret-transparent", InputClassName)}
           {...otherInputProps}
         />

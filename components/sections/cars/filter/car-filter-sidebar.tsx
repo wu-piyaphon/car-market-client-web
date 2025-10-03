@@ -34,6 +34,7 @@ export default function CarFilterSidebar({
     transmissions,
     engineTypes,
     modelYears,
+    engineCapacities,
   } = filterOptions;
 
   const autocompleteFields = [
@@ -43,8 +44,13 @@ export default function CarFilterSidebar({
     { name: "subModel", label: "รุ่นย่อย", options: subModels },
     { name: "color", label: "สีรถ", options: colors },
     { name: "transmission", label: "ระบบเกียร์", options: transmissions },
-    { name: "year", label: "ปีรถ", options: modelYears },
+    { name: "modelYear", label: "ปีรถ", options: modelYears },
     { name: "engineType", label: "ประเภทเครื่องยนต์", options: engineTypes },
+    {
+      name: "engineCapacity",
+      label: "ขนาดเครื่องยนต์",
+      options: engineCapacities,
+    },
   ];
 
   return (
@@ -63,6 +69,7 @@ export default function CarFilterSidebar({
       ))}
 
       <FieldPopover
+        type="MILEAGE"
         label="เลขไมล์"
         PopoverContentProps={{ side: "right" }}
         InputProps={{ className: "rounded-none border-b-0" }}
@@ -75,6 +82,7 @@ export default function CarFilterSidebar({
       </FieldPopover>
 
       <FieldPopover
+        type="PRICE"
         label="ราคา"
         PopoverContentProps={{ side: "right" }}
         InputProps={{ className: "rounded-none" }}

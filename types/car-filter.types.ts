@@ -22,5 +22,6 @@ export type GetCarFiltersResponse = {
   transmissions: CarFilterOption[];
   modelYears: CarFilterOption[];
   engineTypes: CarFilterOption[];
+  engineCapacities: CarFilterOption[];
   colors: CarFilterOption[];
 };
