@@ -1,8 +1,18 @@
+import type { Metadata } from "next";
 import Container from "@/components/layout/container";
 import CarDetailCard from "@/components/sections/cars/detail/car-detail-card";
 import CarDetailCarousel from "@/components/sections/cars/detail/car-detail-carousel";
 import LoanCalculatorForm from "@/components/sections/loan-calculator/loan-calculator-form";
+import { CONFIG } from "@/global-config";
 import { getCarBySlug } from "@/services";
+
+// ----------------------------------------------------------------------
+
+export const metadata: Metadata = {
+  title: `${CONFIG.appName} | รายละเอียดรถยนต์`,
+};
+
+// ----------------------------------------------------------------------
 
 type PageProps = {
   params: Promise<{ slug: string }>;

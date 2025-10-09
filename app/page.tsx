@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { Suspense } from "react";
 import Container from "@/components/layout/container";
 import HomeAboutUs from "@/components/sections/home/home-about-us";
@@ -7,6 +8,7 @@ import HomeSearchCard from "@/components/sections/home/home-search-card";
 import HomeSellingSection from "@/components/sections/home/home-selling-section";
 import CarImageBanner from "@/components/ui/custom-banner/car-image-banner";
 import type { CarCardGroup } from "@/components/ui/custom-card/car-card-list";
+import { CONFIG } from "@/global-config";
 import { fCarCategoryString, fCarTypeString } from "@/lib/format-string";
 import { getCars } from "@/services";
 import type { CarCategory, CarType } from "@/types/car.types";
@@ -15,6 +17,10 @@ import type { CarCategory, CarType } from "@/types/car.types";
 
 const CATEGORIES: CarCategory[] = ["NEW"];
 const CAR_TYPES: CarType[] = ["PICKUP", "SEDAN", "SUV"];
+
+export const metadata: Metadata = {
+  title: `${CONFIG.appName} | ตลาดรถยนต์ออนไลน์ประเทศไทย`,
+};
 
 // ----------------------------------------------------------------------
 

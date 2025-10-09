@@ -1,7 +1,13 @@
+import type { Metadata } from "next";
 import Container from "@/components/layout/container";
 import AboutUsFAQ from "@/components/sections/about-us/about-us-faq";
 import AboutUsHeader from "@/components/sections/about-us/about-us-header";
 import AboutUsImages from "@/components/sections/about-us/about-us-images";
+import { CONFIG } from "@/global-config";
+
+export const metadata: Metadata = {
+  title: `${CONFIG.appName} | เกี่ยวกับเรา`,
+};
 
 export default function Page() {
   return (

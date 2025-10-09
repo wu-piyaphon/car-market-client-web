@@ -1,4 +1,6 @@
+import type { Metadata } from "next";
 import CarSearchList from "@/components/sections/cars/list/car-search-list";
+import { CONFIG } from "@/global-config";
 import {
   CAR_FILTER_DEFAULT_VALUES,
   CAR_FILTER_OPTIONS_FALLBACK,
@@ -10,6 +12,10 @@ import { getCarFilters, getCars } from "@/services";
 // ----------------------------------------------------------------------
 
 export const dynamic = "force-dynamic";
+
+export const metadata: Metadata = {
+  title: `${CONFIG.appName} | รายการรถยนต์`,
+};
 
 // ----------------------------------------------------------------------
 

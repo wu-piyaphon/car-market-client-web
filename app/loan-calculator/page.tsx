@@ -1,12 +1,22 @@
+import type { Metadata } from "next";
 import { Suspense } from "react";
 import Container from "@/components/layout/container";
 import LoanCalculatorCarsContent from "@/components/sections/loan-calculator/loan-calcular-cars-section/loan-calculator-cars-content";
 import LoanCalculatorCarsLoading from "@/components/sections/loan-calculator/loan-calcular-cars-section/loan-calculator-cars-loading";
 import LoanCalculatorForm from "@/components/sections/loan-calculator/loan-calculator-form";
 import type { CarCardGroup } from "@/components/ui/custom-card/car-card-list";
+import { CONFIG } from "@/global-config";
 import { fCarCategoryString } from "@/lib/format-string";
 import { getCars } from "@/services";
 import type { CarCategory } from "@/types/car.types";
+
+// ----------------------------------------------------------------------
+
+export const metadata: Metadata = {
+  title: `${CONFIG.appName} | คำนวณสินเชื่อรถยนต์`,
+};
+
+// ----------------------------------------------------------------------
 
 async function fetchLoanCalculatorPageData(): Promise<CarCardGroup[]> {
   const CATEGORIES: CarCategory[] = ["NEW"];

@@ -1,6 +1,16 @@
+import type { Metadata } from "next";
 import Container from "@/components/layout/container";
 import CarValuationForm from "@/components/sections/car-valuation/car-valuation-form";
+import { CONFIG } from "@/global-config";
 import { getCarFilters } from "@/services";
+
+// ----------------------------------------------------------------------
+
+export const metadata: Metadata = {
+  title: `${CONFIG.appName} | แบบฟอร์มประเมินราคารถ`,
+};
+
+// ----------------------------------------------------------------------
 
 export default async function Page() {
   const filterOptionsResult = await getCarFilters();
