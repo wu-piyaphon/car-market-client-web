@@ -48,20 +48,20 @@ export default function RHFTextField({
                 onChange={(e) => {
                   const inputValue = e.target.value;
 
-                  if (type === "currency" || type === "number") {
-                    // Only allow digits
-                    if (!/^\d*$/.test(inputValue)) return;
-                  }
-
                   if (type === "currency") {
                     // Remove thousand separators for validation
                     const numericValue = removeThousandSeparator(inputValue);
-
+                    // Only allow digits
+                    if (!/^\d*$/.test(numericValue)) return;
                     // Store the numeric value without separators
                     field.onChange(numericValue);
+                  } else if (type === "number") {
+                    // Only allow digits
+                    if (!/^\d*$/.test(inputValue)) return;
+                    field.onChange(e);
+                  } else {
+                    field.onChange(e);
                   }
-
-                  field.onChange(e);
                 }}
                 required={required}
               />
