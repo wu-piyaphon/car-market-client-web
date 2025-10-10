@@ -97,7 +97,7 @@ export default function HomeSellingSection() {
           <HomeSellingCard
             icon={<SquarePen className="size-16 lg:size-22" />}
             href={paths.form.estimate}
-            title={`สนใจประเมิณราคารถกับ\nGoodCarMarket`}
+            title={`สนใจประเมินราคารถกับ\nGoodCarMarket`}
           />
         </div>
       </section>

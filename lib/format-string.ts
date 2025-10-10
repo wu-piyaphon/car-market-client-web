@@ -28,7 +28,7 @@ export const fThousandSeparator = (value: string): string => {
 export function fCarCategoryString(category: CarCategory) {
   switch (category) {
     case "NEW":
-      return "รถใหม่";
+      return "รถเข้าใหม่";
     default:
       return category;
   }
