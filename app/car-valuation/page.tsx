@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Container from "@/components/layout/container";
 import CarValuationForm from "@/components/sections/car-valuation/car-valuation-form";
 import { CONFIG } from "@/global-config";
-import { getCarFilters } from "@/services";
+import { getCarBrands } from "@/services/brand.services";
 
 // ----------------------------------------------------------------------
 
@@ -13,14 +13,14 @@ export const metadata: Metadata = {
 // ----------------------------------------------------------------------
 
 export default async function Page() {
-  const filterOptionsResult = await getCarFilters();
+  const brandOptionsResult = await getCarBrands();
 
-  if (!filterOptionsResult.success) {
-    console.error("Failed to fetch filter options:", filterOptionsResult.error);
+  if (!brandOptionsResult.success) {
+    console.error("Failed to fetch brand options:", brandOptionsResult.error);
   }
 
-  const brandOptions = filterOptionsResult.success
-    ? filterOptionsResult.data.brands
+  const brandOptions = brandOptionsResult.success
+    ? brandOptionsResult.data
     : [];
 
   return (

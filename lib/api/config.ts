@@ -42,4 +42,7 @@ export const API_ENDPOINTS = {
   SELLING: {
     SUBMIT: "/selling-requests",
   },
+  BRANDS: {
+    LIST: "/car-brands",
+  },
 } as const;

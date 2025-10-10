@@ -13,7 +13,7 @@ import {
 } from "@/lib/schemas/car-valuation-schema";
 import { cn } from "@/lib/utils";
 import { submitCarValuationForm } from "@/services/actions/car-valuation.actions";
-import type { GetCarFiltersResponse } from "@/types/car-filter.types";
+import type { BrandOption } from "@/types/brand.types";
 import ValuationCarForm from "./valuation-form/valuation-car-form";
 import ValuationContactForm from "./valuation-form/valuation-contact-form";
 import ValuationFinanceForm from "./valuation-form/valuation-finance-form";
@@ -22,7 +22,7 @@ import ValuationImageForm from "./valuation-form/valuation-image-form";
 // ----------------------------------------------------------------------
 
 type CarValuationFormProps = {
-  brandOptions: GetCarFiltersResponse["brands"];
+  brandOptions: BrandOption[];
 };
 
 // ----------------------------------------------------------------------
@@ -47,7 +47,10 @@ export default function CarValuationForm({
     },
   });
 
-  const { handleSubmit } = methods;
+  const {
+    handleSubmit,
+    formState: { isSubmitting },
+  } = methods;
 
   // ----------------------------------------------------------------------
 
@@ -103,7 +106,9 @@ export default function CarValuationForm({
           >
             <Link href="/">กลับสู่หน้าหลัก</Link>
           </Button>
-          <Button size="lg">ส่งประเมินราคา</Button>
+          <Button size="lg" loading={isSubmitting}>
+            ส่งประเมินราคา
+          </Button>
         </div>
       </div>
 

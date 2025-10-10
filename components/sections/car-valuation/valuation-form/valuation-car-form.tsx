@@ -1,11 +1,11 @@
 import RHFAutocomplete from "@/components/hook-forms/rhf-autocomplete";
 import RHFTextField from "@/components/hook-forms/rhf-textfield";
-import type { GetCarFiltersResponse } from "@/types/car-filter.types";
+import type { BrandOption } from "@/types/brand.types";
 
 // ----------------------------------------------------------------------
 
 type ValuationCarFormProps = {
-  brandOptions: GetCarFiltersResponse["brands"];
+  brandOptions: BrandOption[];
 };
 
 // ----------------------------------------------------------------------
