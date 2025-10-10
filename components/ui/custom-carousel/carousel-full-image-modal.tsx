@@ -18,7 +18,7 @@ export default function CarouselFullImageModal({
 }: CarouselFullImageModalProps) {
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 backdrop-blur-sm"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm"
       role="dialog"
       aria-modal="true"
       aria-label="Full screen image view"

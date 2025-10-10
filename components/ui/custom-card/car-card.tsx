@@ -15,15 +15,17 @@ export default function CarCard({ item }: CarCardProps) {
 
   return (
     <article className="rounded-md shadow-sm">
-      <div className="relative h-[110px] w-full rounded-t-md object-cover md:h-[168px]">
-        <Image
-          fill
-          src={thumbnail}
-          alt={model}
-          className="rounded-t-md object-cover"
-          sizes="100%"
-        />
-      </div>
+      <Link href={paths.cars.detail(slug)} passHref>
+        <div className="relative h-[110px] w-full cursor-pointer rounded-t-md object-cover transition-opacity hover:opacity-80 md:h-[168px]">
+          <Image
+            fill
+            src={thumbnail}
+            alt={model}
+            className="rounded-t-md object-cover"
+            sizes="100%"
+          />
+        </div>
+      </Link>
 
       <div className="space-y-2 p-4">
         <div>
