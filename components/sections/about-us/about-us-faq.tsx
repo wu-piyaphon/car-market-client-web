@@ -10,11 +10,7 @@ import {
 const FAQ = [
   {
     question: "คำถามที่พบบ่อยข้อที่ 1",
-    answer: `Imperdiet ut tristique viverra nunc. Ultrices orci vel auctor cursus
-    turpis nibh placerat massa. Fermentum urna ut at et in. Turpis
-    aliquet cras hendrerit enim condimentum. Condimentum interdum risus
-    bibendum urna. Augue aliquet varius faucibus ut integer tristique
-    ut. Pellentesque id nibh sed nulla non nulla`,
+    answer: `คำตอบสำหรับคำถามที่พบบ่อยข้อที่ 1`,
   },
   {
     question: "คำถามที่พบบ่อยข้อที่ 2",
