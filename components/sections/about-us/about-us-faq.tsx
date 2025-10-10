@@ -26,7 +26,7 @@ const FAQ = [
 
 export default function AboutUsFAQ() {
   return (
-    <div>
+    <div id="faq">
       <h2 className="font-bold text-5xl text-primary-500 md:text-center md:text-9xl md:text-slate-900 lg:text-11xl">
         คำถามที่พบบ่อย
       </h2>

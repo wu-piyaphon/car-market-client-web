@@ -7,7 +7,7 @@ export const paths = {
   loanCalculator: "/loan-calculator",
   aboutUs: "/about-us",
   contactUs: "/contact-us",
-  faq: "/faq",
+  faq: "/about-us#faq",
   form: {
     selling: "/car-selling",
     estimate: "/car-valuation",
