@@ -106,7 +106,11 @@ export default function CarValuationForm({
           >
             <Link href="/">กลับสู่หน้าหลัก</Link>
           </Button>
-          <Button size="lg" loading={isSubmitting}>
+          <Button
+            size="lg"
+            className="flex-1 shrink-0 md:w-[140px] md:flex-initial lg:w-[175px]"
+            loading={isSubmitting}
+          >
             ส่งประเมินราคา
           </Button>
         </div>
