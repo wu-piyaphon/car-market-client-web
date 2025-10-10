@@ -63,21 +63,29 @@ export function useCarousel({
   // Keyboard navigation
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
+      // Ignore keyboard events when user is focused on form elements
+      const target = event.target as HTMLElement;
+      if (
+        target.tagName === "INPUT" ||
+        target.tagName === "TEXTAREA" ||
+        target.tagName === "SELECT" ||
+        target.isContentEditable ||
+        target.closest('[contenteditable="true"]')
+      ) {
+        return;
+      }
+
       switch (event.key) {
         case "ArrowLeft":
-          event.preventDefault();
           goToPrevious();
           break;
         case "ArrowRight":
-          event.preventDefault();
           goToNext();
           break;
         case "Home":
-          event.preventDefault();
           goToIndex(0);
           break;
         case "End":
-          event.preventDefault();
           goToIndex(totalImages - 1);
           break;
       }
