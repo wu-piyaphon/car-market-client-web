@@ -55,7 +55,7 @@ export default function Page() {
           ลงประกาศ/ขายรถ
         </h1>
         <h6 className="mt-1 hidden text-slate-400 md:block md:text-xl lg:text-3xl">
-          กรุณากรอกขอมูลการลงประกาศ/ขายรถ
+          กรุณากรอกข้อมูลการลงประกาศ/ขายรถ
         </h6>
 
         <CarSellingForm />

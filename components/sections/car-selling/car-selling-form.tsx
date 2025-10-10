@@ -19,8 +19,8 @@ import type { SalesType } from "@/types/car.types";
 // ----------------------------------------------------------------------
 
 const SELLING_TYPES_OPTIONS: { id: SalesType; name: string }[] = [
-  { id: "CONSIGNMENT", name: "ลงประกาศผ่านเว็บไซท์" },
-  { id: "OWNER", name: "ขายรถกับเต๊นท์ GoodCarMarket" },
+  { id: "CONSIGNMENT", name: "ลงประกาศผ่านเว็บไซต์" },
+  { id: "OWNER", name: "ขายรถกับเต๊นท์รถ GoodCarMarket" },
 ];
 
 // ----------------------------------------------------------------------
