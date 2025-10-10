@@ -30,7 +30,7 @@ async function fetchHomePageCarData(): Promise<CarCardGroup[]> {
       CATEGORIES.map(async (category) => {
         const result = await getCars(
           { category, page: 1, pageSize: 4 },
-          { next: { revalidate: 300 } }, // 5 minutes cache
+          { next: { revalidate: 60 } }, // 1 minute cache
         );
         if (!result.success) {
           console.error(
@@ -50,7 +50,7 @@ async function fetchHomePageCarData(): Promise<CarCardGroup[]> {
       CAR_TYPES.map(async (type) => {
         const result = await getCars(
           { type, page: 1, pageSize: 4 },
-          { next: { revalidate: 300 } }, // 5 minutes cache
+          { next: { revalidate: 60 } }, // 1 minute cache
         );
         if (!result.success) {
           console.error(`Failed to fetch cars for type ${type}:`, result.error);

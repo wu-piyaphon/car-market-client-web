@@ -25,7 +25,7 @@ async function fetchLoanCalculatorPageData(): Promise<CarCardGroup[]> {
     CATEGORIES.map(async (category) => {
       const result = await getCars(
         { category, page: 1, pageSize: 4 },
-        { next: { revalidate: 300 } }, // 5 minutes cache
+        { next: { revalidate: 60 } }, // 1 minute cache
       );
 
       if (!result.success) {
