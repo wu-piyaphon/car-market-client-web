@@ -38,12 +38,12 @@ export default async function Page({ params }: PageProps) {
         </div>
 
         <div className="hidden md:block">
-          <LoanCalculatorForm />
+          <LoanCalculatorForm defaultPrice={detail.data.price} />
         </div>
       </Container>
 
       <div className="block md:hidden">
-        <LoanCalculatorForm />
+        <LoanCalculatorForm defaultPrice={detail.data.price} />
       </div>
     </section>
   );

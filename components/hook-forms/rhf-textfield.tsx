@@ -13,6 +13,7 @@ type Props = React.ComponentProps<"div"> & {
   placeholder?: string;
   InputProps?: React.ComponentProps<"input">;
   required?: boolean;
+  disabled?: boolean;
 };
 
 export default function RHFTextField({
@@ -22,6 +23,7 @@ export default function RHFTextField({
   placeholder,
   InputProps,
   required = false,
+  disabled = false,
   ...other
 }: Props) {
   const { control } = useFormContext();
@@ -64,6 +66,7 @@ export default function RHFTextField({
                   }
                 }}
                 required={required}
+                disabled={disabled}
               />
             </FormControl>
           </FormItem>

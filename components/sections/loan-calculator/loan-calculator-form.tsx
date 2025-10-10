@@ -5,14 +5,23 @@ import { useForm } from "react-hook-form";
 import Form from "@/components/hook-forms/form";
 import RHFTextField from "@/components/hook-forms/rhf-textfield";
 import { Button } from "@/components/ui/button";
-import { loanCalculatorSchema } from "@/lib/schemas/loan-calculator-schema";
+import {
+  type LoanCalculatorSchema,
+  loanCalculatorSchema,
+} from "@/lib/schemas/loan-calculator-schema";
 import LoanCalculatorResult from "./loan-calculator-result";
 
-export default function LoanCalculatorForm() {
-  const methods = useForm({
+type LoanCalculatorFormProps = {
+  defaultPrice?: number;
+};
+
+export default function LoanCalculatorForm({
+  defaultPrice,
+}: LoanCalculatorFormProps) {
+  const methods = useForm<LoanCalculatorSchema>({
     resolver: zodResolver(loanCalculatorSchema),
     defaultValues: {
-      price: "",
+      price: defaultPrice ? defaultPrice.toString() : "",
       interest: "",
       loanTerm: "",
       downPayment: "",
@@ -20,6 +29,8 @@ export default function LoanCalculatorForm() {
   });
 
   const { handleSubmit } = methods;
+
+  // ----------------------------------------------------------------------
 
   return (
     <Form
@@ -39,7 +50,12 @@ export default function LoanCalculatorForm() {
 
         <div className="mt-5 flex flex-col gap-5 md:mt-8 md:gap-6 lg:gap-7">
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-            <RHFTextField name="price" label="ราคารถ (บาท)" type="currency" />
+            <RHFTextField
+              name="price"
+              label="ราคารถ (บาท)"
+              type="currency"
+              disabled={!!defaultPrice}
+            />
             <RHFTextField name="interest" label="ดอกเบี้ย (%)" type="currency" />
             <RHFTextField
               name="loanTerm"
