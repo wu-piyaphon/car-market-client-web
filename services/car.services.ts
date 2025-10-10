@@ -11,11 +11,13 @@ import type { GetCarFiltersResponse } from "@/types/car-filter.types";
 import type { ServiceResponse } from "@/types/service.types";
 
 export async function getCars(
-  params?: GetCarsQueryParams,
+  params: GetCarsQueryParams,
   options?: APIRequestOptions,
 ): ServiceResponse<GetCarsResponse> {
   try {
-    const url = buildQueryString(API_ENDPOINTS.CARS.LIST, { ...params });
+    const formatParams: GetCarsQueryParams = { ...params, isActive: "true" };
+
+    const url = buildQueryString(API_ENDPOINTS.CARS.LIST, { ...formatParams });
 
     const response = await fetcher.get<GetCarsResponse>(url, options);
 
