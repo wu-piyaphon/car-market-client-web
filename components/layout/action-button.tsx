@@ -1,6 +1,7 @@
 "use client";
 
 import { MessageCircleMore } from "lucide-react";
+import Link from "next/link";
 import { useState } from "react";
 
 export default function ActionButton() {
@@ -26,14 +27,21 @@ export default function ActionButton() {
       </div>
 
       {/* -- Action Button -- */}
-      <button
-        type="button"
-        className="flex h-14 w-14 cursor-pointer items-center justify-center rounded-full bg-primary text-white shadow-xl transition-all duration-300 hover:scale-105 hover:shadow-2xl"
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
+      <Link
+        href="https://www.google.com"
+        target="_blank"
+        rel="noopener noreferrer"
+        passHref
       >
-        <MessageCircleMore className="h-7 w-7" />
-      </button>
+        <button
+          type="button"
+          className="flex h-14 w-14 cursor-pointer items-center justify-center rounded-full bg-primary text-white shadow-xl transition-all duration-300 hover:scale-105 hover:shadow-2xl"
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
+        >
+          <MessageCircleMore className="h-7 w-7" />
+        </button>
+      </Link>
     </div>
   );
 }
