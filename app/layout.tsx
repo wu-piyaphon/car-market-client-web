@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
+import ActionButton from "@/components/layout/action-button";
 import Footer from "@/components/layout/footer";
 import Navbar from "@/components/layout/navbar/navbar";
 
@@ -32,12 +33,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${LINESeedSans.className} grid min-h-screen grid-rows-[1fr_auto] antialiased`}
+        className={`${LINESeedSans.className} relative grid min-h-screen grid-rows-[1fr_auto] antialiased`}
       >
         <Navbar />
         <main className="overflow-hidden pt-[70px] md:pt-[76px] lg:pt-[106px]">
           {children}
         </main>
+        <ActionButton />
         <Footer />
       </body>
     </html>
