@@ -59,11 +59,12 @@ export async function getCarBySlug(slug: string): ServiceResponse<CarDetail> {
 
 export async function getCarFilters(
   query?: CarFilterSchema,
+  options?: APIRequestOptions,
 ): ServiceResponse<GetCarFiltersResponse> {
   try {
     const url = buildQueryString(API_ENDPOINTS.CARS.FILTERS, { ...query });
 
-    const response = await fetcher.get<GetCarFiltersResponse>(url);
+    const response = await fetcher.get<GetCarFiltersResponse>(url, options);
 
     return {
       success: true,

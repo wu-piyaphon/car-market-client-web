@@ -49,12 +49,17 @@ export default async function Page({ searchParams }: PageProps) {
       ? { ...CAR_FILTER_DEFAULT_VALUES, ...validatedParams.data }
       : CAR_FILTER_DEFAULT_VALUES;
 
-    const filterOptionsResult = await getCarFilters(searchParamValues);
-    const cars = await getCars({
-      ...searchParamValues,
-      page: 1,
-      pageSize: DEFAULT_PAGESIZE,
+    const filterOptionsResult = await getCarFilters(searchParamValues, {
+      cache: "no-cache",
     });
+    const cars = await getCars(
+      {
+        ...searchParamValues,
+        page: 1,
+        pageSize: DEFAULT_PAGESIZE,
+      },
+      { cache: "no-cache" },
+    );
 
     if (!filterOptionsResult.success) {
       console.error(
