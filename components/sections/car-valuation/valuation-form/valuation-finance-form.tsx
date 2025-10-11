@@ -27,7 +27,7 @@ export default function ValuationFinanceForm() {
         <RHFTextField
           type="number"
           name="installmentsInMonth"
-          label="รอบงวดที่ค้าง (เดือน)"
+          label="รอบงวดที่ค้าง (บาท)"
           className="md:max-w-[260px] lg:max-w-[300px]"
         />
       )}

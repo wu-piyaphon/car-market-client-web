@@ -67,7 +67,7 @@ export default function CarSellingForm() {
         )}
       >
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-4 lg:gap-5">
-          <RHFTextField name="firstName" label="ชื่อจริง" required />
+          <RHFTextField name="firstName" label="ชื่อผู้ติดต่อ" required />
           <RHFTextField name="lastName" label="นามสกุล" required />
           <RHFTextField name="nickname" label="ชื่อเล่น" required />
           <RHFTextField

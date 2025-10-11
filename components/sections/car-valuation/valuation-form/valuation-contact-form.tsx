@@ -7,18 +7,14 @@ export default function ValuationContactForm() {
         ข้อมูลผู้ติดต่อ
       </h6>
       <div className="flex flex-col gap-3 md:flex-row md:gap-6 lg:gap-8">
-        <RHFTextField name="firstName" label="ชื่อจริง" className="flex-1" />
+        <RHFTextField name="firstName" label="ชื่อผู้ติดต่อ" className="flex-1" />
         <RHFTextField
           type="number"
           name="phoneNumber"
           label="เบอร์โทรศัพท์"
           className="flex-1"
         />
-        <RHFTextField
-          name="lineId"
-          label="Line ID (ไม่จำเป็น)"
-          className="flex-1"
-        />
+        <RHFTextField name="lineId" label="Line ID" className="flex-1" />
       </div>
     </div>
   );

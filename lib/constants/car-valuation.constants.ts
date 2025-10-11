@@ -51,5 +51,5 @@ export const CAR_IMAGE_SLOTS = [
 
 export const FINANCE_OPTIONS = [
   { name: "ติดไฟแนนซ์", id: "true" },
-  { name: "ผ่อนชำระครบแล้ว", id: "false" },
+  { name: "ปลอดชำระ", id: "false" },
 ];
