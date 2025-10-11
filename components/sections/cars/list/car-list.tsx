@@ -1,5 +1,5 @@
 import type { RefObject } from "react";
-import { useFormContext } from "react-hook-form";
+import { useFormContext, useWatch } from "react-hook-form";
 import { SvgIcon } from "@/components/icons";
 import CarCard from "@/components/ui/custom-card/car-card";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -49,12 +49,15 @@ export default function CarList({
   isLoading = false,
   hasMore = false,
 }: CarListProps) {
-  const { setValue } = useFormContext<CarFilterSchema>();
+  const { setValue, control } = useFormContext<CarFilterSchema>();
+
+  const [type, category] = useWatch({ control, name: ["type", "category"] });
 
   const handleTabChange = (value: string) => {
     const tab = TAB_VALUES.find((tab) => {
       return tab.value === value;
     });
+
     if (!tab) return;
 
     if (value === "ALL") {
@@ -76,7 +79,7 @@ export default function CarList({
 
   return (
     <Tabs
-      defaultValue="ALL"
+      defaultValue={category || type || "ALL"}
       onValueChange={handleTabChange}
       className="flex flex-1 gap-5"
     >
