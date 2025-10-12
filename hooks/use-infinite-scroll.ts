@@ -29,6 +29,7 @@ export function useInfiniteScroll<T>(
   params: UseInfiniteScrollParams<T>,
 ): UseInfiniteScrollReturn<T> {
   const { ref, fetchFn, initialData, queryParams = {} } = params;
+  console.log("🚀 ~ useInfiniteScroll ~ initialData:", initialData);
 
   const {
     items: initialItems,
