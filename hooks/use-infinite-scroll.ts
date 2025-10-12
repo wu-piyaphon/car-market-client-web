@@ -112,6 +112,7 @@ export function useInfiniteScroll<T>(
   }, [hasMore, isLoading, page, loadMoreItems, ref]);
 
   useDeepCompareEffect(() => {
+    console.log("RESET ITEMS DUE TO DEP CHANGE", initialData);
     setItems(initialData.items);
     setPage(initialData.page);
     setHasMore(initialData.page * initialData.pageSize < initialData.total);
