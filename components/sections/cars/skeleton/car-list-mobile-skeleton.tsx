@@ -1,9 +1,15 @@
 import { Skeleton } from "@/components/ui/skeleton";
 
-export default function CarListMobileSkeleton() {
+type CarListMobileSkeletonProps = {
+  count?: number;
+};
+
+export default function CarListMobileSkeleton({
+  count = 2,
+}: CarListMobileSkeletonProps) {
   return (
     <>
-      {Array.from({ length: 2 }, (_, index) => (
+      {Array.from({ length: count }, (_, index) => (
         <div
           key={`skeleton-loading-${Date.now()}-${index}`}
           className="space-y-3"

@@ -39,6 +39,7 @@ const TAB_VALUES = [
 type CarListProps = {
   ref: RefObject<HTMLDivElement | null>;
   items: CarListItem[];
+  isRouting?: boolean;
   isLoading?: boolean;
   hasMore?: boolean;
 };
@@ -46,12 +47,15 @@ type CarListProps = {
 export default function CarList({
   ref,
   items,
+  isRouting = false,
   isLoading = false,
   hasMore = false,
 }: CarListProps) {
   const { setValue, control } = useFormContext<CarFilterSchema>();
 
   const [type, category] = useWatch({ control, name: ["type", "category"] });
+
+  const skeletonCount = items.length % 4 === 0 ? 4 : 4 - (items.length % 4);
 
   const handleTabChange = (value: string) => {
     const tab = TAB_VALUES.find((tab) => {
@@ -97,13 +101,19 @@ export default function CarList({
       </TabsList>
 
       <div className="grid grow-0 grid-cols-2 gap-4 lg:grid-cols-4">
-        {items.map((item) => (
-          <CarCard key={item.id} item={item} />
-        ))}
+        {isRouting ? (
+          <CarListSkeleton />
+        ) : (
+          <>
+            {items.map((item) => (
+              <CarCard key={item.id} item={item} />
+            ))}
 
-        {isLoading && <CarListSkeleton />}
+            {isLoading && <CarListSkeleton count={skeletonCount} />}
 
-        {hasMore && <CarListTrigger ref={ref} isLoading={isLoading} />}
+            {hasMore && <CarListTrigger ref={ref} isLoading={isLoading} />}
+          </>
+        )}
       </div>
     </Tabs>
   );

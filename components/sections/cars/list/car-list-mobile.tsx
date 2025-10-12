@@ -8,6 +8,7 @@ type CarListMobileProps = {
   ref: RefObject<HTMLDivElement | null>;
   items: CarListItem[];
   total: number;
+  isRouting?: boolean;
   isLoading?: boolean;
   hasMore?: boolean;
 };
@@ -16,9 +17,12 @@ export default function CarListMobile({
   ref,
   items,
   total,
+  isRouting = false,
   isLoading = false,
   hasMore = false,
 }: CarListMobileProps) {
+  const skeletonCount = items.length % 2 === 0 ? 2 : 1;
+
   return (
     <div className="mt-8 flex flex-col gap-6">
       <h2 className="font-bold text-4xl">
@@ -27,13 +31,19 @@ export default function CarListMobile({
       </h2>
 
       <div className="grid grow-0 grid-cols-2 gap-4">
-        {items.map((item) => (
-          <CarCard key={item.id} item={item} />
-        ))}
+        {isRouting ? (
+          <CarListMobileSkeleton />
+        ) : (
+          <>
+            {items.map((item) => (
+              <CarCard key={item.id} item={item} />
+            ))}
 
-        {isLoading && <CarListMobileSkeleton />}
+            {isLoading && <CarListMobileSkeleton count={skeletonCount} />}
 
-        {hasMore && <CarListTrigger ref={ref} isLoading={isLoading} />}
+            {hasMore && <CarListTrigger ref={ref} isLoading={isLoading} />}
+          </>
+        )}
       </div>
     </div>
   );

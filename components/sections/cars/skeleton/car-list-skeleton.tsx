@@ -1,9 +1,13 @@
 import { Skeleton } from "@/components/ui/skeleton";
 
-export default function CarListSkeleton() {
+type CarListSkeletonProps = {
+  count?: number;
+};
+
+export default function CarListSkeleton({ count = 4 }: CarListSkeletonProps) {
   return (
     <>
-      {Array.from({ length: 4 }, (_, index) => (
+      {Array.from({ length: count }, (_, index) => (
         <div
           key={`desktop-skeleton-${Date.now()}-${index}`}
           className="space-y-3"

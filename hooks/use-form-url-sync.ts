@@ -1,13 +1,20 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useCallback, useEffect, useRef } from "react";
+import {
+  type TransitionStartFunction,
+  useCallback,
+  useEffect,
+  useRef,
+} from "react";
+import { useDeepCompareEffect } from "./use-deep-effect";
 
 type UseFormUrlSyncOptions<T> = {
   values: T;
   defaultValues: T;
   basePath: string;
   delay?: number;
+  startTransition?: TransitionStartFunction;
 };
 
 /**
@@ -33,6 +40,7 @@ export function useFormUrlSync<T extends Record<string, unknown>>({
   defaultValues,
   basePath,
   delay = 0,
+  startTransition,
 }: UseFormUrlSyncOptions<T>) {
   const router = useRouter();
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
@@ -68,12 +76,18 @@ export function useFormUrlSync<T extends Record<string, unknown>>({
         ? `${basePath}?${params.toString()}`
         : basePath;
 
-      router.replace(newUrl, { scroll: false });
+      if (startTransition) {
+        startTransition(() => {
+          router.replace(newUrl, { scroll: false });
+        });
+      } else {
+        router.replace(newUrl, { scroll: false });
+      }
     },
-    [router, buildSearchParams, basePath],
+    [router, buildSearchParams, basePath, startTransition],
   );
 
-  useEffect(() => {
+  useDeepCompareEffect(() => {
     // Clear existing timeout
     if (timeoutRef.current) {
       clearTimeout(timeoutRef.current);
