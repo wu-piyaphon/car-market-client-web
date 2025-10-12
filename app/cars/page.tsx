@@ -1,13 +1,12 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import CarSearchList from "@/components/sections/cars/list/car-search-list";
 import { CONFIG } from "@/global-config";
-import {
-  CAR_FILTER_DEFAULT_VALUES,
-  CAR_FILTER_OPTIONS_FALLBACK,
-} from "@/lib/constants/car-filter.constants";
+import { CAR_FILTER_DEFAULT_VALUES } from "@/lib/constants/car-filter.constants";
 import type { CarFilterSchema } from "@/lib/schemas/car-filter-schema";
 import { carFilterSchema } from "@/lib/schemas/car-filter-schema";
 import { getCarFilters, getCars } from "@/services";
+import Loading from "../loading";
 
 // ----------------------------------------------------------------------
 
@@ -25,19 +24,6 @@ type PageProps = {
 
 const DEFAULT_PAGESIZE = 8;
 
-const FallbackCarSearchList = () => (
-  <CarSearchList
-    data={{
-      items: [],
-      total: 0,
-      page: 1,
-      pageSize: DEFAULT_PAGESIZE,
-    }}
-    queryParams={CAR_FILTER_DEFAULT_VALUES}
-    filterOptions={CAR_FILTER_OPTIONS_FALLBACK}
-  />
-);
-
 // ----------------------------------------------------------------------
 
 export default async function Page({ searchParams }: PageProps) {
@@ -49,34 +35,21 @@ export default async function Page({ searchParams }: PageProps) {
       ? { ...CAR_FILTER_DEFAULT_VALUES, ...validatedParams.data }
       : CAR_FILTER_DEFAULT_VALUES;
 
-    const filterOptionsResult = await getCarFilters(searchParamValues);
-    const cars = await getCars({
+    const getFiltersPromise = getCarFilters(searchParamValues);
+    const getCarsPromise = getCars({
       ...searchParamValues,
       page: 1,
       pageSize: DEFAULT_PAGESIZE,
     });
 
-    if (!filterOptionsResult.success) {
-      console.error(
-        "Failed to fetch filter options:",
-        filterOptionsResult.error,
-      );
-
-      return <FallbackCarSearchList />;
-    }
-
-    if (!cars.success) {
-      console.error("Failed to fetch cars:", cars.error);
-
-      return <FallbackCarSearchList />;
-    }
-
     return (
-      <CarSearchList
-        data={cars.data}
-        filterOptions={filterOptionsResult.data}
-        queryParams={searchParamValues}
-      />
+      <Suspense fallback={<Loading />}>
+        <CarSearchList
+          getCarsPromise={getCarsPromise}
+          getFiltersPromise={getFiltersPromise}
+          queryParams={searchParamValues}
+        />
+      </Suspense>
     );
   } catch (error) {
     console.error("Error processing search parameters:", error);

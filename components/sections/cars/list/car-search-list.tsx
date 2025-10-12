@@ -1,14 +1,17 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useEffect, useRef } from "react";
+import { use, useEffect, useRef } from "react";
 import { useForm, useWatch } from "react-hook-form";
 import Form from "@/components/hook-forms/form";
 import Container from "@/components/layout/container";
 import { useFormUrlSync } from "@/hooks/use-form-url-sync";
 import { useInfiniteScroll } from "@/hooks/use-infinite-scroll";
 import { useResponsive } from "@/hooks/use-responsive";
-import { CAR_FILTER_DEFAULT_VALUES } from "@/lib/constants/car-filter.constants";
+import {
+  CAR_FILTER_DEFAULT_VALUES,
+  CAR_FILTER_OPTIONS_FALLBACK,
+} from "@/lib/constants/car-filter.constants";
 import { paths } from "@/lib/paths";
 import {
   type CarFilterSchema,
@@ -17,23 +20,27 @@ import {
 import { getMoreCarsAction } from "@/services/actions/car.actions";
 import type { CarListItem, GetCarsResponse } from "@/types/car.types";
 import type { GetCarFiltersResponse } from "@/types/car-filter.types";
+import type { ServiceResponse } from "@/types/service.types";
 import CarFilterMobile from "../filter/car-filter-mobile";
 import CarFilterSidebar from "../filter/car-filter-sidebar";
 import CarList from "./car-list";
 import CarListMobile from "./car-list-mobile";
 
 type CarSearchListProps = {
-  data: GetCarsResponse;
+  getCarsPromise: ServiceResponse<GetCarsResponse>;
+  getFiltersPromise: ServiceResponse<GetCarFiltersResponse>;
   queryParams: CarFilterSchema;
-  filterOptions: GetCarFiltersResponse;
 };
 
 export default function CarSearchList({
-  data,
+  getCarsPromise,
+  getFiltersPromise,
   queryParams,
-  filterOptions,
 }: CarSearchListProps) {
   const { isMobile } = useResponsive();
+
+  const initialCarsData = use(getCarsPromise);
+  const filterOptions = use(getFiltersPromise);
 
   const mobileRef = useRef<HTMLDivElement | null>(null);
   const desktopRef = useRef<HTMLDivElement | null>(null);
@@ -53,7 +60,14 @@ export default function CarSearchList({
   const { items, isLoading, hasMore } = useInfiniteScroll<CarListItem>({
     ref: activeRef,
     fetchFn: getMoreCarsAction,
-    initialData: data,
+    initialData: initialCarsData.success
+      ? initialCarsData.data
+      : {
+          items: [],
+          total: 0,
+          page: 1,
+          pageSize: 4,
+        },
     queryParams,
   });
 
@@ -77,10 +91,16 @@ export default function CarSearchList({
     <Form methods={methods}>
       {/* -- Mobile -- */}
       <Container className="mb-2 md:hidden">
-        <CarFilterMobile filterOptions={filterOptions} />
+        <CarFilterMobile
+          filterOptions={
+            filterOptions.success
+              ? filterOptions.data
+              : CAR_FILTER_OPTIONS_FALLBACK
+          }
+        />
         <CarListMobile
           ref={mobileRef}
-          total={data.total}
+          total={initialCarsData.success ? initialCarsData.data.total : 0}
           items={items}
           isLoading={isLoading}
           hasMore={hasMore}
@@ -89,7 +109,13 @@ export default function CarSearchList({
 
       {/* -- Tablet/Desktop -- */}
       <Container className="my-12 hidden flex-row md:flex md:gap-5 lg:gap-6">
-        <CarFilterSidebar filterOptions={filterOptions} />
+        <CarFilterSidebar
+          filterOptions={
+            filterOptions.success
+              ? filterOptions.data
+              : CAR_FILTER_OPTIONS_FALLBACK
+          }
+        />
         <CarList
           ref={desktopRef}
           items={items}
