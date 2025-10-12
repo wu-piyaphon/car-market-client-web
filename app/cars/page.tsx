@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import CarSearchList from "@/components/sections/cars/list/car-search-list";
 import { CONFIG } from "@/global-config";
+import { CAR_LIST_FALLBACK } from "@/lib/constants/car.constants";
 import {
   CAR_FILTER_DEFAULT_VALUES,
   CAR_FILTER_OPTIONS_FALLBACK,
@@ -23,20 +24,7 @@ type PageProps = {
   searchParams: Promise<Record<string, string | string[] | undefined>>;
 };
 
-const DEFAULT_PAGESIZE = 8;
-
-const FallbackCarSearchList = () => (
-  <CarSearchList
-    cars={{
-      items: [],
-      total: 0,
-      page: 1,
-      pageSize: DEFAULT_PAGESIZE,
-    }}
-    queryParams={CAR_FILTER_DEFAULT_VALUES}
-    filterOptions={CAR_FILTER_OPTIONS_FALLBACK}
-  />
-);
+const DEFAULT_PAGE_SIZE = 8;
 
 // ----------------------------------------------------------------------
 
@@ -49,33 +37,30 @@ export default async function Page({ searchParams }: PageProps) {
       ? { ...CAR_FILTER_DEFAULT_VALUES, ...validatedParams.data }
       : CAR_FILTER_DEFAULT_VALUES;
 
-    const filterOptionsResult = await getCarFilters(searchParamValues);
-    const cars = await getCars({
-      ...searchParamValues,
-      page: 1,
-      pageSize: DEFAULT_PAGESIZE,
-    });
+    const [initialFilters, initialCars] = await Promise.all([
+      getCarFilters(searchParamValues),
+      getCars({
+        ...searchParamValues,
+        page: 1,
+        pageSize: DEFAULT_PAGE_SIZE,
+      }),
+    ]);
 
-    if (!filterOptionsResult.success) {
-      console.error(
-        "Failed to fetch filter options:",
-        filterOptionsResult.error,
+    if (!initialCars.success || !initialFilters.success) {
+      return (
+        <CarSearchList
+          queryParams={searchParamValues}
+          filterOptions={CAR_FILTER_OPTIONS_FALLBACK}
+          initialCars={CAR_LIST_FALLBACK}
+        />
       );
-
-      return <FallbackCarSearchList />;
-    }
-
-    if (!cars.success) {
-      console.error("Failed to fetch cars:", cars.error);
-
-      return <FallbackCarSearchList />;
     }
 
     return (
       <CarSearchList
-        cars={cars.data}
-        filterOptions={filterOptionsResult.data}
         queryParams={searchParamValues}
+        filterOptions={initialFilters.data}
+        initialCars={initialCars.data}
       />
     );
   } catch (error) {

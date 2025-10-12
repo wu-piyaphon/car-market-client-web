@@ -1,6 +1,6 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import {
   type TransitionStartFunction,
   useCallback,
@@ -43,7 +43,11 @@ export function useFormUrlSync<T extends Record<string, unknown>>({
   startTransition,
 }: UseFormUrlSyncOptions<T>) {
   const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+  const queryString = searchParams.toString();
 
   const buildSearchParams = useCallback(
     (formValues: T) => {
@@ -72,9 +76,15 @@ export function useFormUrlSync<T extends Record<string, unknown>>({
   const updateUrl = useCallback(
     (formValues: T) => {
       const params = buildSearchParams(formValues);
+
+      const currentUrl = queryString ? `${pathname}?${queryString}` : pathname;
       const newUrl = params.toString()
         ? `${basePath}?${params.toString()}`
         : basePath;
+
+      if (currentUrl === newUrl) {
+        return; // No change in URL, do nothing
+      }
 
       if (startTransition) {
         startTransition(() => {
@@ -84,7 +94,14 @@ export function useFormUrlSync<T extends Record<string, unknown>>({
         router.replace(newUrl, { scroll: false });
       }
     },
-    [router, buildSearchParams, basePath, startTransition],
+    [
+      router,
+      buildSearchParams,
+      basePath,
+      pathname,
+      queryString,
+      startTransition,
+    ],
   );
 
   useDeepCompareEffect(() => {

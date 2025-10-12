@@ -12,12 +12,13 @@ type UseInfiniteScrollParams<T> = {
   fetchFn: (
     params: PaginationParams<Record<string, unknown>>,
   ) => ServiceResponse<PaginationResponse<T>>;
-  initialData: PaginationResponse<T>;
   queryParams?: Record<string, unknown>;
+  initialData: PaginationResponse<T>;
 };
 
 type UseInfiniteScrollReturn<T> = {
   items: T[];
+  total: number;
   hasMore: boolean;
   isLoading: boolean;
 };
@@ -27,13 +28,16 @@ type UseInfiniteScrollReturn<T> = {
 export function useInfiniteScroll<T>(
   params: UseInfiniteScrollParams<T>,
 ): UseInfiniteScrollReturn<T> {
-  const { ref, fetchFn, initialData, queryParams = {} } = params;
+  const { ref, fetchFn, queryParams = {}, initialData } = params;
+
+  const pageSize = initialData.pageSize;
 
   const [isLoading, setIsLoading] = useState(false);
 
   const [pagination, setPagination] = useState({
     page: initialData.page,
     items: initialData.items,
+    total: initialData.total,
     hasMore: initialData.page * initialData.pageSize < initialData.total,
   });
 
@@ -46,7 +50,7 @@ export function useInfiniteScroll<T>(
       try {
         const pageData = await fetchFn({
           page: nextPage,
-          pageSize: initialData.pageSize,
+          pageSize,
           ...queryParams,
         } as PaginationParams<Record<string, unknown>>);
 
@@ -66,6 +70,7 @@ export function useInfiniteScroll<T>(
         setPagination((prev) => ({
           page: newPage,
           items: [...prev.items, ...newItems],
+          total: newTotal,
           hasMore: newPage * newPageSize < newTotal,
         }));
       } catch (err) {
@@ -74,11 +79,12 @@ export function useInfiniteScroll<T>(
         setIsLoading(false);
       }
     },
-    [isLoading, fetchFn, initialData.pageSize, queryParams, pagination.hasMore],
+    [isLoading, fetchFn, pageSize, queryParams, pagination.hasMore],
   );
 
   // ----------------------------------------------------------------------
 
+  // Intersection observer for infinite scroll
   useEffect(() => {
     if (!pagination.hasMore) return;
 
@@ -106,8 +112,9 @@ export function useInfiniteScroll<T>(
 
   useEffect(() => {
     setPagination({
-      page: initialData.page,
+      page: 1,
       items: initialData.items,
+      total: initialData.total,
       hasMore: initialData.page * initialData.pageSize < initialData.total,
     });
   }, [initialData]);
@@ -117,6 +124,7 @@ export function useInfiniteScroll<T>(
   return {
     items: pagination.items,
     hasMore: pagination.hasMore,
+    total: pagination.total,
     isLoading,
   };
 }

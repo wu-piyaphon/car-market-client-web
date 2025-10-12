@@ -1,68 +1,76 @@
-import type { RefObject } from "react";
+import { type RefObject, useEffect, useState } from "react";
 import { useFormContext, useWatch } from "react-hook-form";
 import { SvgIcon } from "@/components/icons";
 import CarCard from "@/components/ui/custom-card/car-card";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import type { CarFilterSchema } from "@/lib/schemas/car-filter-schema";
-import type { CarCategory, CarListItem, CarType } from "@/types/car.types";
+import type { CarListItem, CarType } from "@/types/car.types";
 import CarListSkeleton from "../skeleton/car-list-skeleton";
 import CarListTrigger from "./car-list-trigger";
 
-const TAB_VALUES = [
+// ----------------------------------------------------------------------
+
+type TabValue = {
+  value: "ALL" | "NEW" | CarType;
+  label: string;
+  icon?: React.ReactNode;
+};
+
+type CarListProps = {
+  ref: RefObject<HTMLDivElement | null>;
+  items: CarListItem[];
+  isLoading?: boolean;
+  hasMore?: boolean;
+};
+
+const TAB_VALUES: TabValue[] = [
   { value: "ALL", label: "รถทั้งหมด" },
   {
-    type: "CATEGORY",
     value: "NEW",
     label: "รถเข้าใหม่",
     icon: <SvgIcon name="new" className="size-4.5" />,
   },
   {
-    type: "CAR_TYPE",
     value: "SEDAN",
     label: "รถเก๋ง",
     icon: <SvgIcon name="sedan" />,
   },
   {
-    type: "CAR_TYPE",
     value: "PICKUP",
     label: "รถกระบะ",
     icon: <SvgIcon name="pickup" className="size-4.5" />,
   },
   {
-    type: "CAR_TYPE",
     value: "SUV",
     label: "รถ SUV",
     icon: <SvgIcon name="suv" className="size-4.5" />,
   },
 ];
 
-type CarListProps = {
-  ref: RefObject<HTMLDivElement | null>;
-  items: CarListItem[];
-  isRouting?: boolean;
-  isLoading?: boolean;
-  hasMore?: boolean;
-};
+// ----------------------------------------------------------------------
 
 export default function CarList({
   ref,
   items,
-  isRouting = false,
   isLoading = false,
   hasMore = false,
 }: CarListProps) {
   const { setValue, control } = useFormContext<CarFilterSchema>();
 
-  const [type, category] = useWatch({ control, name: ["type", "category"] });
+  const [tabValue, setTabValue] = useState<TabValue["value"]>("ALL");
+
+  const [type] = useWatch({ control, name: ["type"] });
 
   const skeletonCount = items.length % 4 === 0 ? 4 : 4 - (items.length % 4);
 
-  const handleTabChange = (value: string) => {
+  const handleTabChange = (value: TabValue["value"]) => {
     const tab = TAB_VALUES.find((tab) => {
       return tab.value === value;
     });
 
     if (!tab) return;
+
+    setTabValue(value);
 
     if (value === "ALL") {
       setValue("category", "");
@@ -70,21 +78,31 @@ export default function CarList({
       return;
     }
 
-    if (tab.type === "CAR_TYPE") {
-      setValue("type", value as CarType);
-      setValue("category", "");
+    if (tab.value === "NEW") {
+      setValue("category", value);
+      setValue("type", "");
       return;
     }
 
-    if (tab.type === "CATEGORY") {
-      setValue("category", value as CarCategory);
-    }
+    setValue("type", value as CarType);
+    setValue("category", "");
+    return;
   };
+
+  // ----------------------------------------------------------------------
+
+  useEffect(() => {
+    if (type) {
+      setTabValue(type);
+    }
+  }, [type]);
+
+  // ----------------------------------------------------------------------
 
   return (
     <Tabs
-      defaultValue={category || type || "ALL"}
-      onValueChange={handleTabChange}
+      value={tabValue}
+      onValueChange={(value) => handleTabChange(value as TabValue["value"])}
       className="flex flex-1 gap-5"
     >
       <TabsList className="gap-4">
@@ -101,19 +119,13 @@ export default function CarList({
       </TabsList>
 
       <div className="grid grow-0 grid-cols-2 gap-4 lg:grid-cols-4">
-        {isRouting ? (
-          <CarListSkeleton />
-        ) : (
-          <>
-            {items.map((item) => (
-              <CarCard key={item.id} item={item} />
-            ))}
+        {items.map((item) => (
+          <CarCard key={item.id} item={item} />
+        ))}
 
-            {isLoading && <CarListSkeleton count={skeletonCount} />}
+        {isLoading && <CarListSkeleton count={skeletonCount} />}
 
-            {hasMore && <CarListTrigger ref={ref} isLoading={isLoading} />}
-          </>
-        )}
+        {hasMore && <CarListTrigger ref={ref} isLoading={isLoading} />}
       </div>
     </Tabs>
   );

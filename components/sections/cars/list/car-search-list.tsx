@@ -3,6 +3,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useRef, useTransition } from "react";
 import { useForm, useWatch } from "react-hook-form";
+import Loading from "@/app/loading";
 import Form from "@/components/hook-forms/form";
 import Container from "@/components/layout/container";
 import { useFormUrlSync } from "@/hooks/use-form-url-sync";
@@ -23,18 +24,18 @@ import CarList from "./car-list";
 import CarListMobile from "./car-list-mobile";
 
 type CarSearchListProps = {
-  cars: GetCarsResponse;
-  filterOptions: GetCarFiltersResponse;
   queryParams: CarFilterSchema;
+  filterOptions: GetCarFiltersResponse;
+  initialCars: GetCarsResponse;
 };
 
 export default function CarSearchList({
-  cars,
-  filterOptions,
   queryParams,
+  filterOptions,
+  initialCars,
 }: CarSearchListProps) {
   const { isMobile } = useResponsive();
-  const [isRouting, startTransition] = useTransition();
+  const [isPending, startTransition] = useTransition();
 
   const mobileRef = useRef<HTMLDivElement | null>(null);
   const desktopRef = useRef<HTMLDivElement | null>(null);
@@ -51,11 +52,11 @@ export default function CarSearchList({
     control,
   });
 
-  const { items, isLoading, hasMore } = useInfiniteScroll<CarListItem>({
+  const { items, isLoading, hasMore, total } = useInfiniteScroll<CarListItem>({
     ref: activeRef,
     fetchFn: getMoreCarsAction,
-    initialData: cars,
     queryParams,
+    initialData: initialCars,
   });
 
   useFormUrlSync({
@@ -77,14 +78,15 @@ export default function CarSearchList({
 
   return (
     <Form methods={methods}>
+      {isPending && <Loading />}
+
       {/* -- Mobile -- */}
       <Container className="mb-2 md:hidden">
         <CarFilterMobile filterOptions={filterOptions} />
         <CarListMobile
           ref={mobileRef}
+          total={total}
           items={items}
-          total={cars.total}
-          isRouting={isRouting}
           isLoading={isLoading}
           hasMore={hasMore}
         />
@@ -96,7 +98,6 @@ export default function CarSearchList({
         <CarList
           ref={desktopRef}
           items={items}
-          isRouting={isRouting}
           isLoading={isLoading}
           hasMore={hasMore}
         />

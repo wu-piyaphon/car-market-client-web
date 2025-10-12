@@ -1,3 +1,5 @@
+import type { GetCarsResponse } from "@/types/car.types";
+
 export const CAR_COLORS = [
   { id: "WHITE", name: "ขาว" },
   { id: "BLACK", name: "ดำ" },
@@ -30,3 +32,10 @@ export const CAR_ENGINE_TYPES = [
   { id: "LPG", name: "แก๊ส LPG" },
   { id: "CNG", name: "แก๊ส CNG" },
 ];
+
+export const CAR_LIST_FALLBACK: GetCarsResponse = {
+  page: 1,
+  pageSize: 8,
+  total: 0,
+  items: [],
+};
