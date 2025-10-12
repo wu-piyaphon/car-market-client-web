@@ -57,13 +57,12 @@ export default function CarSearchList({
     initialData: data,
     queryParams,
   });
-  console.log("🚀 ~ CarSearchList ~ items:", items);
 
   useFormUrlSync({
     values: watchedValues,
     defaultValues: CAR_FILTER_DEFAULT_VALUES,
     basePath: paths.cars.list,
-    delay: 100,
+    delay: 50,
   });
 
   // ----------------------------------------------------------------------

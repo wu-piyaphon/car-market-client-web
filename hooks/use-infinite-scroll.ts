@@ -4,7 +4,6 @@ import type {
   PaginationResponse,
 } from "@/types/common.types";
 import type { ServiceResponse } from "@/types/service.types";
-import { useDeepCompareEffect } from "./use-deep-effect";
 
 // ----------------------------------------------------------------------
 
@@ -29,37 +28,30 @@ export function useInfiniteScroll<T>(
   params: UseInfiniteScrollParams<T>,
 ): UseInfiniteScrollReturn<T> {
   const { ref, fetchFn, initialData, queryParams = {} } = params;
-  console.log("🚀 ~ useInfiniteScroll ~ initialData:", initialData);
 
-  const {
-    items: initialItems,
-    page: initialPage,
-    pageSize: initialPageSize,
-    total: initialTotal,
-  } = initialData;
-
-  const [hasMore, setHasMore] = useState(
-    initialPage * initialPageSize < initialTotal,
-  );
   const [isLoading, setIsLoading] = useState(false);
-  const [page, setPage] = useState(initialPage);
-  const [items, setItems] = useState<T[]>(initialItems);
+
+  const [pagination, setPagination] = useState({
+    page: initialData.page,
+    items: initialData.items,
+    hasMore: initialData.page * initialData.pageSize < initialData.total,
+  });
 
   const loadMoreItems = useCallback(
     async (nextPage: number) => {
-      if (isLoading || !hasMore) return;
+      if (isLoading || !pagination.hasMore) return;
 
       setIsLoading(true);
 
       try {
-        const paginated = await fetchFn({
+        const pageData = await fetchFn({
           page: nextPage,
-          pageSize: initialPageSize,
+          pageSize: initialData.pageSize,
           ...queryParams,
         } as PaginationParams<Record<string, unknown>>);
 
-        if (!paginated.success) {
-          console.error("Failed to fetch data:", paginated.error);
+        if (!pageData.success) {
+          console.error("Failed to fetch data:", pageData.error);
           setIsLoading(false);
           return;
         }
@@ -69,26 +61,26 @@ export function useInfiniteScroll<T>(
           items: newItems,
           total: newTotal,
           pageSize: newPageSize,
-        } = paginated.data;
+        } = pageData.data;
 
-        const newHasMore = newPage * newPageSize < newTotal;
-
-        setItems((prevItems: T[]) => [...prevItems, ...newItems]);
-        setHasMore(newHasMore);
-        setPage(newPage);
+        setPagination((prev) => ({
+          page: newPage,
+          items: [...prev.items, ...newItems],
+          hasMore: newPage * newPageSize < newTotal,
+        }));
       } catch (err) {
         console.error("Failed to fetch data:", err);
       } finally {
         setIsLoading(false);
       }
     },
-    [isLoading, hasMore, fetchFn, initialPageSize, queryParams],
+    [isLoading, fetchFn, initialData.pageSize, queryParams, pagination.hasMore],
   );
 
   // ----------------------------------------------------------------------
 
   useEffect(() => {
-    if (!hasMore) return;
+    if (!pagination.hasMore) return;
 
     const target = ref.current;
     if (!target) return;
@@ -97,8 +89,8 @@ export function useInfiniteScroll<T>(
       (entries) => {
         const firstEntry = entries[0];
 
-        if (firstEntry.isIntersecting && !isLoading && hasMore) {
-          loadMoreItems(page + 1);
+        if (firstEntry.isIntersecting && !isLoading && pagination.hasMore) {
+          loadMoreItems(pagination.page + 1);
         }
       },
       { threshold: 0.0 },
@@ -110,20 +102,21 @@ export function useInfiniteScroll<T>(
       observer.unobserve(target);
       observer.disconnect();
     };
-  }, [hasMore, isLoading, page, loadMoreItems, ref]);
+  }, [isLoading, loadMoreItems, ref, pagination.hasMore, pagination.page]);
 
-  useDeepCompareEffect(() => {
-    console.log("RESET ITEMS DUE TO DEP CHANGE", initialData);
-    setItems(initialData.items);
-    setPage(initialData.page);
-    setHasMore(initialData.page * initialData.pageSize < initialData.total);
+  useEffect(() => {
+    setPagination({
+      page: initialData.page,
+      items: initialData.items,
+      hasMore: initialData.page * initialData.pageSize < initialData.total,
+    });
   }, [initialData]);
 
   // ----------------------------------------------------------------------
 
   return {
-    items,
-    hasMore,
+    items: pagination.items,
+    hasMore: pagination.hasMore,
     isLoading,
   };
 }
