@@ -33,6 +33,7 @@ export default function CarSearchList({
   queryParams,
   filterOptions,
 }: CarSearchListProps) {
+  console.log("🚀 ~ CarSearchList ~ data:", data);
   const { isMobile } = useResponsive();
 
   const mobileRef = useRef<HTMLDivElement | null>(null);
