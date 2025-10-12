@@ -39,7 +39,7 @@ export default function CarValuationForm({
       model: "",
       modelYear: "",
       hasInstallment: "true",
-      installmentsInMonth: "",
+      remainingInstallmentAmount: "",
       firstName: "",
       phoneNumber: "",
       lineId: "",

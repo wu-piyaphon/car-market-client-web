@@ -25,9 +25,9 @@ export default function ValuationFinanceForm() {
       />
       {hasInstallment === "true" && (
         <RHFTextField
-          type="number"
-          name="installmentsInMonth"
-          label="รอบงวดที่ค้าง (บาท)"
+          type="currency"
+          name="remainingInstallmentAmount"
+          label="ค้างชำระทั้งหมด (บาท)"
           className="md:max-w-[260px] lg:max-w-[300px]"
         />
       )}

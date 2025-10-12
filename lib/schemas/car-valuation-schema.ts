@@ -7,7 +7,7 @@ export const carValuationSchema = z
     model: SCHEMA.string.required,
     modelYear: SCHEMA.numberString.required,
     hasInstallment: SCHEMA.string.optional,
-    installmentsInMonth: SCHEMA.numberString.optional,
+    remainingInstallmentAmount: SCHEMA.numberString.optional,
     firstName: SCHEMA.string.required,
     phoneNumber: SCHEMA.numberString.required,
     lineId: SCHEMA.string.optional,
@@ -19,15 +19,15 @@ export const carValuationSchema = z
     (data) => {
       if (data.hasInstallment === "true") {
         return (
-          data.installmentsInMonth !== undefined &&
-          data.installmentsInMonth !== ""
+          data.remainingInstallmentAmount !== undefined &&
+          data.remainingInstallmentAmount !== ""
         );
       }
       return true;
     },
     {
-      message: "จำนวนงวดผ่อนจำเป็นต้องระบุเมื่อมีการผ่อนชำระ",
-      path: ["installmentsInMonth"],
+      message: "จำเป็นต้องระบุค่าค้างชำระเมื่อติดไฟแนนซ์",
+      path: ["remainingInstallmentAmount"],
     },
   );
 
