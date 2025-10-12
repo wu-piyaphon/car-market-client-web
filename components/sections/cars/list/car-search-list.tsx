@@ -57,6 +57,7 @@ export default function CarSearchList({
     initialData: data,
     queryParams,
   });
+  console.log("🚀 ~ CarSearchList ~ items:", items);
 
   useFormUrlSync({
     values: watchedValues,

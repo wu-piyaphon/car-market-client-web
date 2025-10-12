@@ -115,7 +115,7 @@ export function useInfiniteScroll<T>(
     setItems(initialData.items);
     setPage(initialData.page);
     setHasMore(initialData.page * initialData.pageSize < initialData.total);
-  }, [initialData, queryParams]);
+  }, [initialData]);
 
   // ----------------------------------------------------------------------
 
