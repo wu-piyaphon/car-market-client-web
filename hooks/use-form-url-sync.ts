@@ -32,7 +32,7 @@ export function useFormUrlSync<T extends Record<string, unknown>>({
   values,
   defaultValues,
   basePath,
-  delay = 500,
+  delay = 0,
 }: UseFormUrlSyncOptions<T>) {
   const router = useRouter();
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);

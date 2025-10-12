@@ -33,7 +33,6 @@ export default function CarSearchList({
   queryParams,
   filterOptions,
 }: CarSearchListProps) {
-  console.log("🚀 ~ CarSearchList ~ data:", data);
   const { isMobile } = useResponsive();
 
   const mobileRef = useRef<HTMLDivElement | null>(null);
@@ -62,7 +61,6 @@ export default function CarSearchList({
     values: watchedValues,
     defaultValues: CAR_FILTER_DEFAULT_VALUES,
     basePath: paths.cars.list,
-    delay: 50,
   });
 
   // ----------------------------------------------------------------------
