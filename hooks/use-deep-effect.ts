@@ -7,15 +7,13 @@ export function useDeepCompareEffect(
   callback: React.EffectCallback,
   dependencies: React.DependencyList,
 ) {
-  const currentDependencies = dependencies;
+  const previousDependenciesRef = useRef<React.DependencyList | undefined>(
+    undefined,
+  );
 
-  const previousDependenciesRef = useRef(currentDependencies);
-
-  const signalDependencies = [previousDependenciesRef.current];
-
-  if (!_.isEqual(previousDependenciesRef.current, currentDependencies)) {
-    previousDependenciesRef.current = currentDependencies;
+  if (!_.isEqual(previousDependenciesRef.current, dependencies)) {
+    previousDependenciesRef.current = dependencies;
   }
 
-  useEffect(callback, signalDependencies);
+  useEffect(callback, [previousDependenciesRef.current]);
 }
