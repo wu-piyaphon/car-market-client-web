@@ -197,7 +197,7 @@ export function Autocomplete<T extends string>({
                   value={searchInput}
                   disabled={disabled}
                   readOnly={!!selectedOption}
-                  endIcon={selectedOption ? renderClearIcon : renderEndIcon}
+                  endIcon={searchInput ? renderClearIcon : renderEndIcon}
                   autoComplete="off"
                   placeholder={label}
                   {...InputProps}
