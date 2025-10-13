@@ -3,12 +3,34 @@ import Link from "next/link";
 import Container from "@/components/layout/container";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { CAR_FILTER_DEFAULT_VALUES } from "@/lib/constants/car-filter.constants";
 import { paths } from "@/lib/paths";
+import {
+  type CarFilterSchema,
+  carFilterSchema,
+} from "@/lib/schemas/car-filter-schema";
 import { getCarFilters } from "@/services/car.services";
 import HomeSearchForm from "./home-search-form";
 
-export default async function HomeSearchCard() {
-  const carFilters = await getCarFilters();
+// ----------------------------------------------------------------------
+
+type HomeSearchCardProps = {
+  searchParams: Promise<Record<string, string | string[] | undefined>>;
+};
+
+// ----------------------------------------------------------------------
+
+export default async function HomeSearchCard({
+  searchParams,
+}: HomeSearchCardProps) {
+  const rawSearchParams = await searchParams;
+
+  const validatedParams = carFilterSchema.safeParse(rawSearchParams);
+  const searchParamValues: CarFilterSchema = validatedParams.success
+    ? { ...CAR_FILTER_DEFAULT_VALUES, ...validatedParams.data }
+    : CAR_FILTER_DEFAULT_VALUES;
+
+  const carFilters = await getCarFilters(searchParamValues);
 
   const {
     types = [],

@@ -22,6 +22,10 @@ export const metadata: Metadata = {
   title: `${CONFIG.appName} | ตลาดรถยนต์ออนไลน์ประเทศไทย`,
 };
 
+type PageProps = {
+  searchParams: Promise<Record<string, string | string[] | undefined>>;
+};
+
 // ----------------------------------------------------------------------
 
 async function fetchHomePageCarData(): Promise<CarCardGroup[]> {
@@ -68,7 +72,7 @@ async function fetchHomePageCarData(): Promise<CarCardGroup[]> {
   return [...categoryResults, ...typeResults];
 }
 
-export default async function Home() {
+export default async function Home({ searchParams }: PageProps) {
   const carsPromise = fetchHomePageCarData();
 
   return (
@@ -81,7 +85,7 @@ export default async function Home() {
 
       <CarImageBanner />
 
-      <HomeSearchCard />
+      <HomeSearchCard searchParams={searchParams} />
 
       <Suspense fallback={<HomeCarsLoading />}>
         <HomeCarsContent carsPromise={carsPromise} />

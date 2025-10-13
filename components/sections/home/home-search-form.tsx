@@ -3,11 +3,13 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Search } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useForm } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
 import Form from "@/components/hook-forms/form";
 import RHFAutocomplete from "@/components/hook-forms/rhf-autocomplete";
 import RHFTextField from "@/components/hook-forms/rhf-textfield";
 import { Button } from "@/components/ui/button";
+import { useFormUrlSync } from "@/hooks/use-form-url-sync";
+import { CAR_FILTER_DEFAULT_VALUES } from "@/lib/constants/car-filter.constants";
 import { buildQueryString } from "@/lib/params";
 import { paths } from "@/lib/paths";
 import {
@@ -43,11 +45,21 @@ export default function HomeSearchForm({
     },
   });
 
-  const { handleSubmit } = methods;
+  const { control, handleSubmit } = methods;
+
+  const watchedValues = useWatch({
+    control,
+  });
 
   const onSubmit = handleSubmit((data) => {
     const url = buildQueryString(paths.cars.list, data);
     router.push(url);
+  });
+
+  useFormUrlSync({
+    values: watchedValues,
+    defaultValues: CAR_FILTER_DEFAULT_VALUES,
+    basePath: paths.home,
   });
 
   return (
