@@ -1,4 +1,6 @@
 import Image from "next/image";
+import Link from "next/link";
+import { paths } from "@/lib/paths";
 import { Button } from "../button";
 
 type CarCardThumbnailProps = {
@@ -7,7 +9,7 @@ type CarCardThumbnailProps = {
 
 export default function CarCardThumbnail({ title }: CarCardThumbnailProps) {
   return (
-    <div className="relative max-h-[220px] overflow-hidden rounded-md p-1.5 shadow-sm">
+    <div className="relative flex h-full flex-col justify-between overflow-hidden rounded-md p-1.5 shadow-sm">
       <Image
         src="/images/home/card-thumbnail.png"
         alt="Car Type Thumbnail"
@@ -16,13 +18,17 @@ export default function CarCardThumbnail({ title }: CarCardThumbnailProps) {
         className="absolute top-0 right-0 h-[112px] w-[85%] object-cover object-left-bottom"
       />
 
-      <div className="mt-[112px] flex flex-col gap-2.5">
-        <p className="font-bold text-xl">{title}ทุกคัน</p>
-        <p className="whitespace-pre-line text-sm">{`ค้นหารถเข้าใหม่ที่คุณสนใจที่\nGoodCarMarket`}</p>
+      <div className="mt-[112px] flex h-full flex-col justify-between gap-2.5">
+        <div>
+          <p className="font-bold text-xl">{title}ทุกคัน</p>
+          <p className="whitespace-pre-line text-sm">{`ค้นหารถเข้าใหม่ที่คุณสนใจที่\nGoodCarMarket`}</p>
+        </div>
 
-        <Button className="h-6 w-full px-1.5 py-0 font-bold text-sm">
-          ดูต่อ
-        </Button>
+        <Link href={paths.cars.list} aria-label="ดูต่อ" passHref>
+          <Button className="mb-2 h-6 w-full px-1.5 py-0 font-bold text-sm">
+            ดูต่อ
+          </Button>
+        </Link>
       </div>
     </div>
   );
