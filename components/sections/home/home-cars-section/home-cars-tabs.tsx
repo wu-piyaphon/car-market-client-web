@@ -35,7 +35,7 @@ export default function HomeCarsTabs({ groups }: HomeCarsTabsProps) {
             className="grid grid-cols-2 gap-4"
           >
             <CarCardThumbnail title={group.title} />
-            {group.list.slice(0, 4).map((carItem) => (
+            {group.list.slice(0, 3).map((carItem) => (
               <CarCard key={carItem.id} item={carItem} />
             ))}
           </TabsContent>
