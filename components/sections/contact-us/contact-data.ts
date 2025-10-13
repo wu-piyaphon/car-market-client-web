@@ -3,61 +3,71 @@ export interface LocationInfo {
   name: string;
   address: string;
   phone: string;
-  facebook?: string;
-  line?: string;
+  facebook: string;
+  facebookLink: string;
   hours: string;
   image: string;
 }
 
-export const CONTACT_LOCATIONS: LocationInfo[] = [
+export const CONTACT_DATA: LocationInfo[] = [
   {
     id: 1,
     name: "แชมป์ออโต้ระยอง 1",
-    address: "เลขที่ 168 หมู่4 ตำบลกบินมา อำเภอเมือง จังหวัดระยอง 21000",
-    phone: "063-809-8888",
-    facebook: "เพจตลาดรถ มือสอง ระยอง แชมป์1",
-    line: "0637098888",
-    hours: "เปิดบริการทุกวัน 24 ชม",
-    image: "/images/contact/location-1.jpg",
+    address: "133 หมู่ 4 ตำบลทับมา อำเภอเมือง, ระยอง",
+    phone: "084-144-2888",
+    facebook: "รถมือสอง ระยอง แชมป์ออโต้ชัวร์ ",
+    facebookLink: "https://www.facebook.com/share/1CmwE9mK4M/?mibextid=wwXIfr",
+    hours: "เปิดบริการทุกวัน ไม่มีวันหยุด\n8:30-18:30 น. ออนไลน์ 24 ชั่วโมง",
+    image: "/images/contact/champ-location-1.png",
   },
   {
     id: 2,
     name: "แชมป์ออโต้ระยอง 2",
-    address: "เลขที่ 255 หมู่3 ตำบลนาป่า อำเภอเมือง จังหวัดระยอง 21000",
-    phone: "063-809-8889",
+    address: "168 หมู่ 4 ตำบลทับมา อำเภอเมืองระยอง, ระยอง",
+    phone: "063-709-8888",
     facebook: "เพจตลาดรถ มือสอง ระยอง แชมป์2",
-    line: "0637098889",
-    hours: "เปิดบริการทุกวัน 24 ชม",
-    image: "/images/contact/location-2.jpg",
+    facebookLink: "https://www.facebook.com/share/1DNDzN3ygA/?mibextid=wwXIf",
+    hours: "เปิดบริการทุกวัน ไม่มีวันหยุด\n8:30-20.00 น. ออนไลน์ 24 ชั่วโมง",
+    image: "/images/contact/champ-location-2.png",
   },
   {
     id: 3,
-    name: "แชมป์ออโต้ชลบุรี",
-    address: "เลขที่ 89 หมู่7 ตำบลบางละมุง อำเภอบางละมุง จังหวัดชลบุรี 20150",
-    phone: "063-809-8890",
-    facebook: "เพจตลาดรถ มือสอง ชลบุรี แชมป์",
-    line: "0637098890",
-    hours: "เปิดบริการทุกวัน 24 ชม",
-    image: "/images/contact/location-3.jpg",
+    name: "แชมป์ มาบตาพุด",
+    address: "28 สุขุมวิท 30 ตำบลมาบตาพุด อำเภอเมือง, ระยอง",
+    phone: "063-709-8888",
+    facebook: "รถมือสอง แชมป์ มาบตาพุด",
+    facebookLink: "https://www.facebook.com/share/17MSrj11nE/?mibextid=wwXIfr",
+    hours: "เปิดบริการทุกวัน ไม่มีวันหยุด\n8:30-18:30 น. ออนไลน์ 24 ชั่วโมง",
+    image: "/images/contact/champ-location-3.png",
   },
   {
     id: 4,
-    name: "แชมป์ออโต้สระแก้ว",
-    address: "เลขที่ 123 หมู่5 ตำบลสระแก้ว อำเภอสระแก้ว จังหวัดสระแก้ว 27160",
-    phone: "063-809-8891",
-    facebook: "เพจตลาดรถ มือสอง สระแก้ว แชมป์",
-    line: "0637098891",
-    hours: "เปิดบริการทุกวัน 24 ชม",
-    image: "/images/contact/location-4.jpg",
+    name: "แชมป์ ปลวกแดง",
+    address: "34 ปลวกแดง 12, ตำบลมาบยางพร, อำเภอปลวกแดง, ระยอง",
+    phone: "095-555-5588",
+    facebook: "รถมือสอง แชมป์ ปลวกแดง ระยอง",
+    facebookLink: "https://www.facebook.com/share/19qfGWRUez/?mibextid=wwXIf",
+    hours: "เปิดบริการทุกวัน ไม่มีวันหยุด\n8:30-18:30 น. ออนไลน์ 24 ชั่วโมง",
+    image: "/images/contact/champ-location-4.png",
   },
   {
     id: 5,
-    name: "แชมป์ออโต้ฉะเชิงเทรา",
-    address: "เลขที่ 456 หมู่8 ตำบลบางคะเอา อำเภอเมือง จังหวัดฉะเชิงเทรา 24000",
-    phone: "063-809-8892",
-    facebook: "เพจตลาดรถ มือสอง ฉะเชิงเทรา แชมป์",
-    line: "0637098892",
-    hours: "เปิดบริการทุกวัน 24 ชม",
-    image: "/images/contact/location-5.jpg",
+    name: "แชมป์ สะพาน 4",
+    address: "50, ตำบลมาบยางพร, อำเภอปลวกแดง, ระยอง",
+    phone: "088-777-8856",
+    facebook: "รถมือสองระยอง แชมป์ สะพาน 4",
+    facebookLink: "https://www.facebook.com/share/1GHaaBqSF7/?mibextid=wwXIfr",
+    hours: "เปิดบริการทุกวัน ไม่มีวันหยุด\n8:30-18:30 น. ออนไลน์ 24 ชั่วโมง",
+    image: "/images/contact/champ-location-5.png",
+  },
+  {
+    id: 6,
+    name: "Car Dj",
+    address: "179 หมู่ 6 ถนนสุขุมวิท ตำบลเนินพระ อำเภอเมืองระยอง, ระยอง",
+    phone: "089-799-9993",
+    facebook: "รถมือสอง คาร์ดีเจ รถดีจริง",
+    facebookLink: "https://www.facebook.com/share/1Jv4zRNurB/?mibextid=wwX",
+    hours: "เปิดบริการทุกวัน ไม่มีวันหยุด\n8:30-18:30 น. ออนไลน์ 24 ชั่วโมง",
+    image: "/images/contact/champ-location-6.png",
   },
 ];

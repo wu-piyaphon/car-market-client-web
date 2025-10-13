@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { ContactSection } from "@/components/sections/contact-us";
+import ContactSection from "@/components/sections/contact-us/contact-section";
 import { CONFIG } from "@/global-config";
 
 // ----------------------------------------------------------------------
