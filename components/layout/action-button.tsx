@@ -3,6 +3,7 @@
 import { MessageCircleMore } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
+import { CONTACT_DATA } from "../sections/contact-us/contact-data";
 
 export default function ActionButton() {
   const [isHovered, setIsHovered] = useState(false);
@@ -28,7 +29,7 @@ export default function ActionButton() {
 
       {/* -- Action Button -- */}
       <Link
-        href="https://www.google.com"
+        href={CONTACT_DATA[0].facebookLink}
         target="_blank"
         rel="noopener noreferrer"
         passHref
