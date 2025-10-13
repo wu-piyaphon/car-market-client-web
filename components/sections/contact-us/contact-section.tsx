@@ -3,6 +3,7 @@
 import { Clock, MapPin, Phone } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 import { SvgIcon } from "@/components/icons";
 import Container from "@/components/layout/container";
 import { useCarousel } from "@/hooks/use-carousel";
@@ -17,7 +18,25 @@ export default function ContactSection() {
     autoPlayInterval: 4000,
   });
 
-  const currentLocation = CONTACT_DATA[selectedIndex];
+  const [isTransitioning, setIsTransitioning] = useState(false);
+  const [displayedIndex, setDisplayedIndex] = useState(selectedIndex);
+
+  // Handle transition when selectedIndex changes
+  useEffect(() => {
+    if (selectedIndex !== displayedIndex) {
+      setIsTransitioning(true);
+
+      // After fade out completes, change the image and fade back in
+      const timer = setTimeout(() => {
+        setDisplayedIndex(selectedIndex);
+        setIsTransitioning(false);
+      }, 250); // Half of the transition duration
+
+      return () => clearTimeout(timer);
+    }
+  }, [selectedIndex, displayedIndex]);
+
+  const currentLocation = CONTACT_DATA[displayedIndex];
 
   const handleDotClick = (index: number) => {
     goToIndex(index);
@@ -42,7 +61,10 @@ export default function ContactSection() {
                 src={currentLocation.image}
                 alt={currentLocation.name}
                 fill
-                className="object-cover transition-opacity hover:opacity-70"
+                className={cn(
+                  "object-cover transition-opacity duration-100 ease-in-out hover:opacity-80",
+                  isTransitioning ? "opacity-0" : "opacity-100",
+                )}
               />
             </Link>
           </div>
@@ -66,7 +88,7 @@ export default function ContactSection() {
 
         {/* -- Contact Details -- */}
         <div className="my-4 h-full md:my-8 lg:my-0 lg:w-[400px]">
-          <h2 className="mb-4 font-bold text-5xl text-primary md:text-6xl lg:text-11xl">
+          <h2 className="mb-4 font-bold text-5xl text-primary md:text-6xl lg:text-9xl">
             {currentLocation.name}
           </h2>
           <div className="h-fit space-y-8 rounded-xl bg-[#FAFAFA] px-5 py-6 md:h-full">
