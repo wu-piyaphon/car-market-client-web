@@ -15,7 +15,7 @@ export default function ContactSection() {
   const { selectedIndex, goToIndex } = useCarousel({
     totalImages: CONTACT_DATA.length,
     autoPlay: true,
-    autoPlayInterval: 4000,
+    autoPlayInterval: 3000,
   });
 
   const [isTransitioning, setIsTransitioning] = useState(false);
