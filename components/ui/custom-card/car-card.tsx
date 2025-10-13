@@ -14,7 +14,7 @@ export default function CarCard({ item }: CarCardProps) {
   const { thumbnail, model, subModel, type, modelYear, price, slug } = item;
 
   return (
-    <article className="rounded-md shadow-sm">
+    <article className="flex flex-col rounded-md shadow-sm">
       <Link href={paths.cars.detail(slug)} passHref>
         <div className="relative h-[110px] w-full cursor-pointer rounded-t-md object-cover transition-opacity hover:opacity-80 md:h-[168px]">
           <Image
@@ -27,8 +27,8 @@ export default function CarCard({ item }: CarCardProps) {
         </div>
       </Link>
 
-      <div className="space-y-2 p-4">
-        <div>
+      <div className="flex h-full flex-col justify-between space-y-2 p-4">
+        <div className="h-full">
           <h3 className="line-clamp-2 break-after-all font-bold text-base text-slate-900 md:text-xl">
             {model} {subModel}
           </h3>
