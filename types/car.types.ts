@@ -1,6 +1,6 @@
 import type { PaginationParams, PaginationResponse } from "./common.types";
 
-export type CarType = "PICKUP" | "SEDAN" | "SUV";
+export type CarType = "PICKUP" | "SEDAN" | "SUV" | "VAN";
 export type CarCategory = "NEW";
 export type SalesType = "CONSIGNMENT" | "OWNER";
 export type Transmission = "AUTOMATIC" | "MANUAL";

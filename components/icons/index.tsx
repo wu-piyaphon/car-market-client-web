@@ -7,6 +7,7 @@ import PickupIcon from "./ic-pickup";
 import SedanIcon from "./ic-sedan";
 import SUVIcon from "./ic-suv";
 import TwitterIcon from "./ic-twitter";
+import VanIcon from "./ic-van";
 
 export const iconRegistry = {
   sedan: SedanIcon,
@@ -18,6 +19,7 @@ export const iconRegistry = {
   instagram: InstagramIcon,
   twitter: TwitterIcon,
   line: LineIcon,
+  van: VanIcon,
 } as const;
 
 type IconProps = React.SVGProps<SVGSVGElement> & {

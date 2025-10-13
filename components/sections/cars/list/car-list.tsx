@@ -45,6 +45,11 @@ const TAB_VALUES: TabValue[] = [
     label: "รถ SUV",
     icon: <SvgIcon name="suv" className="size-4.5" />,
   },
+  {
+    value: "VAN",
+    label: "รถตู้",
+    icon: <SvgIcon name="van" className="size-4.5" />,
+  },
 ];
 
 // ----------------------------------------------------------------------
