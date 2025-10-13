@@ -29,7 +29,7 @@ export default function CarCard({ item }: CarCardProps) {
 
       <div className="space-y-2 p-4">
         <div>
-          <h3 className="font-bold text-base text-slate-900 md:text-xl">
+          <h3 className="line-clamp-2 break-after-all font-bold text-base text-slate-900 md:text-xl">
             {model} {subModel}
           </h3>
           <div className="flex flex-row items-center justify-between">
