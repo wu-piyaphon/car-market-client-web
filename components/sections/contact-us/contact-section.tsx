@@ -37,12 +37,14 @@ export default function ContactSection() {
         {/* -- Image Carousel -- */}
         <div className="relative w-full">
           <div className="relative aspect-[4/3] h-full overflow-hidden rounded-xl bg-gray-100">
-            <Image
-              src={currentLocation.image}
-              alt={currentLocation.name}
-              fill
-              className="object-cover"
-            />
+            <Link passHref href={currentLocation.facebookLink} target="_blank">
+              <Image
+                src={currentLocation.image}
+                alt={currentLocation.name}
+                fill
+                className="object-cover transition-opacity hover:opacity-70"
+              />
+            </Link>
           </div>
 
           {/* -- Carousel Dots -- */}
