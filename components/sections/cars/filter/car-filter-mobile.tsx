@@ -41,11 +41,11 @@ const containerVariants = {
 
 const contentVariants = {
   hidden: {
-    height: 0,
+    maxHeight: 0,
     opacity: 0,
   },
   visible: {
-    height: "auto",
+    maxHeight: 800, // Set a reasonable max height in pixels
     opacity: 1,
   },
 };
@@ -93,6 +93,8 @@ export default function CarFilterMobile({
         className="relative"
         animate={showMore ? "open" : "closed"}
         variants={containerVariants}
+        transition={{ duration: 0.3, ease: [0.25, 0.46, 0.45, 0.94] }}
+        style={{ willChange: "height" }}
       >
         <div className="-ml-10 h-full min-h-[320px] w-[120vw] bg-black/90 blur-md">
           <CarImageBanner />
@@ -121,8 +123,14 @@ export default function CarFilterMobile({
                   animate="visible"
                   exit="hidden"
                   variants={contentVariants}
-                  transition={{ duration: 0.3, ease: "easeInOut" }}
-                  style={{ overflow: "hidden", willChange: "height, opacity" }}
+                  transition={{
+                    duration: 0.25,
+                    ease: [0.25, 0.46, 0.45, 0.94],
+                  }}
+                  style={{
+                    overflow: "hidden",
+                    willChange: "max-height, opacity",
+                  }}
                 >
                   <RHFAutocomplete
                     name="model"
