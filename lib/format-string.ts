@@ -1,6 +1,8 @@
 import type { CarCategory, CarType } from "@/types/car.types";
 
 export function fCurrency(value: string | number) {
+  if (value === 0) return "-";
+
   return new Intl.NumberFormat("th-TH").format(
     typeof value === "string" ? parseFloat(value) : value,
   );
