@@ -60,6 +60,7 @@ export default function HomeSearchForm({
     values: watchedValues,
     defaultValues: CAR_FILTER_DEFAULT_VALUES,
     basePath: paths.home,
+    delay: 500,
   });
 
   return (

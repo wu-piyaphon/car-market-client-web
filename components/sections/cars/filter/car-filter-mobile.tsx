@@ -150,14 +150,14 @@ export default function CarFilterMobile({
                           "border-r-0",
                         ),
                       }}
-                      type="number"
+                      type="currency"
                     />
                     <RHFTextField
                       name="maxMileage"
                       label="เลขไมล์สูงสุด"
                       className="flex-1"
                       InputProps={INPUT_PROPS.MIDDLE}
-                      type="number"
+                      type="currency"
                     />
                   </div>
                 </motion.div>
@@ -170,14 +170,14 @@ export default function CarFilterMobile({
                 label="ราคาต่ำสุด"
                 className="flex-1"
                 InputProps={INPUT_PROPS.BOTTOM_LEFT}
-                type="number"
+                type="currency"
               />
               <RHFTextField
                 name="maxPrice"
                 label="ราคาสูงสุด"
                 className="flex-1"
                 InputProps={INPUT_PROPS.BOTTOM_RIGHT}
-                type="number"
+                type="currency"
               />
             </div>
           </div>

@@ -64,6 +64,7 @@ export default function CarSearchList({
     defaultValues: CAR_FILTER_DEFAULT_VALUES,
     basePath: paths.cars.list,
     startTransition,
+    delay: 500,
   });
 
   // ----------------------------------------------------------------------

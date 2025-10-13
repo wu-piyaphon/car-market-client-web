@@ -75,9 +75,9 @@ export default function CarFilterSidebar({
         InputProps={{ className: "rounded-none border-b-0" }}
       >
         <div className="flex flex-row items-center gap-2">
-          <RHFTextField name="minMileage" label="เลขไมล์ต่ำสุด" />
+          <RHFTextField type="currency" name="minMileage" label="เลขไมล์ต่ำสุด" />
           -
-          <RHFTextField name="maxMileage" label="เลขไมล์สูงสุด" />
+          <RHFTextField type="currency" name="maxMileage" label="เลขไมล์สูงสุด" />
         </div>
       </FieldPopover>
 
@@ -88,9 +88,19 @@ export default function CarFilterSidebar({
         InputProps={{ className: "rounded-none" }}
       >
         <div className="flex flex-row items-center gap-2">
-          <RHFTextField name="minPrice" label="ราคาต่ำสุด" className="flex-1" />
+          <RHFTextField
+            name="minPrice"
+            type="currency"
+            label="ราคาต่ำสุด"
+            className="flex-1"
+          />
           -
-          <RHFTextField name="maxPrice" label="ราคาสูงสุด" className="flex-1" />
+          <RHFTextField
+            name="maxPrice"
+            type="currency"
+            label="ราคาสูงสุด"
+            className="flex-1"
+          />
         </div>
       </FieldPopover>
     </div>
