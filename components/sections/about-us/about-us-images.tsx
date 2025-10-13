@@ -5,14 +5,14 @@ export default function AboutUsImages() {
     <div>
       <div className="mt-10 mb-15 flex flex-col gap-6 md:hidden">
         <Image
-          src="/images/about-us/img-bottom-left.png"
+          src="/images/about-us/img-bottom-right-2.png"
           alt="Description"
           width={600}
           height={600}
           className="h-full max-h-[260px] w-full rounded-xl object-cover"
         />
         <Image
-          src="/images/about-us/img-bottom-left.png"
+          src="/images/about-us/img-top-right.png"
           alt="Description"
           width={600}
           height={600}
