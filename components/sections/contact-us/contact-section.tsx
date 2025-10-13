@@ -1,15 +1,18 @@
 "use client";
 
-import { Clock, MapPin, Phone } from "lucide-react";
+import { ChevronLeft, ChevronRight, Clock, MapPin, Phone } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { SvgIcon } from "@/components/icons";
 import Container from "@/components/layout/container";
+import { Button } from "@/components/ui/button";
 import { useCarousel } from "@/hooks/use-carousel";
 import { cn } from "@/lib/utils";
 import { CONTACT_DATA } from "./contact-data";
 import ContactItem from "./contact-item";
+
+// ----------------------------------------------------------------------
 
 export default function ContactSection() {
   const { selectedIndex, goToIndex, goToPrevious, goToNext } = useCarousel({
@@ -20,11 +23,6 @@ export default function ContactSection() {
 
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [displayedIndex, setDisplayedIndex] = useState(selectedIndex);
-
-  // Touch/swipe state
-  const [touchStart, setTouchStart] = useState<number | null>(null);
-  const [touchEnd, setTouchEnd] = useState<number | null>(null);
-  const [isDragging, setIsDragging] = useState(false);
 
   // Handle transition when selectedIndex changes
   useEffect(() => {
@@ -43,77 +41,16 @@ export default function ContactSection() {
 
   const currentLocation = CONTACT_DATA[displayedIndex];
 
-  // Swipe detection
-  const minSwipeDistance = 50;
-
-  const onTouchStart = (e: React.TouchEvent) => {
-    setTouchEnd(null); // otherwise the swipe is fired even with usual touch events
-    setTouchStart(e.targetTouches[0].clientX);
-    setIsDragging(true);
-  };
-
-  const onTouchMove = (e: React.TouchEvent) => {
-    setTouchEnd(e.targetTouches[0].clientX);
-  };
-
-  const onTouchEnd = () => {
-    if (!touchStart || !touchEnd) return;
-
-    const distance = touchStart - touchEnd;
-    const isLeftSwipe = distance > minSwipeDistance;
-    const isRightSwipe = distance < -minSwipeDistance;
-
-    if (isLeftSwipe && CONTACT_DATA.length > 1) {
-      goToNext();
-    }
-    if (isRightSwipe && CONTACT_DATA.length > 1) {
-      goToPrevious();
-    }
-
-    setIsDragging(false);
-    setTouchStart(null);
-    setTouchEnd(null);
-  };
-
-  // Mouse drag handlers for desktop
-  const onMouseDown = (e: React.MouseEvent) => {
-    setTouchEnd(null);
-    setTouchStart(e.clientX);
-    setIsDragging(true);
-  };
-
-  const onMouseMove = (e: React.MouseEvent) => {
-    if (!isDragging) return;
-    setTouchEnd(e.clientX);
-  };
-
-  const onMouseUp = () => {
-    if (!touchStart || !touchEnd || !isDragging) return;
-
-    const distance = touchStart - touchEnd;
-    const isLeftSwipe = distance > minSwipeDistance;
-    const isRightSwipe = distance < -minSwipeDistance;
-
-    if (isLeftSwipe && CONTACT_DATA.length > 1) {
-      goToNext();
-    }
-    if (isRightSwipe && CONTACT_DATA.length > 1) {
-      goToPrevious();
-    }
-
-    setIsDragging(false);
-    setTouchStart(null);
-    setTouchEnd(null);
-  };
-
-  const onMouseLeave = () => {
-    setIsDragging(false);
-    setTouchStart(null);
-    setTouchEnd(null);
-  };
-
   const handleDotClick = (index: number) => {
     goToIndex(index);
+  };
+
+  const handlePrevious = () => {
+    goToPrevious();
+  };
+
+  const handleNext = () => {
+    goToNext();
   };
 
   return (
@@ -129,32 +66,41 @@ export default function ContactSection() {
       <div className="flex flex-col gap-4 lg:flex-row-reverse">
         {/* -- Image Carousel -- */}
         <div className="relative w-full">
-          <button
-            type="button"
-            aria-label="Swipe or click to navigate between locations"
-            className={cn(
-              "relative aspect-[4/3] h-full w-full touch-pan-y select-none overflow-hidden rounded-xl border-0 bg-gray-100 p-0",
-              isDragging ? "cursor-grabbing" : "cursor-grab",
-            )}
-            onTouchStart={onTouchStart}
-            onTouchMove={onTouchMove}
-            onTouchEnd={onTouchEnd}
-            onMouseDown={onMouseDown}
-            onMouseMove={onMouseMove}
-            onMouseUp={onMouseUp}
-            onMouseLeave={onMouseLeave}
-          >
+          <div className="relative aspect-[4/3] h-full w-full overflow-hidden rounded-xl bg-gray-100">
             <Image
               src={currentLocation.image}
               alt={currentLocation.name}
               fill
               className={cn(
-                "object-cover transition-opacity duration-100 ease-in-out hover:opacity-80",
-                "pointer-events-none", // Prevent image from interfering with drag events
+                "object-cover transition-opacity duration-300 ease-in-out",
                 isTransitioning ? "opacity-0" : "opacity-100",
               )}
             />
-          </button>
+          </div>
+
+          {/* -- Navigation Buttons -- */}
+          {CONTACT_DATA.length > 1 && (
+            <>
+              <Button
+                variant="outline"
+                size="icon"
+                className="-translate-y-1/2 absolute top-1/2 left-4 border-0 bg-white backdrop-blur-sm hover:bg-white/90"
+                onClick={handlePrevious}
+                aria-label="Previous location"
+              >
+                <ChevronLeft className="h-4 w-4" />
+              </Button>
+              <Button
+                variant="outline"
+                size="icon"
+                className="-translate-y-1/2 absolute top-1/2 right-4 border-0 bg-white backdrop-blur-sm hover:bg-white/80"
+                onClick={handleNext}
+                aria-label="Next location"
+              >
+                <ChevronRight className="h-4 w-4" />
+              </Button>
+            </>
+          )}
 
           {/* -- Carousel Dots -- */}
           <div className="-translate-x-1/2 absolute bottom-4 left-1/2 mt-4 flex justify-center space-x-2 md:bottom-5 md:space-x-5 lg:bottom-8">
