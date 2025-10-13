@@ -2,7 +2,7 @@
 
 import { Search } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
-import { useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { useFormContext, useWatch } from "react-hook-form";
 import RHFAutocomplete from "@/components/hook-forms/rhf-autocomplete";
 import RHFTextField from "@/components/hook-forms/rhf-textfield";
@@ -30,6 +30,28 @@ type CarFilterMobileProps = {
 
 // ----------------------------------------------------------------------
 
+const containerVariants = {
+  closed: {
+    height: "320px",
+  },
+  open: {
+    height: "790px",
+  },
+};
+
+const contentVariants = {
+  hidden: {
+    height: 0,
+    opacity: 0,
+  },
+  visible: {
+    height: "auto",
+    opacity: 1,
+  },
+};
+
+// ----------------------------------------------------------------------
+
 export default function CarFilterMobile({
   filterOptions,
 }: CarFilterMobileProps) {
@@ -40,6 +62,7 @@ export default function CarFilterMobile({
     name: ["model"],
   });
 
+  // Memoize filter options to prevent unnecessary re-renders
   const {
     types,
     brands,
@@ -50,9 +73,13 @@ export default function CarFilterMobile({
     engineTypes,
     modelYears,
     engineCapacities,
-  } = filterOptions;
+  } = useMemo(() => filterOptions, [filterOptions]);
 
   const [showMore, setShowMore] = useState(false);
+
+  const handleToggleMore = useCallback(() => {
+    setShowMore((prev) => !prev);
+  }, []);
 
   return (
     <>
@@ -64,8 +91,8 @@ export default function CarFilterMobile({
 
       <motion.div
         className="relative"
-        animate={{ height: showMore ? "790px" : "320px" }}
-        transition={{ duration: 0.3, ease: "easeInOut" }}
+        animate={showMore ? "open" : "closed"}
+        variants={containerVariants}
       >
         <div className="-ml-10 h-full min-h-[320px] w-[120vw] bg-black/90 blur-md">
           <CarImageBanner />
@@ -90,11 +117,12 @@ export default function CarFilterMobile({
             <AnimatePresence>
               {showMore && (
                 <motion.div
-                  initial={{ height: 0 }}
-                  animate={{ height: "auto" }}
-                  exit={{ height: 0 }}
+                  initial="hidden"
+                  animate="visible"
+                  exit="hidden"
+                  variants={contentVariants}
                   transition={{ duration: 0.3, ease: "easeInOut" }}
-                  style={{ overflow: "hidden" }}
+                  style={{ overflow: "hidden", willChange: "height, opacity" }}
                 >
                   <RHFAutocomplete
                     name="model"
@@ -192,7 +220,7 @@ export default function CarFilterMobile({
               size="lg"
               variant="outline"
               className="border-white text-white hover:bg-white/20"
-              onClick={() => setShowMore((prev) => !prev)}
+              onClick={handleToggleMore}
             >
               ค้นหาแบบ{showMore ? "ย่อ" : "ละเอียด"}
             </Button>
