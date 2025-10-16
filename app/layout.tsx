@@ -24,6 +24,9 @@ export const metadata: Metadata = {
   title: "GoodCarMarket - ตลาดรถยนต์ออนไลน์ประเทศไทย",
   description:
     "ค้นหา ซื้อ และขายรถยนต์มือสองที่ GoodCarMarket แพลตฟอร์มตลาดรถออนไลน์ประเทศไทย พร้อมบริการประเมินราคารถ คำนวณสินเชื่อ และระบบค้นหาเลือกจากรถยนต์หลายพันคันจากหลากหลายยี่ห้อ",
+  openGraph: {
+    images: "/logo.svg",
+  },
 };
 
 export default function RootLayout({
