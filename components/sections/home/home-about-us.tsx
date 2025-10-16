@@ -37,7 +37,7 @@ export default function HomeAboutUs() {
       {/* -- Tablet/Desktop -- */}
       <div className="relative hidden w-full md:flex md:h-[390px] lg:h-[540px]">
         <div
-          className="absolute left-0 z-10 h-full w-[48%] bg-primary"
+          className="absolute left-0 z-10 h-full w-[50%] bg-primary"
           style={{ clipPath: "polygon(0 0, 100% 0, 80% 100%, 0% 100%)" }}
         />
 
