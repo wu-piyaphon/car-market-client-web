@@ -28,8 +28,7 @@ const FOOTER_ITEMS = [
 
 const SOCIAL_MEDIA = [
   { name: "Facebook", href: "#", icon: <SvgIcon name="facebook" /> },
-  { name: "Instagram", href: "#", icon: <SvgIcon name="instagram" /> },
-  { name: "Twitter", href: "#", icon: <SvgIcon name="twitter" /> },
+  { name: "Line", href: "#", icon: <SvgIcon name="lineFooter" /> },
 ];
 
 // ----------------------------------------------------------------------
@@ -64,7 +63,7 @@ export default function Footer() {
           </nav>
 
           {/* Social Media Icons */}
-          <div className="flex items-center justify-end space-x-4">
+          <div className="flex items-center justify-end space-x-1.5">
             {SOCIAL_MEDIA.map((item) => (
               <Link
                 key={item.name}
