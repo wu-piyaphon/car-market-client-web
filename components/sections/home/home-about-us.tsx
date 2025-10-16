@@ -12,9 +12,9 @@ export default function HomeAboutUs() {
       <Container>
         <div className="flex flex-col gap-8 md:hidden">
           <div className="flex flex-col gap-4 text-primary">
-            <h2 className="whitespace-pre-line font-bold text-4xl leading-snug">{`รู้จัก GoodCarMarket\nแล้วรึยัง?`}</h2>
+            <h2 className="whitespace-pre-line font-bold text-4xl leading-snug">{`Good Car Market ซื้อ ขาย\nรถยนต์มือสอง เป็นเรื่องง่าย`}</h2>
             <p className="whitespace-pre-line text-base">
-              {`Choose from thousands of vehicles from multiple\nbrands and buy online with Click & Drive, or visit\nus at one of our dealerships today.`}
+              {`"การซื้อ-ขายรถยนต์ไม่ควรเป็นเรื่องที่น่าปวดหัวอีกต่อไป หลายคนเคยเจอประสบการณ์ที่ทำให้เสียเวลา ได้ราคาไม่เป็นธรรม หรือต้องเสี่ยงกับรถที่ไม่มีคุณภาพ แต่ที่ Good Car Market เราเปลี่ยนทุกอย่างให้ง่ายขึ้น"`}
             </p>
           </div>
 
@@ -44,13 +44,14 @@ export default function HomeAboutUs() {
         <Container className="z-20 mx-auto flex h-full w-full flex-col justify-center">
           <div className="flex w-[40%] flex-col gap-5 px-10">
             <div className="flex flex-col gap-2 text-white">
-              <h2 className="font-bold text-7xl lg:text-11xl">
-                Good Car Market
+              <h2 className="font-bold text-7xl leading-tight lg:text-10xl">
+                Good Car Market ซื้อ ขาย รถยนต์มือสอง เป็นเรื่องง่าย
               </h2>
               <p className="text-base lg:text-xl">
-                Choose from thousands of vehicles from multiple brands and buy
-                online with Click & Drive, or visit us at one of our dealerships
-                today.
+                "การซื้อ-ขายรถยนต์ไม่ควรเป็นเรื่องที่น่าปวดหัวอีกต่อไป
+                หลายคนเคยเจอประสบการณ์ที่ทำให้เสียเวลา ได้ราคาไม่เป็นธรรม
+                หรือต้องเสี่ยงกับรถที่ไม่มีคุณภาพ แต่ที่ Good Car Market
+                เราเปลี่ยนทุกอย่างให้ง่ายขึ้น"
               </p>
             </div>
             <Button

@@ -13,12 +13,22 @@ type HomeSellingCardProps = {
 
 // ----------------------------------------------------------------------
 
-function HomeSellingCard({ icon, title, href }: HomeSellingCardProps) {
+function HomeSellingCard({
+  icon,
+  title,
+  href,
+  description,
+}: HomeSellingCardProps) {
   return (
     <article className="flex flex-1 flex-col gap-7 rounded-md border border-neutral-300 p-8 shadow-sm lg:p-10">
-      <h2 className="whitespace-pre-line font-bold text-4xl leading-snug lg:text-8xl">
-        {title}
-      </h2>
+      <div className="flex flex-col gap-4">
+        <h2 className="whitespace-pre-line font-bold text-4xl leading-snug lg:text-8xl">
+          {title}
+        </h2>
+        {description && (
+          <p className="text-2xl text-slate-900">{description}</p>
+        )}
+      </div>
       <div className="flex flex-1 flex-row items-end justify-between">
         <Button size="lg" asChild>
           <Link href={href}>
@@ -69,8 +79,8 @@ export default function HomeSellingSection() {
           <HomeSellingCardMobile
             icon={<Receipt className="size-9 rotate-12" />}
             href={paths.form.selling}
-            title="ขายรถและลงประกาศ"
-            description="สำหรับผู้สนใจขายรถให้กับเต้นท์รถโดยตรงและลงประกาศผ่านเว็บไซต์"
+            title="ลงประกาศขายรถกับ GoodCarMarket"
+            description="อยากขายรถได้เร็ว ไม่ต้องยุ่งยาก ลองลงประกาศกับเราสิ!"
           />
 
           <div className="flex flex-row items-center gap-2 md:hidden">
@@ -92,12 +102,14 @@ export default function HomeSellingSection() {
           <HomeSellingCard
             icon={<Receipt className="size-16 rotate-12 lg:size-22" />}
             href={paths.form.selling}
-            title={`ขายรถและลงประกาศผ่าน\nGoodCarMarket`}
+            title={`ลงประกาศขายรถกับ GoodCarMarket`}
+            description="อยากขายรถได้เร็ว ไม่ต้องยุ่งยาก ลองลงประกาศกับเราสิ!"
           />
           <HomeSellingCard
             icon={<SquarePen className="size-16 lg:size-22" />}
             href={paths.form.estimate}
-            title={`สนใจประเมินราคารถกับ\nGoodCarMarket`}
+            title={`ขายรถกับ GoodCarMarket`}
+            description="ขายโดยตรง จบง่าย จบไว ได้ราคาดี ไม่ยุ่งยาก"
           />
         </div>
       </section>
