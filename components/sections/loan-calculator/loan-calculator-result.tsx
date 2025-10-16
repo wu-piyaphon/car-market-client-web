@@ -33,6 +33,9 @@ export default function LoanCalculatorResult() {
             <p className="text-primary text-xl">฿{item.value}</p>
           </div>
         ))}
+        <h6 className="text-lg lg:text-xl">
+          *การคำนวณนี้รวมภาษีมูลค่าเพิ่ม (VAT) 7% แล้ว
+        </h6>
       </div>
     </article>
   );
