@@ -49,8 +49,10 @@ export default function AboutUsFAQ() {
       >
         {FAQ.map((item) => (
           <AccordionItem key={item.question} value={item.question}>
-            <AccordionTrigger>{item.question}</AccordionTrigger>
-            <AccordionContent className="whitespace-pre-line leading-snug">
+            <AccordionTrigger className="p-4 md:p-7 lg:p-10">
+              {item.question}
+            </AccordionTrigger>
+            <AccordionContent className="!pt-0 whitespace-pre-line p-4 leading-snug md:p-7 lg:p-10">
               {item.answer}
             </AccordionContent>
           </AccordionItem>
