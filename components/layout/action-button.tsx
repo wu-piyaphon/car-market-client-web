@@ -9,7 +9,7 @@ export default function ActionButton() {
   const [isHovered, setIsHovered] = useState(false);
 
   return (
-    <div className="fixed right-3 bottom-8 z-50 md:right-8">
+    <div className="fixed right-3 bottom-15 z-50 md:right-8">
       {/* -- Chat Label -- */}
       <div
         className={`absolute right-17 bottom-2 flex items-center transition-all duration-300 ease-in-out ${
