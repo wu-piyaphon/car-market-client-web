@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import Form from "@/components/hook-forms/form";
 import RHFTextField from "@/components/hook-forms/rhf-textfield";
 import { Button } from "@/components/ui/button";
+import { fCurrency } from "@/lib/format-string";
 import {
   type LoanCalculatorSchema,
   loanCalculatorSchema,
@@ -25,10 +26,33 @@ export default function LoanCalculatorForm({
       interest: "",
       loanTerm: "",
       downPayment: "",
+      totalPriceWithVAT: undefined,
+      totalInterestWithVAT: undefined,
+      monthlyInterestWithVAT: undefined,
     },
   });
 
-  const { handleSubmit } = methods;
+  const { handleSubmit, setValue } = methods;
+
+  const calculate = handleSubmit((data: LoanCalculatorSchema) => {
+    const { price, interest, downPayment, loanTerm } = data;
+
+    const loanTermInMonths = Number(loanTerm) * 12;
+
+    const totalFinance = Number(price) - Number(downPayment);
+    const totalInterest =
+      totalFinance * (Number(interest) / 100) * Number(loanTerm);
+
+    const total = totalFinance + totalInterest;
+
+    const totalPriceWithVAT = total * 1.07;
+    const totalInterestWithVAT = totalInterest * 1.07;
+    const monthlyInterestWithVAT = totalPriceWithVAT / loanTermInMonths;
+
+    setValue("totalPriceWithVAT", fCurrency(totalPriceWithVAT));
+    setValue("totalInterestWithVAT", fCurrency(totalInterestWithVAT));
+    setValue("monthlyInterestWithVAT", fCurrency(monthlyInterestWithVAT));
+  });
 
   // ----------------------------------------------------------------------
 
@@ -42,10 +66,9 @@ export default function LoanCalculatorForm({
           คำณวนสินเชื่อ
         </h2>
         <p className="hidden text-base md:block lg:text-xl">
-          Use our loan calculator to calculate payments over the life of your
-          loan. Enter your information to see how much your monthly payments
-          could be. You can adjust length of loan, down payment and interest
-          rate to see how those changes raise or lower your payments.
+          ช่วยให้คุณวางแผนการผ่อนได้ง่ายๆ รู้ค่างวดล่วงหน้าเบื้องต้นได้เลย ผลการพิจารณา
+          เป็นเพียงข้อมูลการคำนวณเบื้องต้น ในการอนุมัติของธนาคาร ข้อมูลการผ่อนชำระ
+          จำนวนเงินผ่อนชำระ วงเงินที่ได้รับอนุมัติ อาจมีการเปลี่ยนแปลงได้ตามเงื่อนไขที่ธนาคารกำหนด
         </p>
 
         <div className="mt-5 flex flex-col gap-5 md:mt-8 md:gap-6 lg:gap-7">
@@ -69,11 +92,7 @@ export default function LoanCalculatorForm({
             />
           </div>
 
-          <Button
-            type="button"
-            size="lg"
-            onClick={handleSubmit((data) => console.log(data))}
-          >
+          <Button type="button" size="lg" onClick={calculate}>
             Calculate
           </Button>
         </div>
