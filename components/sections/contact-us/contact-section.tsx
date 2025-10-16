@@ -12,19 +12,16 @@ import { cn } from "@/lib/utils";
 import { CONTACT_DATA } from "./contact-data";
 import ContactItem from "./contact-item";
 
-// ----------------------------------------------------------------------
-
 export default function ContactSection() {
-  const { selectedIndex, goToIndex, goToPrevious, goToNext } = useCarousel({
+  const { selectedIndex, goToPrevious, goToNext } = useCarousel({
     totalImages: CONTACT_DATA.length,
     autoPlay: true,
-    autoPlayInterval: 3000,
+    autoPlayInterval: 5000,
   });
 
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [displayedIndex, setDisplayedIndex] = useState(selectedIndex);
 
-  // Handle transition when selectedIndex changes
   useEffect(() => {
     if (selectedIndex !== displayedIndex) {
       setIsTransitioning(true);
@@ -41,10 +38,6 @@ export default function ContactSection() {
 
   const currentLocation = CONTACT_DATA[displayedIndex];
 
-  const handleDotClick = (index: number) => {
-    goToIndex(index);
-  };
-
   const handlePrevious = () => {
     goToPrevious();
   };
@@ -54,117 +47,95 @@ export default function ContactSection() {
   };
 
   return (
-    <Container className="py-4">
-      {/* -- Header -- */}
-      <div className="mb-2 px-6 py-4 text-center md:mb-4 md:px-0 md:text-left">
-        <h1 className="font-bold text-5xl text-primary md:text-6xl lg:text-11xl">
-          ติดต่อเรา
-        </h1>
-      </div>
+    <div className="grid grid-cols-[40%_1fr] lg:grid-cols-[32%_1fr]">
+      <Container
+        className={cn(
+          "!pr-8 !pb-0 flex h-full max-h-[calc(100vh-76px-85px)] w-full flex-col space-y-8 py-8 transition-opacity duration-300 ease-in-out lg:max-h-[calc(100vh-106px-98px)] lg:space-y-11 lg:py-15",
+          isTransitioning ? "opacity-0" : "opacity-100",
+        )}
+      >
+        <h2 className="font-bold text-4xl text-primary lg:text-8xl">
+          {currentLocation.name}
+        </h2>
 
-      {/* -- Content Container -- */}
-      <div className="flex flex-col gap-4 lg:flex-row-reverse">
-        {/* -- Image Carousel -- */}
-        <div className="relative w-full">
-          <div className="relative aspect-[4/3] h-full w-full overflow-hidden rounded-xl bg-gray-100">
-            <Image
-              src={currentLocation.image}
-              alt={currentLocation.name}
-              fill
-              className={cn(
-                "object-cover transition-opacity duration-300 ease-in-out",
-                isTransitioning ? "opacity-0" : "opacity-100",
-              )}
+        <ContactItem
+          title="ที่อยู่"
+          value={currentLocation.address}
+          icon={<MapPin className="size-7 flex-shrink-0 lg:size-8" />}
+        />
+
+        <ContactItem
+          title="โทรศัพท์"
+          value={currentLocation.phone}
+          icon={<Phone className="size-7 flex-shrink-0 lg:size-8" />}
+        />
+
+        <div className="space-y-4">
+          <Link
+            href={currentLocation.facebookLink}
+            target="_blank"
+            className="flex items-center"
+          >
+            <SvgIcon
+              name="facebookCircle"
+              className="mr-3 size-7 shrink-0 lg:size-8"
             />
-          </div>
+            <p className="text-slate-900 text-xl">{currentLocation.facebook}</p>
+          </Link>
+        </div>
 
-          {/* -- Navigation Buttons -- */}
-          {CONTACT_DATA.length > 1 && (
-            <>
-              <Button
-                variant="outline"
-                size="icon"
-                className="-translate-y-1/2 absolute top-1/2 left-4 border-0 bg-white backdrop-blur-sm hover:bg-white/90"
-                onClick={handlePrevious}
-                aria-label="Previous location"
-              >
-                <ChevronLeft className="h-4 w-4" />
-              </Button>
-              <Button
-                variant="outline"
-                size="icon"
-                className="-translate-y-1/2 absolute top-1/2 right-4 border-0 bg-white backdrop-blur-sm hover:bg-white/80"
-                onClick={handleNext}
-                aria-label="Next location"
-              >
-                <ChevronRight className="h-4 w-4" />
-              </Button>
-            </>
+        <ContactItem
+          title="เวลาทำการ"
+          value={currentLocation.hours}
+          icon={<Clock className="size-7 flex-shrink-0 lg:size-8" />}
+        />
+
+        <div className="relative h-full w-full">
+          <Image
+            src={currentLocation.image}
+            alt={currentLocation.name}
+            fill
+            className={cn(
+              "rounded-lg object-cover",
+              isTransitioning ? "opacity-0" : "opacity-100",
+            )}
+          />
+        </div>
+      </Container>
+
+      {/* -- Contact Map -- */}
+      <div className="relative">
+        <iframe
+          src={currentLocation.googleMapLink}
+          width="600"
+          height="450"
+          allowFullScreen
+          loading="lazy"
+          title={currentLocation.name}
+          className={cn(
+            "h-[calc(100vh-76px-85px)] w-full lg:h-[calc(100vh-106px-98px)]",
           )}
+        ></iframe>
 
-          {/* -- Carousel Dots -- */}
-          <div className="-translate-x-1/2 absolute bottom-4 left-1/2 mt-4 flex justify-center space-x-2 md:bottom-5 md:space-x-5 lg:bottom-8">
-            {CONTACT_DATA.map((location, index) => (
-              <button
-                key={location.id}
-                type="button"
-                onClick={() => handleDotClick(index)}
-                className={cn(
-                  "h-3 w-3 cursor-pointer rounded-full transition-colors duration-300",
-                  index === selectedIndex ? "bg-primary" : "bg-gray-100",
-                )}
-                aria-label={`Go to location ${index + 1}`}
-              />
-            ))}
-          </div>
-        </div>
-
-        {/* -- Contact Details -- */}
-        <div className="my-4 h-full md:my-8 lg:my-0 lg:w-[400px]">
-          <h2 className="mb-4 font-bold text-5xl text-primary md:text-6xl lg:text-9xl">
-            {currentLocation.name}
-          </h2>
-          <div className="h-fit space-y-8 rounded-xl bg-[#FAFAFA] px-5 py-6 md:h-full">
-            <ContactItem
-              title="ที่อยู่"
-              value={currentLocation.address}
-              icon={<MapPin className="h-5 w-5 flex-shrink-0" />}
-            />
-
-            <ContactItem
-              title="โทรศัพท์"
-              value={currentLocation.phone}
-              icon={<Phone className="h-5 w-5 flex-shrink-0" />}
-            />
-
-            {/* -- Social Media -- */}
-            <div className="space-y-4">
-              {currentLocation.facebook && (
-                <Link
-                  href={currentLocation.facebookLink}
-                  target="_blank"
-                  className="flex items-center"
-                >
-                  <SvgIcon
-                    name="facebookCircle"
-                    className="mr-3 size-9 shrink-0"
-                  />
-                  <p className="text-slate-900 text-xl">
-                    {currentLocation.facebook}
-                  </p>
-                </Link>
-              )}
-            </div>
-
-            {/* -- Working Hours -- */}
-            <ContactItem
-              title="เวลาทำการ"
-              value={currentLocation.hours}
-              icon={<Clock className="h-5 w-5 flex-shrink-0" />}
-            />
-          </div>
-        </div>
+        <Button
+          variant="outline"
+          size="icon"
+          className="-translate-y-1/2 absolute top-1/2 left-4 border-0 bg-white backdrop-blur-sm hover:bg-white/50"
+          onClick={handlePrevious}
+          aria-label="Previous location"
+        >
+          <ChevronLeft className="h-4 w-4" />
+        </Button>
+        <Button
+          variant="outline"
+          size="icon"
+          className="-translate-y-1/2 absolute top-1/2 right-4 border-0 bg-white backdrop-blur-sm hover:bg-white/50"
+          onClick={handleNext}
+          aria-label="Next location"
+        >
+          <ChevronRight className="h-4 w-4" />
+        </Button>
       </div>
-    </Container>
+    </div>
   );
 }
