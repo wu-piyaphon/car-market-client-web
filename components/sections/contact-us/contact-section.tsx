@@ -16,7 +16,7 @@ export default function ContactSection() {
   const { selectedIndex, goToPrevious, goToNext } = useCarousel({
     totalImages: CONTACT_DATA.length,
     autoPlay: true,
-    autoPlayInterval: 5000,
+    autoPlayInterval: 8000,
   });
 
   const [isTransitioning, setIsTransitioning] = useState(false);
@@ -47,10 +47,10 @@ export default function ContactSection() {
   };
 
   return (
-    <div className="grid grid-cols-[40%_1fr] lg:grid-cols-[32%_1fr]">
-      <Container
+    <Container className="!pr-0 grid grid-cols-[40%_1fr] gap-6 lg:grid-cols-[32%_1fr]">
+      <div
         className={cn(
-          "!pr-8 !pb-0 flex h-full max-h-[calc(100vh-76px-85px)] w-full flex-col space-y-8 py-8 transition-opacity duration-300 ease-in-out lg:max-h-[calc(100vh-106px-98px)] lg:space-y-11 lg:py-15",
+          "!pb-0 mr-0 flex h-full max-h-[calc(100vh-76px-85px)] w-full flex-col space-y-8 pt-8 transition-opacity duration-300 ease-in-out lg:max-h-[calc(100vh-106px-98px)] lg:space-y-11 lg:pt-10",
           isTransitioning ? "opacity-0" : "opacity-100",
         )}
       >
@@ -101,7 +101,7 @@ export default function ContactSection() {
             )}
           />
         </div>
-      </Container>
+      </div>
 
       {/* -- Contact Map -- */}
       <div className="relative">
@@ -113,7 +113,7 @@ export default function ContactSection() {
           loading="lazy"
           title={currentLocation.name}
           className={cn(
-            "h-[calc(100vh-76px-85px)] w-full lg:h-[calc(100vh-106px-98px)]",
+            "h-[calc(100vh-76px-85px)] w-full rounded-bl-xl lg:h-[calc(100vh-106px-98px)]",
           )}
         ></iframe>
 
@@ -136,6 +136,6 @@ export default function ContactSection() {
           <ChevronRight className="h-4 w-4" />
         </Button>
       </div>
-    </div>
+    </Container>
   );
 }
