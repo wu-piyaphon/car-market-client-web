@@ -30,8 +30,8 @@ export default function AboutUsImages() {
       {/* -- Tablet/Desktop -- */}
       <div className="hidden max-h-[640px] grid-flow-col grid-rows-3 gap-5 md:grid lg:gap-6">
         <div className="col-span-1 row-span-2 rounded-xl bg-primary-500 p-8 font-bold text-white">
-          <h2 className="mb-4 text-9xl lg:text-13xl">XX</h2>
-          <h2 className="whitespace-pre-line text-3xl lg:text-11xl">{`Years in\nBusiness`}</h2>
+          <h2 className="mb:2 text-15xl lg:mb-4">7</h2>
+          <h2 className="whitespace-pre-line text-5xl lg:text-11xl">{`Years in\nBusiness`}</h2>
         </div>
         <Image
           src="/images/about-us/img-bottom-left.png"
