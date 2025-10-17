@@ -26,9 +26,22 @@ const FOOTER_ITEMS = [
   },
 ];
 
+export const SOCIAL_LINK = {
+  facebook: "https://www.facebook.com/share/1DNDzN3ygA/?mibextid=wwXIf",
+  line: "https://line.me/ti/p/~0637098888",
+};
+
 const SOCIAL_MEDIA = [
-  { name: "Facebook", href: "#", icon: <SvgIcon name="facebook" /> },
-  { name: "Line", href: "#", icon: <SvgIcon name="lineFooter" /> },
+  {
+    name: "Facebook",
+    href: SOCIAL_LINK.facebook,
+    icon: <SvgIcon name="facebook" />,
+  },
+  {
+    name: "Line",
+    href: SOCIAL_LINK.line,
+    icon: <SvgIcon name="lineFooter" />,
+  },
 ];
 
 // ----------------------------------------------------------------------
@@ -69,6 +82,7 @@ export default function Footer() {
                 key={item.name}
                 href={item.href}
                 aria-label={item.name}
+                target="_blank"
                 className="h-7 w-7 text-primary"
               >
                 {item.icon}
@@ -85,6 +99,7 @@ export default function Footer() {
           <Link
             key={item.name}
             href={item.href}
+            target="_blank"
             className="flex flex-row justify-between border-b px-5 py-4 text-xl"
           >
             {item.name}

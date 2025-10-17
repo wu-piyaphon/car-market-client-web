@@ -1,4 +1,7 @@
+import Link from "next/link";
+import { SOCIAL_LINK } from "@/components/layout/footer";
 import { Button } from "@/components/ui/button";
+import ButtonClipboard from "@/components/ui/button-copy";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   CAR_COLORS,
@@ -71,19 +74,24 @@ export default function CarDetailCard({ data }: CarDetailInfoProps) {
 
   const renderAction = (
     <div className="space-y-3">
-      <Button
+      <ButtonClipboard
         className="!text-lg w-full rounded-xl border border-blue-700 bg-blue-100 font-medium !lg:text-xl text-blue-700 hover:bg-blue-700/90 hover:text-white"
         size="lg"
-      >
-        087 534 3889
-      </Button>
+        type="button"
+        aria-label="Copy phone number to clipboard"
+        title="Click to copy phone number"
+        text="087 534 3889"
+        successText="คัดลอกเบอร์โทรแล้ว!"
+      />
 
-      <Button
-        className="!text-lg w-full rounded-xl border border-[#60C961] bg-primary-500 font-bold !lg:text-xl text-[#60C961] hover:bg-primary-600"
-        size="lg"
-      >
-        LINE ID : xxxxxxxxxx
-      </Button>
+      <Link href={SOCIAL_LINK.line} target="_blank" passHref>
+        <Button
+          className="!text-lg w-full rounded-xl border border-[#60C961] bg-primary-500 font-bold !lg:text-xl text-[#60C961] hover:bg-primary-600"
+          size="lg"
+        >
+          LINE ID : 0637098888
+        </Button>
+      </Link>
     </div>
   );
 

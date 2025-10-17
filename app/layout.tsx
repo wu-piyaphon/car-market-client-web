@@ -4,6 +4,7 @@ import "./globals.css";
 import ActionButton from "@/components/layout/action-button";
 import Footer from "@/components/layout/footer";
 import Navbar from "@/components/layout/navbar/navbar";
+import { Toaster } from "@/components/ui/sonner";
 
 const LINESeedSans = localFont({
   src: [
@@ -44,6 +45,7 @@ export default function RootLayout({
           {children}
         </main>
         <ActionButton />
+        <Toaster font={LINESeedSans.className} />
         <Footer />
       </body>
     </html>
