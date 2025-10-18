@@ -8,6 +8,7 @@ import CarouselFullImageModal from "./carousel-full-image-modal";
 
 type CarouselMainImageProps = {
   currentImage: string;
+  nextImage: string;
   selectedIndex: number;
   totalImages: number;
   showNavigation: boolean;
@@ -17,6 +18,7 @@ type CarouselMainImageProps = {
 
 export function CarouselMainImage({
   currentImage,
+  nextImage,
   selectedIndex,
   totalImages,
   showNavigation,
@@ -61,6 +63,18 @@ export function CarouselMainImage({
         className="cursor-pointer object-cover transition-transform hover:scale-105"
         onClick={openFullScreen}
       />
+
+      {/* -- Prefetched Image -- */}
+      <div className="hidden">
+        <Image
+          src={nextImage}
+          alt="Car image (prefetched)"
+          fill
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 100vw"
+          className="cursor-pointer object-cover transition-transform hover:scale-105"
+          loading="eager"
+        />
+      </div>
 
       {/* Navigation Arrows */}
       {showNavigation && (

@@ -28,13 +28,15 @@ export default function CarDetailCarousel({
     return <CarouselEmptyState />;
   }
 
-  const currentImage = images[selectedIndex];
+  const currentImageUrl = images[selectedIndex];
+  const nextImageUrl = images[(selectedIndex + 1) % images.length];
   const hasMultipleImages = images.length > 1;
 
   return (
     <div className="flex min-h-100 flex-col gap-5 md:min-h-0 lg:gap-7">
       <CarouselMainImage
-        currentImage={currentImage}
+        currentImage={currentImageUrl}
+        nextImage={nextImageUrl}
         selectedIndex={selectedIndex}
         totalImages={images.length}
         showNavigation={hasMultipleImages}
