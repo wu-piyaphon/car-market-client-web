@@ -59,7 +59,7 @@ export function CarouselMainImage({
         alt={`Car image ${selectedIndex + 1}`}
         fill
         priority
-        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 100vw"
+        sizes="90vw"
         className="cursor-pointer object-cover transition-transform hover:scale-105"
         onClick={openFullScreen}
       />
@@ -70,7 +70,7 @@ export function CarouselMainImage({
           src={nextImage}
           alt="Car image (prefetched)"
           fill
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 100vw"
+          sizes="90vw"
           className="cursor-pointer object-cover transition-transform hover:scale-105"
           loading="eager"
         />
@@ -116,6 +116,7 @@ export function CarouselMainImage({
           totalImages={totalImages}
           selectedIndex={selectedIndex}
           currentImage={currentImage}
+          nextImage={nextImage}
           closeFullScreen={closeFullScreen}
         />
       )}

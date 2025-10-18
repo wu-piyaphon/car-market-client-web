@@ -5,6 +5,7 @@ import { Button } from "../button";
 
 type CarouselFullImageModalProps = {
   currentImage: string;
+  nextImage: string;
   selectedIndex: number;
   totalImages: number;
   closeFullScreen: () => void;
@@ -12,6 +13,7 @@ type CarouselFullImageModalProps = {
 
 export default function CarouselFullImageModal({
   currentImage,
+  nextImage,
   selectedIndex,
   totalImages,
   closeFullScreen,
@@ -45,9 +47,20 @@ export default function CarouselFullImageModal({
           alt={`Car image ${selectedIndex + 1} - Full screen view`}
           fill
           priority
-          sizes="100vw"
+          sizes="90vw"
           quality={100}
           className="object-contain"
+        />
+      </div>
+
+      <div className="hidden">
+        <Image
+          src={nextImage}
+          alt="Car image (prefetched)"
+          fill
+          sizes="90vw"
+          className="object-contain"
+          loading="eager"
         />
       </div>
 
