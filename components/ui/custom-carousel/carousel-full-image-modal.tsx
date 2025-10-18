@@ -1,9 +1,11 @@
 import { X } from "lucide-react";
 import Image from "next/image";
 import { CAROUSEL_LABELS } from "@/lib/constants/carousel.constants";
+import { cn } from "@/lib/utils";
 import { Button } from "../button";
 
 type CarouselFullImageModalProps = {
+  open: boolean;
   currentImage: string;
   nextImage: string;
   selectedIndex: number;
@@ -12,6 +14,7 @@ type CarouselFullImageModalProps = {
 };
 
 export default function CarouselFullImageModal({
+  open,
   currentImage,
   nextImage,
   selectedIndex,
@@ -20,7 +23,10 @@ export default function CarouselFullImageModal({
 }: CarouselFullImageModalProps) {
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm"
+      className={cn(
+        "fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm",
+        open ? "visible" : "invisible",
+      )}
       role="dialog"
       aria-modal="true"
       aria-label="Full screen image view"

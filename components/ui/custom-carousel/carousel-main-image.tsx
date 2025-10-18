@@ -119,15 +119,14 @@ export function CarouselMainImage({
       </div>
 
       {/* -- Full Screen Modal -- */}
-      {isFullScreen && (
-        <CarouselFullImageModal
-          nextImage={nextImage}
-          totalImages={totalImages}
-          selectedIndex={selectedIndex}
-          currentImage={currentImage}
-          closeFullScreen={closeFullScreen}
-        />
-      )}
+      <CarouselFullImageModal
+        open={isFullScreen}
+        nextImage={nextImage}
+        totalImages={totalImages}
+        selectedIndex={selectedIndex}
+        currentImage={currentImage}
+        closeFullScreen={closeFullScreen}
+      />
     </div>
   );
 }
