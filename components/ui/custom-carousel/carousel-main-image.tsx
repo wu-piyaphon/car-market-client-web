@@ -59,19 +59,27 @@ export function CarouselMainImage({
         alt={`Car image ${selectedIndex + 1}`}
         fill
         priority
-        sizes="90vw"
+        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 60vw, 80vw"
         className="cursor-pointer object-cover transition-transform hover:scale-105"
         onClick={openFullScreen}
       />
 
       {/* -- Prefetched Image -- */}
-      <div className="hidden">
+      <div
+        style={{
+          width: 1,
+          height: 1,
+          position: "absolute",
+          overflow: "hidden",
+        }}
+        aria-hidden="true"
+      >
         <Image
           src={nextImage}
           alt="Car image (prefetched)"
-          fill
-          sizes="90vw"
-          className="cursor-pointer object-cover transition-transform hover:scale-105"
+          width={1}
+          height={1}
+          className="object-cover"
           loading="eager"
         />
       </div>
@@ -113,10 +121,10 @@ export function CarouselMainImage({
       {/* -- Full Screen Modal -- */}
       {isFullScreen && (
         <CarouselFullImageModal
+          nextImage={nextImage}
           totalImages={totalImages}
           selectedIndex={selectedIndex}
           currentImage={currentImage}
-          nextImage={nextImage}
           closeFullScreen={closeFullScreen}
         />
       )}

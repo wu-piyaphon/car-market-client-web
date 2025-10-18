@@ -53,12 +53,21 @@ export default function CarouselFullImageModal({
         />
       </div>
 
-      <div className="hidden">
+      {/* -- Prefetched Image -- */}
+      <div
+        style={{
+          width: 1,
+          height: 1,
+          position: "absolute",
+          overflow: "hidden",
+        }}
+        aria-hidden="true"
+      >
         <Image
           src={nextImage}
           alt="Car image (prefetched)"
-          fill
-          sizes="90vw"
+          width={1}
+          height={1}
           className="object-contain"
           loading="eager"
         />
