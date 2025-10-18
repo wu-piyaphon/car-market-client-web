@@ -19,7 +19,9 @@ const CATEGORIES: CarCategory[] = ["NEW"];
 const CAR_TYPES: CarType[] = ["PICKUP", "SEDAN", "SUV"];
 
 export const metadata: Metadata = {
-  title: `${CONFIG.appName} | ตลาดรถยนต์ออนไลน์ประเทศไทย`,
+  title: `${CONFIG.appName} | ตลาดรถยนต์มือสองประเทศไทย`,
+  description:
+    "ค้นหา ซื้อ และขายรถยนต์มือสองที่ GoodCarMarket แพลตฟอร์มตลาดรถมือสอง พร้อมบริการประเมินราคารถ คำนวณสินเชื่อ และระบบค้นหาเลือกจากรถยนต์หลายพันคันจากหลากหลายยี่ห้อ",
 };
 
 type PageProps = {

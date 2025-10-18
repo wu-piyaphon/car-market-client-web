@@ -5,6 +5,7 @@ import ActionButton from "@/components/layout/action-button";
 import Footer from "@/components/layout/footer";
 import Navbar from "@/components/layout/navbar/navbar";
 import { Toaster } from "@/components/ui/sonner";
+import { CONFIG } from "@/global-config";
 
 const LINESeedSans = localFont({
   src: [
@@ -22,12 +23,9 @@ const LINESeedSans = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "GoodCarMarket - ตลาดรถยนต์มือสองประเทศไทย",
+  title: `${CONFIG.appName} - ตลาดรถยนต์มือสองประเทศไทย`,
   description:
     "ค้นหา ซื้อ และขายรถยนต์มือสองที่ GoodCarMarket แพลตฟอร์มตลาดรถมือสอง พร้อมบริการประเมินราคารถ คำนวณสินเชื่อ และระบบค้นหาเลือกจากรถยนต์หลายพันคันจากหลากหลายยี่ห้อ",
-  openGraph: {
-    images: "/logo.svg",
-  },
 };
 
 export default function RootLayout({
