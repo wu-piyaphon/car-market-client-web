@@ -34,6 +34,7 @@ export default function CarSearchList({
   filterOptions,
   initialCars,
 }: CarSearchListProps) {
+  console.log("🚀 ~ CarSearchList ~ initialCars:", initialCars);
   const { isMobile } = useResponsive();
   const [isPending, startTransition] = useTransition();
 
@@ -58,6 +59,7 @@ export default function CarSearchList({
     queryParams,
     initialData: initialCars,
   });
+  console.log("🚀 ~ CarSearchList ~ items:", items);
 
   useFormUrlSync({
     values: watchedValues,
