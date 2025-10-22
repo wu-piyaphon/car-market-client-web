@@ -46,9 +46,12 @@ export default async function Page({ searchParams }: PageProps) {
       }),
     ]);
 
+    const searchKey = JSON.stringify(searchParamValues);
+
     if (!initialCars.success || !initialFilters.success) {
       return (
         <CarSearchList
+          key={searchKey}
           queryParams={searchParamValues}
           filterOptions={CAR_FILTER_OPTIONS_FALLBACK}
           initialCars={CAR_LIST_FALLBACK}
@@ -58,6 +61,7 @@ export default async function Page({ searchParams }: PageProps) {
 
     return (
       <CarSearchList
+        key={searchKey}
         queryParams={searchParamValues}
         filterOptions={initialFilters.data}
         initialCars={initialCars.data}

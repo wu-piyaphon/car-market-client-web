@@ -112,17 +112,12 @@ export function useInfiniteScroll<T>(
 
   useEffect(() => {
     setPagination({
-      page: 1,
+      page: initialData.page,
       items: initialData.items,
       total: initialData.total,
       hasMore: initialData.page * initialData.pageSize < initialData.total,
     });
-  }, [
-    initialData.items,
-    initialData.total,
-    initialData.page,
-    initialData.pageSize,
-  ]);
+  }, [initialData]);
 
   // ----------------------------------------------------------------------
 
