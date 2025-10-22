@@ -117,7 +117,12 @@ export function useInfiniteScroll<T>(
       total: initialData.total,
       hasMore: initialData.page * initialData.pageSize < initialData.total,
     });
-  }, [initialData]);
+  }, [
+    initialData.items,
+    initialData.total,
+    initialData.page,
+    initialData.pageSize,
+  ]);
 
   // ----------------------------------------------------------------------
 
