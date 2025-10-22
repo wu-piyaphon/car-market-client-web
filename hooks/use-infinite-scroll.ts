@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import type {
   PaginationParams,
   PaginationResponse,
@@ -41,13 +41,9 @@ export function useInfiniteScroll<T>(
     hasMore: initialData.page * initialData.pageSize < initialData.total,
   });
 
-  // Track initial data to detect server-side changes
-  const initialDataRef = useRef(initialData);
-  const loadingAbortRef = useRef(false);
-
   const loadMoreItems = useCallback(
     async (nextPage: number) => {
-      if (isLoading || !pagination.hasMore || loadingAbortRef.current) return;
+      if (isLoading || !pagination.hasMore) return;
 
       setIsLoading(true);
 
@@ -57,12 +53,6 @@ export function useInfiniteScroll<T>(
           pageSize,
           ...queryParams,
         } as PaginationParams<Record<string, unknown>>);
-
-        // Check if params changed during the fetch - abort if they did
-        if (loadingAbortRef.current) {
-          setIsLoading(false);
-          return;
-        }
 
         if (!pageData.success) {
           console.error("Failed to fetch data:", pageData.error);
@@ -94,32 +84,6 @@ export function useInfiniteScroll<T>(
 
   // ----------------------------------------------------------------------
 
-  // Reset pagination when initialData changes (server-side update from new filters)
-  useEffect(() => {
-    const initialDataChanged =
-      JSON.stringify(initialDataRef.current) !== JSON.stringify(initialData);
-
-    if (initialDataChanged) {
-      // Abort any pending loads
-      loadingAbortRef.current = true;
-      setIsLoading(false);
-
-      initialDataRef.current = initialData;
-
-      setPagination({
-        page: initialData.page,
-        items: initialData.items,
-        total: initialData.total,
-        hasMore: initialData.page * initialData.pageSize < initialData.total,
-      });
-
-      // Reset abort flag after state update
-      setTimeout(() => {
-        loadingAbortRef.current = false;
-      }, 0);
-    }
-  }, [initialData]);
-
   // Intersection observer for infinite scroll
   useEffect(() => {
     if (!pagination.hasMore) return;
@@ -145,6 +109,15 @@ export function useInfiniteScroll<T>(
       observer.disconnect();
     };
   }, [isLoading, loadMoreItems, ref, pagination.hasMore, pagination.page]);
+
+  useEffect(() => {
+    setPagination({
+      page: 1,
+      items: initialData.items,
+      total: initialData.total,
+      hasMore: initialData.page * initialData.pageSize < initialData.total,
+    });
+  }, [initialData]);
 
   // ----------------------------------------------------------------------
 
