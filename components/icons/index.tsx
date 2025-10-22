@@ -28,7 +28,7 @@ type IconProps = React.SVGProps<SVGSVGElement> & {
   name: keyof typeof iconRegistry;
 };
 
-export const SvgIcon = ({ name, ...props }: IconProps) => {
+export const SvgIcon = ({ name, className, ...props }: IconProps) => {
   const IconComponent = iconRegistry[name];
   return <IconComponent {...props} />;
 };
