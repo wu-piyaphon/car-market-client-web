@@ -34,6 +34,7 @@ export default function CarSearchList({
   filterOptions,
   initialCars,
 }: CarSearchListProps) {
+  console.log("🚀 ~ CarSearchList ~ queryParams:", queryParams);
   console.log("🚀 ~ CarSearchList ~ initialCars:", initialCars);
   const { isMobile } = useResponsive();
   const [isPending, startTransition] = useTransition();
