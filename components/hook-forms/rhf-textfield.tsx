@@ -36,7 +36,7 @@ export default function RHFTextField({
         let formatValue = field.value;
 
         if (type === "currency") {
-          formatValue = fThousandSeparator(String(field.value));
+          formatValue = fThousandSeparator(String(field.value || ""));
         }
 
         return (
@@ -53,8 +53,8 @@ export default function RHFTextField({
                   if (type === "currency") {
                     // Remove thousand separators for validation
                     const numericValue = removeThousandSeparator(inputValue);
-                    // Only allow digits
-                    if (!/^\d*$/.test(numericValue)) return;
+                    // Only allow digits and decimal point (with at most one decimal point)
+                    if (!/^\d*\.?\d*$/.test(numericValue)) return;
                     // Store the numeric value without separators
                     field.onChange(numericValue);
                   } else if (type === "number") {

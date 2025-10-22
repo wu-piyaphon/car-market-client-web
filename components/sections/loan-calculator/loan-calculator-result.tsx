@@ -4,20 +4,15 @@ import type { LoanCalculatorSchema } from "@/lib/schemas/loan-calculator-schema"
 export default function LoanCalculatorResult() {
   const { control } = useFormContext<LoanCalculatorSchema>();
 
-  const [monthlyInterestWithVAT, totalInterestWithVAT, totalPriceWithVAT] =
-    useWatch({
-      control,
-      name: [
-        "monthlyInterestWithVAT",
-        "totalInterestWithVAT",
-        "totalPriceWithVAT",
-      ],
-    });
+  const [monthlyInterestWithVAT] = useWatch({
+    control,
+    name: ["monthlyInterestWithVAT"],
+  });
 
   const result = [
     { label: "จ่ายต่อเดือน (Baht)", value: monthlyInterestWithVAT || "0" },
-    { label: "ดอกเบี้ยทั้งหมด (Baht)", value: totalInterestWithVAT || "0" },
-    { label: "รวมเป็นเงิน (Baht)", value: totalPriceWithVAT || "0" },
+    // { label: "ดอกเบี้ยทั้งหมด (Baht)", value: totalInterestWithVAT || "0" },
+    // { label: "รวมเป็นเงิน (Baht)", value: totalPriceWithVAT || "0" },
   ];
 
   return (

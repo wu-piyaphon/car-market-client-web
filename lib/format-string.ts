@@ -22,6 +22,20 @@ export const fThousandSeparator = (value: string): string => {
 
   if (!numericValue || numericValue === "") return "";
 
+  // Check if there's a decimal point
+  const parts = numericValue.split(".");
+  if (parts.length === 2) {
+    // Format the integer part with thousand separators
+    const integerPart = Number(parts[0]).toLocaleString();
+    // Preserve the decimal part as-is
+    return `${integerPart}.${parts[1]}`;
+  }
+  if (numericValue.endsWith(".")) {
+    // Preserve trailing decimal point
+    return `${Number(parts[0]).toLocaleString()}.`;
+  }
+
+  // No decimal point, format normally
   return Number(numericValue).toLocaleString();
 };
 

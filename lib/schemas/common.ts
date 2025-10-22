@@ -6,10 +6,10 @@ export const SCHEMA = {
     optional: z.string().optional(),
   },
   numberString: {
-    required: z.string().regex(/^\d+$/, "ต้องเป็นตัวเลข"),
+    required: z.string().regex(/^\d+(\.\d+)?$/, "ต้องเป็นตัวเลข"),
     optional: z
       .string()
-      .regex(/^\d+$/, "ต้องเป็นตัวเลข")
+      .regex(/^\d+(\.\d+)?$/, "ต้องเป็นตัวเลข")
       .optional()
       .or(z.literal("")),
   },
