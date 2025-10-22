@@ -2,7 +2,7 @@
 
 export default function Loading() {
   return (
-    <div className="fixed inset-0 z-50 flex min-h-screen flex-col items-center justify-center backdrop-blur-xs">
+    <div className="fixed inset-0 z-100 flex min-h-screen flex-col items-center justify-center backdrop-blur-xs">
       <div className="relative z-10 flex flex-col items-center justify-center space-y-6">
         {/* -- Spinner -- */}
         <div className="relative">
