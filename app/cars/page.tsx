@@ -38,15 +38,12 @@ export default async function Page({ searchParams }: PageProps) {
       : CAR_FILTER_DEFAULT_VALUES;
 
     const [initialFilters, initialCars] = await Promise.all([
-      getCarFilters(searchParamValues, { cache: "no-store" }),
-      getCars(
-        {
-          ...searchParamValues,
-          page: 1,
-          pageSize: DEFAULT_PAGE_SIZE,
-        },
-        { cache: "no-store" },
-      ),
+      getCarFilters(searchParamValues),
+      getCars({
+        ...searchParamValues,
+        page: 1,
+        pageSize: DEFAULT_PAGE_SIZE,
+      }),
     ]);
 
     if (!initialCars.success || !initialFilters.success) {
