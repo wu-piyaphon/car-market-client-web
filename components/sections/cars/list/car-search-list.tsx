@@ -37,6 +37,8 @@ export default function CarSearchList({
   const { isMobile } = useResponsive();
   const [isPending, startTransition] = useTransition();
 
+  const searchKey = JSON.stringify(queryParams);
+
   const mobileRef = useRef<HTMLDivElement | null>(null);
   const desktopRef = useRef<HTMLDivElement | null>(null);
   const activeRef = isMobile ? mobileRef : desktopRef;
@@ -86,6 +88,7 @@ export default function CarSearchList({
         <CarFilterMobile filterOptions={filterOptions} />
         <CarListMobile
           ref={mobileRef}
+          key={searchKey}
           total={total}
           items={items}
           isLoading={isLoading}
@@ -98,6 +101,7 @@ export default function CarSearchList({
         <CarFilterSidebar filterOptions={filterOptions} />
         <CarList
           ref={desktopRef}
+          key={searchKey}
           items={items}
           isLoading={isLoading}
           hasMore={hasMore}
