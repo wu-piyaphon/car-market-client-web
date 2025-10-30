@@ -22,6 +22,7 @@ type CarDetailInfoProps = {
 export default function CarDetailCard({ data }: CarDetailInfoProps) {
   const {
     brand,
+    type,
     model,
     subModel,
     modelYear,
@@ -40,15 +41,16 @@ export default function CarDetailCard({ data }: CarDetailInfoProps) {
     CAR_TRANSMISSIONS.find((t) => t.id === transmission)?.name || transmission;
 
   const carSpecifications = [
-    { label: "ปีรถยนต์", value: modelYear },
+    { label: "ประเภทรถ", value: type.name },
+    { label: "ยี่ห้อ", value: brand.name },
     { label: "รุ่นรถ", value: model },
     { label: "รุ่นย่อย", value: subModel },
-    { label: "ปีรุ่น", value: modelYear },
+    { label: "ปีรถ", value: modelYear },
     { label: "สีรถ", value: displayColor },
     { label: "ระบบเกียร์", value: displayTransmission },
     { label: "ประเภทเครื่องยนต์", value: displayEngineType },
     {
-      label: "ประกันเครื่องยนต์(CC)",
+      label: "ขนาดเครื่องยนต์(CC)",
       value: engineCapacity ? `${engineCapacity}CC` : "-",
     },
     { label: "เลขไมล์", value: mileage ? `${fCurrency(mileage)} กม.` : "-" },
