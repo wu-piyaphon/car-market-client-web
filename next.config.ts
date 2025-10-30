@@ -15,21 +15,15 @@ const nextConfig: NextConfig = {
   },
   async redirects() {
     return [
-      // Redirect old WordPress tag pages to homepage or 404
+      // Redirect old WordPress tag pages to 404
       {
-        source: "/tag/:slug*",
+        source: "/tag/:tagPath*",
         destination: "/404",
         permanent: true,
       },
-      // Redirect old WordPress feed URLs
+      // Redirect old WordPress feed URLs to 404
       {
-        source: "/:path*/feed/:slug*",
-        destination: "/404",
-        permanent: true,
-      },
-      // Redirect any other old WordPress patterns
-      {
-        source: "/wp-:slug*",
+        source: "/feed/:feedPath*",
         destination: "/404",
         permanent: true,
       },
