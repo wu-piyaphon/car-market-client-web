@@ -73,6 +73,44 @@ export const metadata: Metadata = {
     images: ["/logo.svg"],
     creator: `@${CONFIG.appName}`,
   },
+  icons: {
+    icon: [
+      { url: "/favicon.ico?v=2", sizes: "any" },
+      {
+        url: "/icons/favicon-16x16.png?v=2",
+        sizes: "16x16",
+        type: "image/png",
+      },
+      {
+        url: "/icons/favicon-32x32.png?v=2",
+        sizes: "32x32",
+        type: "image/png",
+      },
+      {
+        url: "/icons/favicon-48x48.png?v=2",
+        sizes: "48x48",
+        type: "image/png",
+      },
+      {
+        url: "/icons/favicon-64x64.png?v=2",
+        sizes: "64x64",
+        type: "image/png",
+      },
+      {
+        url: "/icons/favicon-128x128.png?v=2",
+        sizes: "128x128",
+        type: "image/png",
+      },
+      {
+        url: "/icons/favicon-512x512.png?v=2",
+        sizes: "512x512",
+        type: "image/png",
+      },
+    ],
+    apple: [
+      { url: "/icons/apple-icon.png?v=2", sizes: "180x180", type: "image/png" },
+    ],
+  },
 };
 
 export default function RootLayout({
