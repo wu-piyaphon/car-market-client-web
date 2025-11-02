@@ -5,7 +5,6 @@ const LineIcon = (props: React.SVGProps<SVGSVGElement>) => (
     fill="currentColor"
     {...props}
   >
-    <title>Line Icon</title>
     <rect width={36} height={36} fill="url(#pattern0_831_10786)" />
     <defs>
       <pattern

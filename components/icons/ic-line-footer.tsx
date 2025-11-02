@@ -10,7 +10,6 @@ const LineFooterIcon = (props: React.SVGProps<SVGSVGElement>) => {
       fill="currentColor"
       {...props}
     >
-      <title>Line Icon</title>
       <g clipPath={`url(#${clipPathId})`}>
         <path
           fill="#175152"
