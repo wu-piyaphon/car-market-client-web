@@ -3,11 +3,11 @@
 [![My Skills](https://skillicons.dev/icons?i=nextjs,react,tailwind,ts,html,css)](https://skillicons.dev)
 
 ## Overview
-![Alt text](https://car-market-storage-bucket.s3.ap-southeast-7.amazonaws.com/port/Screenshot+2568-10-18+at+15.52.25.png?raw=true)
+![Homepage Screenshot](https://car-market-storage-bucket.s3.ap-southeast-7.amazonaws.com/port/Screenshot+2568-10-18+at+15.52.25.png?raw=true)
 
 A car marketplace connecting car buyers and sellers through a web platform. Built with modern technologies and designed specifically for the Thai market, featuring intelligent search, financial form request, and comprehensive car listing.
 
-![Alt text](https://car-market-storage-bucket.s3.ap-southeast-7.amazonaws.com/port/Screenshot+2568-10-18+at+15.59.49.png?raw=true)
+![Car Listing Screenshot](https://car-market-storage-bucket.s3.ap-southeast-7.amazonaws.com/port/Screenshot+2568-10-18+at+15.59.49.png?raw=true)
 
 Allows users to search an extensive car database using facet filters. The search results are displayed in a list of car cards, each with a thumbnail, title, price, and a link to the car detail page.
 
