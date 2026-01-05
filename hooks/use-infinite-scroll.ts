@@ -13,6 +13,7 @@ type UseInfiniteScrollParams<T, Q extends Record<string, unknown>> = {
   ref: React.RefObject<HTMLDivElement | null>;
   fetchFn: (
     params: PaginationParams<Q>,
+    signal?: AbortSignal,
   ) => ServiceResponse<PaginationResponse<T>>;
   queryParams: Q;
   pageSize?: number;
@@ -55,6 +56,7 @@ export function useInfiniteScroll<T, Q extends Record<string, unknown>>(
 
   // Use refs to avoid stale closures and infinite loops
   const currentQueryKeyRef = useRef(queryKey);
+  const abortControllerRef = useRef<AbortController | null>(null);
   const isLoadingRef = useRef(false);
   const fetchFnRef = useRef(fetchFn);
   const queryParamsRef = useRef(queryParams);
@@ -67,59 +69,75 @@ export function useInfiniteScroll<T, Q extends Record<string, unknown>>(
 
   // ----------------------------------------------------------------------
 
-  const loadItems = useCallback(
-    async (nextPage: number, isReset: boolean, expectedQueryKey: string) => {
-      // Prevent concurrent requests
-      if (isLoadingRef.current) return;
+  const loadItems = useCallback(async (nextPage: number, isReset: boolean) => {
+    // Prevent concurrent requests
+    if (isLoadingRef.current) return;
 
-      isLoadingRef.current = true;
+    // Cancel any pending request
+    if (abortControllerRef.current) {
+      abortControllerRef.current.abort();
+    }
 
-      if (isReset) {
-        setIsInitialLoading(true);
-      } else {
-        setIsLoading(true);
-      }
+    // Create new AbortController for this request
+    const abortController = new AbortController();
+    abortControllerRef.current = abortController;
 
-      try {
-        const response = await fetchFnRef.current({
+    isLoadingRef.current = true;
+
+    if (isReset) {
+      setIsInitialLoading(true);
+    } else {
+      setIsLoading(true);
+    }
+
+    try {
+      const response = await fetchFnRef.current(
+        {
           page: nextPage,
           pageSize: pageSizeRef.current,
           ...queryParamsRef.current,
-        } as PaginationParams<Q>);
+        } as PaginationParams<Q>,
+        abortController.signal,
+      );
 
-        // Check if query has changed during the request (race condition prevention)
-        if (currentQueryKeyRef.current !== expectedQueryKey) {
-          return;
-        }
+      // Check if this request was aborted
+      if (abortController.signal.aborted) {
+        return;
+      }
 
-        if (!response.success) {
-          console.error("Failed to fetch data:", response.error);
-          return;
-        }
+      if (!response.success) {
+        console.error("Failed to fetch data:", response.error);
+        return;
+      }
 
-        const {
-          page: newPage,
-          items: newItems,
-          total: newTotal,
-          pageSize: newPageSize,
-        } = response.data;
+      const {
+        page: newPage,
+        items: newItems,
+        total: newTotal,
+        pageSize: newPageSize,
+      } = response.data;
 
-        setPagination((prev) => ({
-          page: newPage,
-          items: isReset ? newItems : [...prev.items, ...newItems],
-          total: newTotal,
-          hasMore: newPage * newPageSize < newTotal,
-        }));
-      } catch (err) {
-        console.error("Failed to fetch data:", err);
-      } finally {
+      setPagination((prev) => ({
+        page: newPage,
+        items: isReset ? newItems : [...prev.items, ...newItems],
+        total: newTotal,
+        hasMore: newPage * newPageSize < newTotal,
+      }));
+    } catch (err) {
+      // Ignore abort errors (they're expected when cancelling)
+      if (err instanceof Error && err.name === "AbortError") {
+        return;
+      }
+      console.error("Failed to fetch data:", err);
+    } finally {
+      // Only reset loading state if this controller wasn't aborted
+      if (!abortController.signal.aborted) {
         isLoadingRef.current = false;
         setIsLoading(false);
         setIsInitialLoading(false);
       }
-    },
-    [],
-  );
+    }
+  }, []);
 
   // ----------------------------------------------------------------------
 
@@ -136,7 +154,7 @@ export function useInfiniteScroll<T, Q extends Record<string, unknown>>(
     });
 
     // Fetch first page
-    loadItems(1, true, queryKey);
+    loadItems(1, true);
   }, [queryKey, loadItems]);
 
   // ----------------------------------------------------------------------
@@ -157,7 +175,7 @@ export function useInfiniteScroll<T, Q extends Record<string, unknown>>(
           !isLoadingRef.current &&
           pagination.hasMore
         ) {
-          loadItems(pagination.page + 1, false, currentQueryKeyRef.current);
+          loadItems(pagination.page + 1, false);
         }
       },
       { threshold: 0.5, rootMargin: "200px" },
@@ -176,6 +194,17 @@ export function useInfiniteScroll<T, Q extends Record<string, unknown>>(
     isInitialLoading,
     loadItems,
   ]);
+
+  // ----------------------------------------------------------------------
+
+  // Cleanup: abort any pending requests on unmount
+  useEffect(() => {
+    return () => {
+      if (abortControllerRef.current) {
+        abortControllerRef.current.abort();
+      }
+    };
+  }, []);
 
   // ----------------------------------------------------------------------
 

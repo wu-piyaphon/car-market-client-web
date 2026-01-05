@@ -7,6 +7,7 @@ import type { ServiceResponse } from "@/types/service.types";
 
 export async function getMoreCarsAction(
   params?: GetCarsQueryParams,
+  signal?: AbortSignal,
 ): ServiceResponse<GetCarsResponse> {
   try {
     const searchParams = params
@@ -14,13 +15,21 @@ export async function getMoreCarsAction(
       : new URLSearchParams();
 
     const endpoint = `${API_ENDPOINTS.CARS.LIST}?${searchParams.toString()}`;
-    const response = await fetcher.get<GetCarsResponse>(endpoint);
+    const response = await fetcher.get<GetCarsResponse>(endpoint, {
+      signal,
+    });
 
     return {
       success: true,
       data: response.data,
     };
   } catch (error) {
+    if (error instanceof Error && error.name === "AbortError") {
+      return {
+        success: false,
+        error: "Request cancelled",
+      };
+    }
     console.error("getMoreCars error:", error);
     return {
       success: false,
