@@ -20,6 +20,7 @@ type CarListProps = {
   ref: RefObject<HTMLDivElement | null>;
   items: CarListItem[];
   isLoading?: boolean;
+  isInitialLoading?: boolean;
   hasMore?: boolean;
 };
 
@@ -58,13 +59,14 @@ export default function CarList({
   ref,
   items,
   isLoading = false,
+  isInitialLoading = false,
   hasMore = false,
 }: CarListProps) {
   const { setValue, control } = useFormContext<CarFilterSchema>();
 
   const [tabValue, setTabValue] = useState<TabValue["value"]>("ALL");
 
-  const [type] = useWatch({ control, name: ["type"] });
+  const [type, category] = useWatch({ control, name: ["type", "category"] });
 
   const skeletonCount = items.length % 4 === 0 ? 4 : 4 - (items.length % 4);
 
@@ -98,9 +100,13 @@ export default function CarList({
 
   useEffect(() => {
     if (type) {
-      setTabValue(type);
+      setTabValue(type as TabValue["value"]);
+    } else if (category === "NEW") {
+      setTabValue("NEW");
+    } else {
+      setTabValue("ALL");
     }
-  }, [type]);
+  }, [type, category]);
 
   // ----------------------------------------------------------------------
 
@@ -124,13 +130,19 @@ export default function CarList({
       </TabsList>
 
       <div className="grid grow-0 grid-cols-2 gap-4 lg:grid-cols-4">
-        {items.map((item) => (
-          <CarCard key={item.id} item={item} />
-        ))}
+        {isInitialLoading ? (
+          <CarListSkeleton count={8} />
+        ) : (
+          <>
+            {items.map((item) => (
+              <CarCard key={item.id} item={item} />
+            ))}
 
-        {isLoading && <CarListSkeleton count={skeletonCount} />}
+            {isLoading && <CarListSkeleton count={skeletonCount} />}
 
-        {hasMore && <CarListTrigger ref={ref} isLoading={isLoading} />}
+            {hasMore && <CarListTrigger ref={ref} isLoading={isLoading} />}
+          </>
+        )}
       </div>
     </Tabs>
   );

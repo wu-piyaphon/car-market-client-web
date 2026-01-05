@@ -1,11 +1,11 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useEffect, useRef, useTransition } from "react";
+import { useEffect, useRef } from "react";
 import { useForm, useWatch } from "react-hook-form";
-import Loading from "@/app/loading";
 import Form from "@/components/hook-forms/form";
 import Container from "@/components/layout/container";
+import { useDebounce } from "@/hooks/use-debounce";
 import { useFormUrlSync } from "@/hooks/use-form-url-sync";
 import { useInfiniteScroll } from "@/hooks/use-infinite-scroll";
 import { useResponsive } from "@/hooks/use-responsive";
@@ -16,7 +16,7 @@ import {
   carFilterSchema,
 } from "@/lib/schemas/car-filter-schema";
 import { getMoreCarsAction } from "@/services/actions/car.actions";
-import type { CarListItem, GetCarsResponse } from "@/types/car.types";
+import type { CarListItem } from "@/types/car.types";
 import type { GetCarFiltersResponse } from "@/types/car-filter.types";
 import CarFilterMobile from "../filter/car-filter-mobile";
 import CarFilterSidebar from "../filter/car-filter-sidebar";
@@ -26,18 +26,13 @@ import CarListMobile from "./car-list-mobile";
 type CarSearchListProps = {
   queryParams: CarFilterSchema;
   filterOptions: GetCarFiltersResponse;
-  initialCars: GetCarsResponse;
 };
 
 export default function CarSearchList({
   queryParams,
   filterOptions,
-  initialCars,
 }: CarSearchListProps) {
   const { isMobile } = useResponsive();
-  const [isPending, startTransition] = useTransition();
-
-  const searchKey = JSON.stringify(queryParams);
 
   const mobileRef = useRef<HTMLDivElement | null>(null);
   const desktopRef = useRef<HTMLDivElement | null>(null);
@@ -54,18 +49,19 @@ export default function CarSearchList({
     control,
   });
 
-  const { items, isLoading, hasMore, total } = useInfiniteScroll<CarListItem>({
-    ref: activeRef,
-    fetchFn: getMoreCarsAction,
-    queryParams,
-    initialData: initialCars,
-  });
+  const [debouncedWatchedValues] = useDebounce(watchedValues, 600);
+
+  const { items, isLoading, isInitialLoading, hasMore, total } =
+    useInfiniteScroll<CarListItem, CarFilterSchema>({
+      ref: activeRef,
+      fetchFn: getMoreCarsAction,
+      queryParams: debouncedWatchedValues as CarFilterSchema,
+    });
 
   useFormUrlSync({
-    values: watchedValues,
+    values: debouncedWatchedValues,
     defaultValues: CAR_FILTER_DEFAULT_VALUES,
     basePath: paths.cars.list,
-    startTransition,
     delay: 600,
   });
 
@@ -81,17 +77,15 @@ export default function CarSearchList({
 
   return (
     <Form methods={methods}>
-      {isPending && <Loading />}
-
       {/* -- Mobile -- */}
       <Container className="mb-2 md:hidden">
         <CarFilterMobile filterOptions={filterOptions} />
         <CarListMobile
           ref={mobileRef}
-          key={searchKey}
           total={total}
           items={items}
           isLoading={isLoading}
+          isInitialLoading={isInitialLoading}
           hasMore={hasMore}
         />
       </Container>
@@ -101,9 +95,9 @@ export default function CarSearchList({
         <CarFilterSidebar filterOptions={filterOptions} />
         <CarList
           ref={desktopRef}
-          key={searchKey}
           items={items}
           isLoading={isLoading}
+          isInitialLoading={isInitialLoading}
           hasMore={hasMore}
         />
       </Container>

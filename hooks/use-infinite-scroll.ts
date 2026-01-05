@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import type {
   PaginationParams,
   PaginationResponse,
@@ -7,13 +7,15 @@ import type { ServiceResponse } from "@/types/service.types";
 
 // ----------------------------------------------------------------------
 
-type UseInfiniteScrollParams<T> = {
+const DEFAULT_PAGE_SIZE = 12;
+
+type UseInfiniteScrollParams<T, Q extends Record<string, unknown>> = {
   ref: React.RefObject<HTMLDivElement | null>;
   fetchFn: (
-    params: PaginationParams<Record<string, unknown>>,
+    params: PaginationParams<Q>,
   ) => ServiceResponse<PaginationResponse<T>>;
-  queryParams?: Record<string, unknown>;
-  initialData: PaginationResponse<T>;
+  queryParams: Q;
+  pageSize?: number;
 };
 
 type UseInfiniteScrollReturn<T> = {
@@ -21,42 +23,77 @@ type UseInfiniteScrollReturn<T> = {
   total: number;
   hasMore: boolean;
   isLoading: boolean;
+  isInitialLoading: boolean;
+};
+
+type PaginationState<T> = {
+  page: number;
+  items: T[];
+  total: number;
+  hasMore: boolean;
 };
 
 // ----------------------------------------------------------------------
 
-export function useInfiniteScroll<T>(
-  params: UseInfiniteScrollParams<T>,
+export function useInfiniteScroll<T, Q extends Record<string, unknown>>(
+  params: UseInfiniteScrollParams<T, Q>,
 ): UseInfiniteScrollReturn<T> {
-  const { ref, fetchFn, queryParams = {}, initialData } = params;
+  const { ref, fetchFn, queryParams, pageSize = DEFAULT_PAGE_SIZE } = params;
 
-  const pageSize = initialData.pageSize;
+  // Serialize queryParams to use as a stable key for resetting
+  const queryKey = JSON.stringify(queryParams);
 
   const [isLoading, setIsLoading] = useState(false);
+  const [isInitialLoading, setIsInitialLoading] = useState(true);
 
-  const [pagination, setPagination] = useState({
-    page: initialData.page,
-    items: initialData.items,
-    total: initialData.total,
-    hasMore: initialData.page * initialData.pageSize < initialData.total,
+  const [pagination, setPagination] = useState<PaginationState<T>>({
+    page: 0,
+    items: [],
+    total: 0,
+    hasMore: true,
   });
 
-  const loadMoreItems = useCallback(
-    async (nextPage: number) => {
-      if (isLoading || !pagination.hasMore) return;
+  // Use refs to avoid stale closures and infinite loops
+  const currentQueryKeyRef = useRef(queryKey);
+  const isLoadingRef = useRef(false);
+  const fetchFnRef = useRef(fetchFn);
+  const queryParamsRef = useRef(queryParams);
+  const pageSizeRef = useRef(pageSize);
 
-      setIsLoading(true);
+  // Keep refs up to date
+  fetchFnRef.current = fetchFn;
+  queryParamsRef.current = queryParams;
+  pageSizeRef.current = pageSize;
+
+  // ----------------------------------------------------------------------
+
+  const loadItems = useCallback(
+    async (nextPage: number, isReset: boolean, expectedQueryKey: string) => {
+      // Prevent concurrent requests
+      if (isLoadingRef.current) return;
+
+      isLoadingRef.current = true;
+
+      if (isReset) {
+        setIsInitialLoading(true);
+      } else {
+        setIsLoading(true);
+      }
 
       try {
-        const pageData = await fetchFn({
+        const response = await fetchFnRef.current({
           page: nextPage,
-          pageSize,
-          ...queryParams,
-        } as PaginationParams<Record<string, unknown>>);
+          pageSize: pageSizeRef.current,
+          ...queryParamsRef.current,
+        } as PaginationParams<Q>);
 
-        if (!pageData.success) {
-          console.error("Failed to fetch data:", pageData.error);
-          setIsLoading(false);
+        // Check if query has changed during the request (race condition prevention)
+        if (currentQueryKeyRef.current !== expectedQueryKey) {
+          return;
+        }
+
+        if (!response.success) {
+          console.error("Failed to fetch data:", response.error);
           return;
         }
 
@@ -65,28 +102,48 @@ export function useInfiniteScroll<T>(
           items: newItems,
           total: newTotal,
           pageSize: newPageSize,
-        } = pageData.data;
+        } = response.data;
 
         setPagination((prev) => ({
           page: newPage,
-          items: [...prev.items, ...newItems],
+          items: isReset ? newItems : [...prev.items, ...newItems],
           total: newTotal,
           hasMore: newPage * newPageSize < newTotal,
         }));
       } catch (err) {
         console.error("Failed to fetch data:", err);
       } finally {
+        isLoadingRef.current = false;
         setIsLoading(false);
+        setIsInitialLoading(false);
       }
     },
-    [isLoading, fetchFn, pageSize, queryParams, pagination.hasMore],
+    [],
   );
+
+  // ----------------------------------------------------------------------
+
+  // Reset and fetch page 1 when queryParams change
+  useEffect(() => {
+    currentQueryKeyRef.current = queryKey;
+
+    // Reset state
+    setPagination({
+      page: 0,
+      items: [],
+      total: 0,
+      hasMore: true,
+    });
+
+    // Fetch first page
+    loadItems(1, true, queryKey);
+  }, [queryKey, loadItems]);
 
   // ----------------------------------------------------------------------
 
   // Intersection observer for infinite scroll
   useEffect(() => {
-    if (!pagination.hasMore) return;
+    if (!pagination.hasMore || isLoading || isInitialLoading) return;
 
     const target = ref.current;
     if (!target) return;
@@ -95,29 +152,30 @@ export function useInfiniteScroll<T>(
       (entries) => {
         const firstEntry = entries[0];
 
-        if (firstEntry.isIntersecting && !isLoading && pagination.hasMore) {
-          loadMoreItems(pagination.page + 1);
+        if (
+          firstEntry.isIntersecting &&
+          !isLoadingRef.current &&
+          pagination.hasMore
+        ) {
+          loadItems(pagination.page + 1, false, currentQueryKeyRef.current);
         }
       },
-      { threshold: 0.0 },
+      { threshold: 0.5, rootMargin: "200px" },
     );
 
     observer.observe(target);
 
     return () => {
-      observer.unobserve(target);
       observer.disconnect();
     };
-  }, [isLoading, loadMoreItems, ref, pagination.hasMore, pagination.page]);
-
-  useEffect(() => {
-    setPagination({
-      page: initialData.page,
-      items: initialData.items,
-      total: initialData.total,
-      hasMore: initialData.page * initialData.pageSize < initialData.total,
-    });
-  }, [initialData]);
+  }, [
+    ref,
+    pagination.hasMore,
+    pagination.page,
+    isLoading,
+    isInitialLoading,
+    loadItems,
+  ]);
 
   // ----------------------------------------------------------------------
 
@@ -126,5 +184,6 @@ export function useInfiniteScroll<T>(
     hasMore: pagination.hasMore,
     total: pagination.total,
     isLoading,
+    isInitialLoading,
   };
 }

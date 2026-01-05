@@ -9,6 +9,7 @@ type CarListMobileProps = {
   items: CarListItem[];
   total: number;
   isLoading?: boolean;
+  isInitialLoading?: boolean;
   hasMore?: boolean;
 };
 
@@ -17,6 +18,7 @@ export default function CarListMobile({
   items,
   total,
   isLoading = false,
+  isInitialLoading = false,
   hasMore = false,
 }: CarListMobileProps) {
   const skeletonCount = items.length % 2 === 0 ? 2 : 1;
@@ -29,13 +31,19 @@ export default function CarListMobile({
       </h2>
 
       <div className="grid grow-0 grid-cols-2 gap-4">
-        {items.map((item) => (
-          <CarCard key={item.id} item={item} />
-        ))}
+        {isInitialLoading ? (
+          <CarListMobileSkeleton count={4} />
+        ) : (
+          <>
+            {items.map((item) => (
+              <CarCard key={item.id} item={item} />
+            ))}
 
-        {isLoading && <CarListMobileSkeleton count={skeletonCount} />}
+            {isLoading && <CarListMobileSkeleton count={skeletonCount} />}
 
-        {hasMore && <CarListTrigger ref={ref} isLoading={isLoading} />}
+            {hasMore && <CarListTrigger ref={ref} isLoading={isLoading} />}
+          </>
+        )}
       </div>
     </div>
   );
