@@ -15,6 +15,7 @@ export const CAR_FILTER_DEFAULT_VALUES: CarFilterSchema = {
   maxMileage: "",
   maxPrice: "",
   minPrice: "",
+  isActive: true,
 };
 
 export const CAR_FILTER_OPTIONS_FALLBACK: GetCarFiltersResponse = {

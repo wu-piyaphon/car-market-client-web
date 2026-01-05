@@ -84,7 +84,7 @@ export type GetCarsQueryParams = PaginationParams<{
   minPrice?: string;
   maxPrice?: string;
   salesType?: SalesType;
-  isActive?: string;
+  isActive?: boolean;
 }>;
 
 export type GetCarsResponse = PaginationResponse<CarListItem>;

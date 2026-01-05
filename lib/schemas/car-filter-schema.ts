@@ -17,6 +17,7 @@ export const carFilterSchema = z.object({
   engineCapacity: SCHEMA.numberString.optional,
   minMileage: SCHEMA.numberString.optional,
   maxMileage: SCHEMA.numberString.optional,
+  isActive: SCHEMA.boolean.optional,
 });
 
 export type CarFilterSchema = z.infer<typeof carFilterSchema>;
