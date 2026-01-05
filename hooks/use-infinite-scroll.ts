@@ -70,10 +70,7 @@ export function useInfiniteScroll<T, Q extends Record<string, unknown>>(
   // ----------------------------------------------------------------------
 
   const loadItems = useCallback(async (nextPage: number, isReset: boolean) => {
-    // Prevent concurrent requests
-    if (isLoadingRef.current) return;
-
-    // Cancel any pending request
+    // Cancel any pending request before starting a new one
     if (abortControllerRef.current) {
       abortControllerRef.current.abort();
     }
@@ -100,8 +97,11 @@ export function useInfiniteScroll<T, Q extends Record<string, unknown>>(
         abortController.signal,
       );
 
-      // Check if this request was aborted
-      if (abortController.signal.aborted) {
+      // Check if this request was aborted or superseded by a newer request
+      if (
+        abortController.signal.aborted ||
+        abortControllerRef.current !== abortController
+      ) {
         return;
       }
 
@@ -130,8 +130,8 @@ export function useInfiniteScroll<T, Q extends Record<string, unknown>>(
       }
       console.error("Failed to fetch data:", err);
     } finally {
-      // Only reset loading state if this controller wasn't aborted
-      if (!abortController.signal.aborted) {
+      // Only reset loading state if this is still the active controller
+      if (abortControllerRef.current === abortController) {
         isLoadingRef.current = false;
         setIsLoading(false);
         setIsInitialLoading(false);
