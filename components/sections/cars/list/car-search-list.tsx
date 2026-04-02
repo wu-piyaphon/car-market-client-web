@@ -2,7 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { useDebouncedCallback } from "use-debounce";
 import Form from "@/components/hook-forms/form";
@@ -20,6 +20,14 @@ import CarFilterMobile from "../filter/car-filter-mobile";
 import CarFilterSidebar from "../filter/car-filter-sidebar";
 import CarList from "./car-list";
 import CarListMobile from "./car-list-mobile";
+
+const TEXT_INPUT_KEYS = new Set([
+  "keyword",
+  "minMileage",
+  "maxMileage",
+  "minPrice",
+  "maxPrice",
+]);
 
 type CarSearchListProps = {
   queryParams: CarFilterSchema;
@@ -48,10 +56,6 @@ export default function CarSearchList({
 
   const { reset, setValue } = methods;
 
-  useEffect(() => {
-    reset(queryParams);
-  }, [queryParams, reset]);
-
   const { items, isLoading, isInitialLoading, hasMore, total } =
     useInfiniteScroll<CarListItem, CarFilterSchema>({
       ref: activeRef,
@@ -60,7 +64,7 @@ export default function CarSearchList({
       initialData: initialCars,
     });
 
-  const handleSearch = useDebouncedCallback(
+  const updateSearchParams = useCallback(
     (key: string, val: string | string[]) => {
       const params = new URLSearchParams(searchParams);
 
@@ -101,8 +105,37 @@ export default function CarSearchList({
 
       replace(`${pathname}?${params.toString()}`);
     },
-    500,
+    [searchParams, pathname, replace, setValue],
   );
+
+  const debouncedUpdateSearchParams = useDebouncedCallback(
+    updateSearchParams,
+    300,
+  );
+
+  const handleSearch = useCallback(
+    (key: string, val: string | string[]) => {
+      if (TEXT_INPUT_KEYS.has(key)) {
+        debouncedUpdateSearchParams(key, val);
+      } else {
+        updateSearchParams(key, val);
+      }
+    },
+    [debouncedUpdateSearchParams, updateSearchParams],
+  );
+
+  useEffect(() => {
+    if (debouncedUpdateSearchParams.isPending()) {
+      // User is still typing — only sync discrete (non-text) fields
+      for (const key of Object.keys(queryParams) as (keyof CarFilterSchema)[]) {
+        if (!TEXT_INPUT_KEYS.has(key)) {
+          setValue(key, queryParams[key] ?? "");
+        }
+      }
+    } else {
+      reset(queryParams);
+    }
+  }, [queryParams, reset, setValue, debouncedUpdateSearchParams]);
 
   // ----------------------------------------------------------------------
 
