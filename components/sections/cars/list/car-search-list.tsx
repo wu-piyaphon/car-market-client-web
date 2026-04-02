@@ -108,24 +108,22 @@ export default function CarSearchList({
     [searchParams, pathname, replace, setValue],
   );
 
-  const debouncedUpdateSearchParams = useDebouncedCallback(
-    updateSearchParams,
-    300,
-  );
+  const debouncedTextSearch = useDebouncedCallback(updateSearchParams, 300);
+  const debouncedDiscreteSearch = useDebouncedCallback(updateSearchParams, 100);
 
   const handleSearch = useCallback(
     (key: string, val: string | string[]) => {
       if (TEXT_INPUT_KEYS.has(key)) {
-        debouncedUpdateSearchParams(key, val);
+        debouncedTextSearch(key, val);
       } else {
-        updateSearchParams(key, val);
+        debouncedDiscreteSearch(key, val);
       }
     },
-    [debouncedUpdateSearchParams, updateSearchParams],
+    [debouncedTextSearch, debouncedDiscreteSearch],
   );
 
   useEffect(() => {
-    if (debouncedUpdateSearchParams.isPending()) {
+    if (debouncedTextSearch.isPending()) {
       // User is still typing — only sync discrete (non-text) fields
       for (const key of Object.keys(queryParams) as (keyof CarFilterSchema)[]) {
         if (!TEXT_INPUT_KEYS.has(key)) {
@@ -135,7 +133,7 @@ export default function CarSearchList({
     } else {
       reset(queryParams);
     }
-  }, [queryParams, reset, setValue, debouncedUpdateSearchParams]);
+  }, [queryParams, reset, setValue, debouncedTextSearch]);
 
   // ----------------------------------------------------------------------
 
