@@ -3,6 +3,7 @@
 import { useFormContext, useWatch } from "react-hook-form";
 import RHFAutocomplete from "@/components/hook-forms/rhf-autocomplete";
 import RHFTextField from "@/components/hook-forms/rhf-textfield";
+import CarSearchBar from "@/components/sections/cars/search/car-search-bar";
 import FieldPopover from "@/components/ui/custom-popover/field-popover";
 import type { CarFilterSchema } from "@/lib/schemas/car-filter-schema";
 import type { GetCarFiltersResponse } from "@/types/car-filter.types";
@@ -56,8 +57,12 @@ export default function CarFilterSidebar({
   ];
 
   return (
-    <div className="flex h-fit w-[200px] flex-col overflow-hidden rounded-md shadow-md">
+    <div className="flex h-fit w-[220px] flex-col overflow-hidden rounded-md shadow-md">
       <div className="bg-primary px-3 py-4 text-white">ตัวเลือกการค้นหา</div>
+      <CarSearchBar
+        onSearch={onSearch}
+        InputProps={{ className: "rounded-none border-b-0" }}
+      />
       {autocompleteFields.map((field) => (
         <RHFAutocomplete
           key={field.name}

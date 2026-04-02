@@ -3,6 +3,7 @@ import { SCHEMA } from "@/lib/schemas/common";
 import type { CarType, EngineType, Transmission } from "@/types/car.types";
 
 export const carFilterSchema = z.object({
+  keyword: SCHEMA.string.optional,
   category: SCHEMA.string.optional,
   brand: SCHEMA.string.optional,
   type: z.custom<CarType | "">().optional(),

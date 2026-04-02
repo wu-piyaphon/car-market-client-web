@@ -2,6 +2,7 @@ import type { GetCarFiltersResponse } from "@/types/car-filter.types";
 import type { CarFilterSchema } from "../schemas/car-filter-schema";
 
 export const CAR_FILTER_DEFAULT_VALUES: CarFilterSchema = {
+  keyword: "",
   brand: "",
   type: "",
   color: "",

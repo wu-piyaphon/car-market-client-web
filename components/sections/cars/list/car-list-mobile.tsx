@@ -24,7 +24,7 @@ export default function CarListMobile({
   const skeletonCount = items.length % 2 === 0 ? 2 : 1;
 
   return (
-    <div className="mt-8 flex flex-col gap-6">
+    <div className="mt-12 flex flex-col gap-6">
       <h2 className="font-bold text-4xl">
         ผลการค้นหา : <span className="text-7xl text-primary">{total}</span>{" "}
         รายการ

@@ -7,6 +7,7 @@ import { useFormContext, useWatch } from "react-hook-form";
 import RHFAutocomplete from "@/components/hook-forms/rhf-autocomplete";
 import RHFTextField from "@/components/hook-forms/rhf-textfield";
 import Container from "@/components/layout/container";
+import CarSearchBar from "@/components/sections/cars/search/car-search-bar";
 import { Button } from "@/components/ui/button";
 import CarImageBanner from "@/components/ui/custom-banner/car-image-banner";
 import type { CarFilterSchema } from "@/lib/schemas/car-filter-schema";
@@ -33,10 +34,10 @@ type CarFilterMobileProps = {
 
 const containerVariants = {
   closed: {
-    height: "320px",
+    height: "400px",
   },
   open: {
-    height: "790px",
+    height: "860px",
   },
 };
 
@@ -46,7 +47,7 @@ const contentVariants = {
     opacity: 0,
   },
   visible: {
-    maxHeight: 800, // Set a reasonable max height in pixels
+    maxHeight: 860, // Set a reasonable max height in pixels
     opacity: 1,
   },
 };
@@ -97,17 +98,19 @@ export default function CarFilterMobile({
         transition={{ duration: 0.3, ease: [0.25, 0.46, 0.45, 0.94] }}
         style={{ willChange: "height" }}
       >
-        <div className="-ml-10 h-full min-h-[320px] w-[120vw] bg-black/90 blur-md">
+        <div className="-ml-10 h-full min-h-[400px] w-[120vw] bg-black/90 blur-md">
           <CarImageBanner />
         </div>
 
         <article className="-translate-x-1/2 absolute top-5 left-1/2 z-20 w-full max-w-[320px]">
           <div className="rounded-md bg-white">
+            <CarSearchBar onSearch={onSearch} InputProps={INPUT_PROPS.TOP} />
+
             <RHFAutocomplete
               name="type"
               label="ประเภท"
               options={types}
-              InputProps={INPUT_PROPS.TOP}
+              InputProps={INPUT_PROPS.MIDDLE}
               onChange={(value) => onSearch("type", value)}
             />
 
