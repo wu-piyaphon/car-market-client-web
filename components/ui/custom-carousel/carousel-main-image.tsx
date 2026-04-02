@@ -12,6 +12,7 @@ type CarouselMainImageProps = {
   selectedIndex: number;
   totalImages: number;
   showNavigation: boolean;
+  carName: string;
   onPrevious: () => void;
   onNext: () => void;
 };
@@ -22,6 +23,7 @@ export function CarouselMainImage({
   selectedIndex,
   totalImages,
   showNavigation,
+  carName,
   onPrevious,
   onNext,
 }: CarouselMainImageProps) {
@@ -56,7 +58,7 @@ export function CarouselMainImage({
     >
       <Image
         src={currentImage}
-        alt={`Car image ${selectedIndex + 1}`}
+        alt={`${carName} - ภาพที่ ${selectedIndex + 1}`}
         fill
         priority
         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 60vw, 80vw"

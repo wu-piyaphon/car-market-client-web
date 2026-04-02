@@ -11,7 +11,8 @@ type CarCardProps = ComponentProps<"div"> & {
 };
 
 export default function CarCard({ item }: CarCardProps) {
-  const { thumbnail, model, subModel, type, modelYear, price, slug } = item;
+  const { thumbnail, brand, model, subModel, type, modelYear, price, slug } =
+    item;
 
   return (
     <article className="flex flex-col rounded-md shadow-sm">
@@ -20,7 +21,7 @@ export default function CarCard({ item }: CarCardProps) {
           <Image
             fill
             src={thumbnail}
-            alt={model}
+            alt={`${brand} ${model} ${subModel} ปี ${modelYear} มือสอง`}
             className="rounded-t-md object-cover"
             sizes="100%"
           />

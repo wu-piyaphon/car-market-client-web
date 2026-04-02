@@ -7,6 +7,7 @@ type CarouselThumbnailsProps = {
   images: string[];
   selectedIndex: number;
   thumbnailsRef: RefObject<HTMLDivElement | null>;
+  carName: string;
   onThumbnailClick: (index: number) => void;
 };
 
@@ -14,6 +15,7 @@ export function CarouselThumbnails({
   images,
   selectedIndex,
   thumbnailsRef,
+  carName,
   onThumbnailClick,
 }: CarouselThumbnailsProps) {
   if (images.length <= 1) {
@@ -43,7 +45,7 @@ export function CarouselThumbnails({
             <Image
               fill
               src={image}
-              alt={`Car thumbnail ${index + 1}`}
+              alt={`${carName} - ภาพย่อที่ ${index + 1}`}
               className={cn(
                 "object-cover duration-200",
                 selectedIndex === index

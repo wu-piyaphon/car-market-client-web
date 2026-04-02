@@ -8,12 +8,14 @@ import { CarouselThumbnails } from "../../../ui/custom-carousel/carousel-thumbna
 
 type CarDetailCarouselProps = {
   images: CarDetail["images"];
+  carName: string;
   autoPlay?: boolean;
   autoPlayInterval?: number;
 };
 
 export default function CarDetailCarousel({
   images,
+  carName,
   autoPlay = false,
   autoPlayInterval = 3000,
 }: CarDetailCarouselProps) {
@@ -40,6 +42,7 @@ export default function CarDetailCarousel({
         selectedIndex={selectedIndex}
         totalImages={images.length}
         showNavigation={hasMultipleImages}
+        carName={carName}
         onPrevious={goToPrevious}
         onNext={goToNext}
       />
@@ -48,6 +51,7 @@ export default function CarDetailCarousel({
         images={images}
         selectedIndex={selectedIndex}
         thumbnailsRef={thumbnailsRef}
+        carName={carName}
         onThumbnailClick={goToIndex}
       />
     </div>
