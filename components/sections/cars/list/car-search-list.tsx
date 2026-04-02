@@ -101,7 +101,7 @@ export default function CarSearchList({
 
       replace(`${pathname}?${params.toString()}`);
     },
-    200,
+    500,
   );
 
   // ----------------------------------------------------------------------
