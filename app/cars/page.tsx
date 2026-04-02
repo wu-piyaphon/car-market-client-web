@@ -12,6 +12,13 @@ import { getCarFilters, getCars } from "@/services";
 
 export const metadata: Metadata = {
   title: "ค้นหารถ",
+  description:
+    "ค้นหารถยนต์มือสองคุณภาพที่ GoodCarMarket เลือกจากรถยนต์หลายพันคันจากหลากหลายยี่ห้อ พร้อมราคาและรายละเอียดครบถ้วน",
+  openGraph: {
+    title: "ค้นหารถยนต์มือสอง | GoodCarMarket",
+    description:
+      "ค้นหารถยนต์มือสองคุณภาพที่ GoodCarMarket เลือกจากรถยนต์หลายพันคันจากหลากหลายยี่ห้อ พร้อมราคาและรายละเอียดครบถ้วน",
+  },
 };
 
 type PageProps = {

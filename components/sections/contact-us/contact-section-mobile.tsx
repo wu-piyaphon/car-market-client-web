@@ -69,8 +69,9 @@ export default function ContactSectionMobile() {
           <div className="relative aspect-[4/3] h-full w-full overflow-hidden rounded-xl bg-gray-100">
             <Image
               src={currentLocation.image}
-              alt={currentLocation.name}
+              alt={`สาขา ${currentLocation.name} - GoodCarMarket`}
               fill
+              sizes="100vw"
               className={cn(
                 "object-cover transition-opacity duration-300 ease-in-out",
                 isTransitioning ? "opacity-0" : "opacity-100",

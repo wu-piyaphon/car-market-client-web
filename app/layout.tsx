@@ -58,7 +58,7 @@ export const metadata: Metadata = {
       "ค้นหา ซื้อ และขายรถยนต์มือสองที่ GoodCarMarket แพลตฟอร์มตลาดรถมือสอง พร้อมบริการประเมินราคารถ คำนวณสินเชื่อ และระบบค้นหาเลือกจากรถยนต์หลายพันคันจากหลากหลายยี่ห้อ",
     images: [
       {
-        url: "/logo.svg",
+        url: "/images/og-image.png",
         width: 1200,
         height: 630,
         alt: `${CONFIG.appName} - ตลาดรถยนต์มือสองประเทศไทย`,
@@ -70,7 +70,7 @@ export const metadata: Metadata = {
     title: `${CONFIG.appName} - ตลาดรถยนต์มือสองประเทศไทย`,
     description:
       "ค้นหา ซื้อ และขายรถยนต์มือสองที่ GoodCarMarket แพลตฟอร์มตลาดรถมือสอง พร้อมบริการประเมินราคารถ คำนวณสินเชื่อ และระบบค้นหาเลือกจากรถยนต์หลายพันคันจากหลากหลายยี่ห้อ",
-    images: ["/logo.svg"],
+    images: ["/images/og-image.png"],
     creator: `@${CONFIG.appName}`,
   },
   icons: {

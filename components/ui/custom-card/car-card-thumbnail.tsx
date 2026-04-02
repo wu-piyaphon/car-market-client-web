@@ -11,8 +11,8 @@ export default function CarCardThumbnail({ title }: CarCardThumbnailProps) {
   return (
     <div className="relative flex h-full flex-col justify-between overflow-hidden rounded-md p-1.5 shadow-sm">
       <Image
-        src="/images/home/card-thumbnail.png"
-        alt="Car Type Thumbnail"
+        src="/images/home/card-thumbnail.webp"
+        alt="ประเภทรถยนต์มือสอง GoodCarMarket"
         width={400}
         height={200}
         className="absolute top-0 right-0 h-[112px] w-[85%] object-cover object-left-bottom"

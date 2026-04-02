@@ -23,7 +23,7 @@ export default function CarCard({ item }: CarCardProps) {
             src={thumbnail}
             alt={`${brand} ${model} ${subModel} ปี ${modelYear} มือสอง`}
             className="rounded-t-md object-cover"
-            sizes="100%"
+            sizes="(max-width: 768px) 50vw, 280px"
           />
         </div>
       </Link>

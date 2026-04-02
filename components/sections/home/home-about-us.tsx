@@ -20,10 +20,11 @@ export default function HomeAboutUs() {
 
           <div className="px-5">
             <Image
-              src="/images/home/about-us.png"
-              alt="About Us"
+              src="/images/home/about-us.webp"
+              alt="GoodCarMarket ซื้อขายรถยนต์มือสองคุณภาพ"
               width={800}
               height={400}
+              sizes="(max-width: 768px) 100vw, 50vw"
               className="h-[280px] w-full rounded-2xl object-cover"
             />
           </div>
@@ -70,12 +71,12 @@ export default function HomeAboutUs() {
         </Container>
 
         <Image
-          src="/images/home/about-us.png"
-          alt="About Us - Car Image"
+          src="/images/home/about-us.webp"
+          alt="GoodCarMarket โชว์รูมรถยนต์มือสอง"
           width={1200}
           height={800}
+          sizes="70vw"
           className="absolute right-0 h-[390px] w-[70%] object-cover lg:h-[540px]"
-          quality={100}
         />
       </div>
     </article>

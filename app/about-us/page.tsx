@@ -7,6 +7,21 @@ import { CONFIG } from "@/global-config";
 
 export const metadata: Metadata = {
   title: `${CONFIG.appName} | เกี่ยวกับเรา`,
+  description:
+    "เกี่ยวกับ GoodCarMarket ตลาดรถยนต์มือสองชั้นนำของประเทศไทย พร้อมบริการซื้อขายรถยนต์มือสองคุณภาพ ประเมินราคารถ และสินเชื่อรถยนต์",
+  openGraph: {
+    title: `${CONFIG.appName} | เกี่ยวกับเรา`,
+    description:
+      "เกี่ยวกับ GoodCarMarket ตลาดรถยนต์มือสองชั้นนำของประเทศไทย พร้อมบริการซื้อขายรถยนต์มือสองคุณภาพ ประเมินราคารถ และสินเชื่อรถยนต์",
+    images: [
+      {
+        url: "/images/about-us/img-middle.webp",
+        width: 800,
+        height: 800,
+        alt: "บรรยากาศภายใน GoodCarMarket ตลาดรถยนต์มือสอง",
+      },
+    ],
+  },
 };
 
 export default function Page() {

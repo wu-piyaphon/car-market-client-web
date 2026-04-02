@@ -128,8 +128,9 @@ export default function RHFUpload({
                     {previewUrl ? (
                       <Image
                         fill
-                        alt="Uploaded file"
+                        alt="ภาพที่อัปโหลด"
                         src={previewUrl}
+                        sizes="(max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
                         className="rounded-md object-cover"
                       />
                     ) : (
@@ -139,7 +140,7 @@ export default function RHFUpload({
                         height={placeholderImage ? undefined : 80}
                         alt="Image placeholder"
                         src={
-                          placeholderImage || "/images/placeholder/image.png"
+                          placeholderImage || "/images/placeholder/image.webp"
                         }
                         className="w-10 object-contain opacity-60 md:w-15 lg:w-25"
                       />

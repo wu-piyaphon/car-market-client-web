@@ -9,8 +9,8 @@ export default function CarImageBanner({
 }: Partial<ImageProps>) {
   return (
     <Image
-      src="/images/home/hero.png"
-      alt="Hero Image"
+      src="/images/home/hero.webp"
+      alt="GoodCarMarket ตลาดรถยนต์มือสองคุณภาพ"
       width={2560}
       height={1440}
       quality={100}

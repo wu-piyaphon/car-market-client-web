@@ -73,6 +73,7 @@ export default function CarValuationImages({
               src={image.preview}
               alt={image.label}
               fill
+              sizes="(max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
               className="object-cover"
             />
             <div className="absolute inset-0 flex items-center justify-center bg-black/10 opacity-0 transition-opacity hover:opacity-100">

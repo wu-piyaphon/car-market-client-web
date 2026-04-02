@@ -93,8 +93,9 @@ export default function ContactSection() {
         <div className="relative h-full w-full">
           <Image
             src={currentLocation.image}
-            alt={currentLocation.name}
+            alt={`สาขา ${currentLocation.name} - GoodCarMarket`}
             fill
+            sizes="(max-width: 768px) 100vw, 40vw"
             className={cn(
               "rounded-lg object-cover",
               isTransitioning ? "opacity-0" : "opacity-100",

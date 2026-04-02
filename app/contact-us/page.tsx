@@ -7,6 +7,21 @@ import { CONFIG } from "@/global-config";
 
 export const metadata: Metadata = {
   title: `${CONFIG.appName} | ติดต่อเรา`,
+  description:
+    "ติดต่อ GoodCarMarket สาขาใกล้คุณ เปิดบริการทุกวัน พร้อมให้คำปรึกษาเรื่องซื้อขายรถยนต์มือสอง",
+  openGraph: {
+    title: `${CONFIG.appName} | ติดต่อเรา`,
+    description:
+      "ติดต่อ GoodCarMarket สาขาใกล้คุณ เปิดบริการทุกวัน พร้อมให้คำปรึกษาเรื่องซื้อขายรถยนต์มือสอง",
+    images: [
+      {
+        url: "/images/contact/champ-location-1.webp",
+        width: 800,
+        height: 600,
+        alt: "สาขา GoodCarMarket",
+      },
+    ],
+  },
 };
 
 // ----------------------------------------------------------------------

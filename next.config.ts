@@ -9,6 +9,13 @@ const nextConfig: NextConfig = {
         port: "",
         pathname: "/**",
       },
+      {
+        protocol: "https",
+        hostname:
+          "good-car-market-ap-southeast-7.s3.ap-southeast-7.amazonaws.com",
+        port: "",
+        pathname: "/**",
+      },
     ],
     qualities: [50, 75, 100],
     unoptimized: true,
