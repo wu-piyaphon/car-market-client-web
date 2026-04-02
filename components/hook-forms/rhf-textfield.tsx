@@ -14,6 +14,8 @@ type Props = React.ComponentProps<"div"> & {
   InputProps?: React.ComponentProps<"input">;
   required?: boolean;
   disabled?: boolean;
+  onChange?: (value: string | string[]) => void;
+  value?: string | string[];
 };
 
 export default function RHFTextField({
@@ -24,6 +26,8 @@ export default function RHFTextField({
   InputProps,
   required = false,
   disabled = false,
+  onChange,
+  value,
   ...other
 }: Props) {
   const { control } = useFormContext();
@@ -33,10 +37,10 @@ export default function RHFTextField({
       control={control}
       name={name}
       render={({ field }) => {
-        let formatValue = field.value;
+        let formatValue = value ?? field.value;
 
         if (type === "currency") {
-          formatValue = fThousandSeparator(String(field.value || ""));
+          formatValue = fThousandSeparator(String(formatValue || ""));
         }
 
         return (
@@ -57,12 +61,15 @@ export default function RHFTextField({
                     if (!/^\d*\.?\d*$/.test(numericValue)) return;
                     // Store the numeric value without separators
                     field.onChange(numericValue);
+                    if (onChange) onChange(numericValue);
                   } else if (type === "number") {
                     // Only allow digits
                     if (!/^\d*$/.test(inputValue)) return;
                     field.onChange(e);
+                    if (onChange) onChange(inputValue);
                   } else {
                     field.onChange(e);
+                    if (onChange) onChange(inputValue);
                   }
                 }}
                 required={required}

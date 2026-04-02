@@ -8,7 +8,7 @@ import {
   type CarFilterSchema,
   carFilterSchema,
 } from "@/lib/schemas/car-filter-schema";
-import { getCarFilters } from "@/services";
+import { getCarFilters, getCars } from "@/services";
 
 export const metadata: Metadata = {
   title: "ค้นหารถ",
@@ -26,7 +26,10 @@ export default async function Page({ searchParams }: PageProps) {
     ? { ...CAR_FILTER_DEFAULT_VALUES, ...validatedParams.data }
     : CAR_FILTER_DEFAULT_VALUES;
 
-  const initialFilters = await getCarFilters(searchParamValues);
+  const [initialFilters, initialCars] = await Promise.all([
+    getCarFilters(searchParamValues),
+    getCars({ page: 1, pageSize: 12, ...searchParamValues }),
+  ]);
 
   return (
     <CarSearchList
@@ -36,6 +39,7 @@ export default async function Page({ searchParams }: PageProps) {
           ? initialFilters.data
           : CAR_FILTER_OPTIONS_FALLBACK
       }
+      initialCars={initialCars.success ? initialCars.data : undefined}
     />
   );
 }

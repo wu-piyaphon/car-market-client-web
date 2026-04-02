@@ -11,12 +11,14 @@ import type { GetCarFiltersResponse } from "@/types/car-filter.types";
 
 type CarFilterSidebarProps = {
   filterOptions: GetCarFiltersResponse;
+  onSearch: (key: string, value: string | string[]) => void;
 };
 
 // ----------------------------------------------------------------------
 
 export default function CarFilterSidebar({
   filterOptions,
+  onSearch,
 }: CarFilterSidebarProps) {
   const { control } = useFormContext<CarFilterSchema>();
 
@@ -65,6 +67,7 @@ export default function CarFilterSidebar({
           disabled={field.name === "subModel" && !selectedModel}
           PopoverContentProps={{ side: "right" }}
           InputProps={{ className: "rounded-none border-b-0" }}
+          onChange={(value) => onSearch(field.name, value)}
         />
       ))}
 
@@ -75,9 +78,19 @@ export default function CarFilterSidebar({
         InputProps={{ className: "rounded-none border-b-0" }}
       >
         <div className="flex flex-row items-center gap-2">
-          <RHFTextField type="currency" name="minMileage" label="เลขไมล์ต่ำสุด" />
+          <RHFTextField
+            type="currency"
+            name="minMileage"
+            label="เลขไมล์ต่ำสุด"
+            onChange={(val) => onSearch("minMileage", val as string)}
+          />
           -
-          <RHFTextField type="currency" name="maxMileage" label="เลขไมล์สูงสุด" />
+          <RHFTextField
+            type="currency"
+            name="maxMileage"
+            label="เลขไมล์สูงสุด"
+            onChange={(val) => onSearch("maxMileage", val as string)}
+          />
         </div>
       </FieldPopover>
 
@@ -93,6 +106,7 @@ export default function CarFilterSidebar({
             type="currency"
             label="ราคาต่ำสุด"
             className="flex-1"
+            onChange={(val) => onSearch("minPrice", val as string)}
           />
           -
           <RHFTextField
@@ -100,6 +114,7 @@ export default function CarFilterSidebar({
             type="currency"
             label="ราคาสูงสุด"
             className="flex-1"
+            onChange={(val) => onSearch("maxPrice", val as string)}
           />
         </div>
       </FieldPopover>

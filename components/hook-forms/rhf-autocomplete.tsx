@@ -16,6 +16,7 @@ export default function RHFAutocomplete({
   required = false,
   className,
   InputProps,
+  onChange: onChangeExternal,
   ...props
 }: RHFAutocompleteProps) {
   const { control } = useFormContext();
@@ -30,6 +31,10 @@ export default function RHFAutocomplete({
             <Autocomplete
               {...field}
               {...props}
+              onChange={(value) => {
+                field.onChange(value);
+                onChangeExternal?.(value);
+              }}
               InputProps={{ required, ...InputProps }}
             />
           </FormControl>

@@ -2,7 +2,7 @@
 
 import { Search } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useState } from "react";
 import { useFormContext, useWatch } from "react-hook-form";
 import RHFAutocomplete from "@/components/hook-forms/rhf-autocomplete";
 import RHFTextField from "@/components/hook-forms/rhf-textfield";
@@ -26,6 +26,7 @@ const INPUT_PROPS = {
 
 type CarFilterMobileProps = {
   filterOptions: GetCarFiltersResponse;
+  onSearch: (key: string, value: string | string[]) => void;
 };
 
 // ----------------------------------------------------------------------
@@ -54,6 +55,7 @@ const contentVariants = {
 
 export default function CarFilterMobile({
   filterOptions,
+  onSearch,
 }: CarFilterMobileProps) {
   const { control } = useFormContext<CarFilterSchema>();
 
@@ -62,7 +64,6 @@ export default function CarFilterMobile({
     name: ["model"],
   });
 
-  // Memoize filter options to prevent unnecessary re-renders
   const {
     types,
     brands,
@@ -73,7 +74,7 @@ export default function CarFilterMobile({
     engineTypes,
     modelYears,
     engineCapacities,
-  } = useMemo(() => filterOptions, [filterOptions]);
+  } = filterOptions;
 
   const [showMore, setShowMore] = useState(false);
 
@@ -107,6 +108,7 @@ export default function CarFilterMobile({
               label="ประเภท"
               options={types}
               InputProps={INPUT_PROPS.TOP}
+              onChange={(value) => onSearch("type", value)}
             />
 
             <RHFAutocomplete
@@ -114,6 +116,7 @@ export default function CarFilterMobile({
               label="ยี่ห้อ"
               options={brands}
               InputProps={INPUT_PROPS.MIDDLE}
+              onChange={(value) => onSearch("brand", value)}
             />
 
             <AnimatePresence>
@@ -137,6 +140,7 @@ export default function CarFilterMobile({
                     label="รุ่น"
                     options={models}
                     InputProps={INPUT_PROPS.MIDDLE}
+                    onChange={(value) => onSearch("model", value)}
                   />
                   <RHFAutocomplete
                     name="subModel"
@@ -144,36 +148,42 @@ export default function CarFilterMobile({
                     disabled={!selectedModel}
                     options={subModels}
                     InputProps={INPUT_PROPS.MIDDLE}
+                    onChange={(value) => onSearch("subModel", value)}
                   />
                   <RHFAutocomplete
                     name="color"
                     label="สีรถ"
                     options={colors}
                     InputProps={INPUT_PROPS.MIDDLE}
+                    onChange={(value) => onSearch("color", value)}
                   />
                   <RHFAutocomplete
                     name="transmission"
                     label="ระบบเกียร์"
                     options={transmissions}
                     InputProps={INPUT_PROPS.MIDDLE}
+                    onChange={(value) => onSearch("transmission", value)}
                   />
                   <RHFAutocomplete
                     name="modelYear"
                     label="ปีรถ"
                     options={modelYears}
                     InputProps={INPUT_PROPS.MIDDLE}
+                    onChange={(value) => onSearch("modelYear", value)}
                   />
                   <RHFAutocomplete
                     name="engineType"
                     label="ประเภทเครื่องยนต์"
                     options={engineTypes}
                     InputProps={INPUT_PROPS.MIDDLE}
+                    onChange={(value) => onSearch("engineType", value)}
                   />
                   <RHFAutocomplete
                     name="engineCapacity"
                     label="ขนาดเครื่องยนต์"
                     options={engineCapacities}
                     InputProps={INPUT_PROPS.MIDDLE}
+                    onChange={(value) => onSearch("engineCapacity", value)}
                   />
                   <div className="flex flex-row">
                     <RHFTextField
@@ -187,6 +197,9 @@ export default function CarFilterMobile({
                         ),
                       }}
                       type="currency"
+                      onChange={(val) =>
+                        onSearch("minMileage", val as string | string[])
+                      }
                     />
                     <RHFTextField
                       name="maxMileage"
@@ -194,6 +207,9 @@ export default function CarFilterMobile({
                       className="flex-1"
                       InputProps={INPUT_PROPS.MIDDLE}
                       type="currency"
+                      onChange={(val) =>
+                        onSearch("maxMileage", val as string | string[])
+                      }
                     />
                   </div>
                 </motion.div>
@@ -207,6 +223,9 @@ export default function CarFilterMobile({
                 className="flex-1"
                 InputProps={INPUT_PROPS.BOTTOM_LEFT}
                 type="currency"
+                onChange={(val) =>
+                  onSearch("minPrice", val as string | string[])
+                }
               />
               <RHFTextField
                 name="maxPrice"
@@ -214,6 +233,9 @@ export default function CarFilterMobile({
                 className="flex-1"
                 InputProps={INPUT_PROPS.BOTTOM_RIGHT}
                 type="currency"
+                onChange={(val) =>
+                  onSearch("maxPrice", val as string | string[])
+                }
               />
             </div>
           </div>

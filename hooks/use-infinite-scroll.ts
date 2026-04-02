@@ -17,6 +17,7 @@ type UseInfiniteScrollParams<T, Q extends Record<string, unknown>> = {
   ) => ServiceResponse<PaginationResponse<T>>;
   queryParams: Q;
   pageSize?: number;
+  initialData?: PaginationResponse<T>;
 };
 
 type UseInfiniteScrollReturn<T> = {
@@ -39,19 +40,35 @@ type PaginationState<T> = {
 export function useInfiniteScroll<T, Q extends Record<string, unknown>>(
   params: UseInfiniteScrollParams<T, Q>,
 ): UseInfiniteScrollReturn<T> {
-  const { ref, fetchFn, queryParams, pageSize = DEFAULT_PAGE_SIZE } = params;
+  const {
+    ref,
+    fetchFn,
+    queryParams,
+    pageSize = DEFAULT_PAGE_SIZE,
+    initialData,
+  } = params;
 
   // Serialize queryParams to use as a stable key for resetting
   const queryKey = JSON.stringify(queryParams);
 
   const [isLoading, setIsLoading] = useState(false);
-  const [isInitialLoading, setIsInitialLoading] = useState(true);
+  const [isInitialLoading, setIsInitialLoading] = useState(!initialData);
 
-  const [pagination, setPagination] = useState<PaginationState<T>>({
-    page: 0,
-    items: [],
-    total: 0,
-    hasMore: true,
+  const [pagination, setPagination] = useState<PaginationState<T>>(() => {
+    if (initialData) {
+      return {
+        page: initialData.page,
+        items: initialData.items,
+        total: initialData.total,
+        hasMore: initialData.page * initialData.pageSize < initialData.total,
+      };
+    }
+    return {
+      page: 0,
+      items: [],
+      total: 0,
+      hasMore: true,
+    };
   });
 
   // Use refs to avoid stale closures and infinite loops
@@ -61,6 +78,7 @@ export function useInfiniteScroll<T, Q extends Record<string, unknown>>(
   const fetchFnRef = useRef(fetchFn);
   const queryParamsRef = useRef(queryParams);
   const pageSizeRef = useRef(pageSize);
+  const hasInitialDataRef = useRef(!!initialData);
 
   // Keep refs up to date
   fetchFnRef.current = fetchFn;
@@ -141,8 +159,12 @@ export function useInfiniteScroll<T, Q extends Record<string, unknown>>(
 
   // ----------------------------------------------------------------------
 
-  // Reset and fetch page 1 when queryParams change
   useEffect(() => {
+    if (hasInitialDataRef.current) {
+      hasInitialDataRef.current = false;
+      return;
+    }
+
     currentQueryKeyRef.current = queryKey;
 
     // Reset state

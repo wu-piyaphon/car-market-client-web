@@ -19,7 +19,7 @@ export async function fetchCarsExample() {
   try {
     // Using the centralized API fetcher
     const response = await fetcher.get<{ cars: Car[]; total: number }>(
-      API_ENDPOINTS.CARS.LIST + "?page=1&limit=20",
+      `${API_ENDPOINTS.CARS.LIST}?page=1&limit=20`,
     );
 
     return {
@@ -80,7 +80,7 @@ export async function ServerComponentExample() {
   try {
     // Fetch data in server component
     const [carsResponse] = await Promise.all([
-      fetcher.get(API_ENDPOINTS.CARS.LIST + "?featured=true&limit=6"),
+      fetcher.get(`${API_ENDPOINTS.CARS.LIST}?featured=true&limit=6`),
     ]);
 
     return {

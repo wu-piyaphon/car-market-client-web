@@ -25,6 +25,8 @@ export type AutocompleteCommonProps = {
   disabled?: boolean;
   PopoverContentProps?: PopoverContentProps;
   InputProps?: React.ComponentProps<"input">;
+  onChange?: (value: string) => void;
+  value?: string;
 };
 
 type AutocompleteProps<T extends string> = AutocompleteCommonProps & {

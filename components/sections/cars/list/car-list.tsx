@@ -1,5 +1,5 @@
-import { type RefObject, useEffect, useState } from "react";
-import { useFormContext, useWatch } from "react-hook-form";
+import type { RefObject } from "react";
+import { useFormContext } from "react-hook-form";
 import { SvgIcon } from "@/components/icons";
 import CarCard from "@/components/ui/custom-card/car-card";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -22,6 +22,7 @@ type CarListProps = {
   isLoading?: boolean;
   isInitialLoading?: boolean;
   hasMore?: boolean;
+  onSearch: (key: string, value: string | string[]) => void;
 };
 
 const TAB_VALUES: TabValue[] = [
@@ -61,12 +62,14 @@ export default function CarList({
   isLoading = false,
   isInitialLoading = false,
   hasMore = false,
+  onSearch,
 }: CarListProps) {
-  const { setValue, control } = useFormContext<CarFilterSchema>();
+  const { getValues } = useFormContext<CarFilterSchema>();
 
-  const [tabValue, setTabValue] = useState<TabValue["value"]>("ALL");
+  const type = getValues("type");
+  const category = getValues("category");
 
-  const [type, category] = useWatch({ control, name: ["type", "category"] });
+  const tabValue = type || category || "ALL";
 
   const skeletonCount = items.length % 4 === 0 ? 4 : 4 - (items.length % 4);
 
@@ -77,36 +80,18 @@ export default function CarList({
 
     if (!tab) return;
 
-    setTabValue(value);
-
     if (value === "ALL") {
-      setValue("category", "");
-      setValue("type", "");
+      onSearch("category", "ALL");
       return;
     }
 
     if (tab.value === "NEW") {
-      setValue("category", value);
-      setValue("type", "");
+      onSearch("category", value);
       return;
     }
 
-    setValue("type", value as CarType);
-    setValue("category", "");
-    return;
+    onSearch("type", value);
   };
-
-  // ----------------------------------------------------------------------
-
-  useEffect(() => {
-    if (type) {
-      setTabValue(type as TabValue["value"]);
-    } else if (category === "NEW") {
-      setTabValue("NEW");
-    } else {
-      setTabValue("ALL");
-    }
-  }, [type, category]);
 
   // ----------------------------------------------------------------------
 
