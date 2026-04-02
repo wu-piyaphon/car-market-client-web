@@ -5,7 +5,21 @@ import CarDetailCard from "@/components/sections/cars/detail/car-detail-card";
 import CarDetailCarousel from "@/components/sections/cars/detail/car-detail-carousel";
 import LoanCalculatorForm from "@/components/sections/loan-calculator/loan-calculator-form";
 import { CONFIG } from "@/global-config";
-import { getCarBySlug } from "@/services";
+import { getCarBySlug, getCars } from "@/services";
+
+// ----------------------------------------------------------------------
+
+export async function generateStaticParams() {
+  const result = await getCars({ page: 1, pageSize: 1000 });
+
+  if (!result.success) return [];
+
+  return result.data.items
+    .filter((car) => car.isActive)
+    .map((car) => ({ slug: car.slug }));
+}
+
+export const revalidate = 3600;
 
 // ----------------------------------------------------------------------
 
