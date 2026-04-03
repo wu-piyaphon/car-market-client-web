@@ -15,7 +15,10 @@ export async function getCars(
   options?: APIRequestOptions,
 ): ServiceResponse<GetCarsResponse> {
   try {
-    const url = buildQueryString(API_ENDPOINTS.CARS.LIST, params);
+    const url = buildQueryString(API_ENDPOINTS.CARS.LIST, {
+      ...params,
+      isActive: true,
+    });
 
     const response = await fetcher.get<GetCarsResponse>(url, options);
 
