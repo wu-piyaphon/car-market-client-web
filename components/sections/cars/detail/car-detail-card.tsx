@@ -82,7 +82,7 @@ export default function CarDetailCard({ data }: CarDetailInfoProps) {
         type="button"
         aria-label="Copy phone number to clipboard"
         title="Click to copy phone number"
-        text="087 534 3889"
+        text="063 709 8888"
         successText="คัดลอกเบอร์โทรแล้ว!"
       />
 
