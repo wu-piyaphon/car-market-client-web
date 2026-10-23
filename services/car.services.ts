@@ -1,3 +1,4 @@
+import { cache } from "react";
 import { API_ENDPOINTS, fetcher } from "@/lib/api";
 import type { APIRequestOptions } from "@/lib/api/server-fetcher";
 import { buildQueryString } from "@/lib/params";
@@ -37,24 +38,27 @@ export async function getCars(
 
 // ----------------------------------------------------------------------
 
-export async function getCarBySlug(slug: string): ServiceResponse<CarDetail> {
-  try {
-    const response = await fetcher.get<CarDetail>(
-      API_ENDPOINTS.CARS.DETAIL(slug),
-    );
+// Wrapped in cache() so generateMetadata and the page share one request per render
+export const getCarBySlug = cache(
+  async (slug: string): ServiceResponse<CarDetail> => {
+    try {
+      const response = await fetcher.get<CarDetail>(
+        API_ENDPOINTS.CARS.DETAIL(slug),
+      );
 
-    return {
-      success: true,
-      data: response.data,
-    };
-  } catch (error) {
-    console.error("getCarBySlug error:", error);
-    return {
-      success: false,
-      error: error instanceof Error ? error.message : "Failed to fetch car",
-    };
-  }
-}
+      return {
+        success: true,
+        data: response.data,
+      };
+    } catch (error) {
+      console.error("getCarBySlug error:", error);
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : "Failed to fetch car",
+      };
+    }
+  },
+);
 
 // ----------------------------------------------------------------------
 
