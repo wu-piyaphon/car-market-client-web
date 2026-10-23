@@ -31,16 +31,19 @@ class ServerAPIFetcher {
   }
 
   /**
-   * Create AbortController with timeout
+   * Create AbortController with timeout; call clear() once the request settles
    */
-  private createTimeoutController(timeout: number): AbortController {
+  private createTimeoutController(timeout: number): {
+    controller: AbortController;
+    clear: () => void;
+  } {
     const controller = new AbortController();
 
-    setTimeout(() => {
+    const timer = setTimeout(() => {
       controller.abort();
     }, timeout);
 
-    return controller;
+    return { controller, clear: () => clearTimeout(timer) };
   }
 
   /**
@@ -76,8 +79,6 @@ class ServerAPIFetcher {
       ...fetchOptions
     } = options;
 
-    const controller = this.createTimeoutController(timeout);
-
     // Check if body is FormData to handle headers appropriately
     const isFormData = fetchOptions.body instanceof FormData;
     const headers = isFormData
@@ -87,7 +88,6 @@ class ServerAPIFetcher {
     const requestOptions: RequestInit = {
       ...fetchOptions,
       headers,
-      signal: controller.signal,
       // Pass Next.js specific options
       ...(next && { next }),
     };
@@ -95,8 +95,14 @@ class ServerAPIFetcher {
     let lastError: Error | undefined;
 
     for (let attempt = 0; attempt <= retries; attempt++) {
+      // Fresh controller per attempt, otherwise retries after a timeout abort immediately
+      const { controller, clear } = this.createTimeoutController(timeout);
+
       try {
-        const response = await fetch(url, requestOptions);
+        const response = await fetch(url, {
+          ...requestOptions,
+          signal: controller.signal,
+        });
 
         // Don't retry on successful responses or client errors (4xx)
         if (response.ok || (response.status >= 400 && response.status < 500)) {
@@ -107,7 +113,9 @@ class ServerAPIFetcher {
         if (attempt === retries) {
           return response; // Last attempt, return even if failed
         }
+        clear();
       } catch (error) {
+        clear();
         lastError = error instanceof Error ? error : new Error("Unknown error");
 
         // Don't retry on abort (timeout) or network errors on last attempt
